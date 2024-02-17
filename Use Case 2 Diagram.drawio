@@ -1,0 +1,40 @@
+<mxfile host="app.diagrams.net" modified="2024-02-17T03:43:29.039Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="3X7nlGWOHNVJA1u99K8y" version="23.1.5" type="device">
+  <diagram name="Page-1" id="e7e014a7-5840-1c2e-5031-d8a46d1fe8dd">
+    <mxGraphModel dx="1728" dy="922" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="826" background="none" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-41" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;b&gt;Web Based Application&lt;/b&gt;&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="220" y="113" width="730" height="600" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-42" value="WDO in &lt;br&gt;the office" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="520" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-45" value="Customer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="160" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-46" value="Orders water" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="180" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-47" value="Order is placed into mainframe (TX) as a water request" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="270" y="290" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-48" value="WDO in &lt;br&gt;the field" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;" vertex="1" parent="1">
+          <mxGeometry x="1020" y="373" width="40" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-49" value="Schedules all the water request for the day" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="285" y="445" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-50" value="Views and edits the schedule" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="445" y="525" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-51" value="Records start and end time, and duration" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="620" y="600" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="aO-ZwqscGiUsRUBuonYR-52" value="Submits report to TX" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="770" y="480" width="140" height="70" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
