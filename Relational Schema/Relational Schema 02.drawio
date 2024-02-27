@@ -1,0 +1,58 @@
+<mxfile host="app.diagrams.net" modified="2024-02-27T22:25:57.124Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="DCwn0yIg2wpU4wLVjPcx" version="23.1.6" type="device">
+  <diagram name="Page-1" id="zLjBgm5ykT7HntStVNXS">
+    <mxGraphModel dx="1363" dy="749" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="r7F1epWELx6cj064-wnj-1" value="Event (from EXCEL)" style="swimlane;" parent="1" vertex="1">
+          <mxGeometry x="40" y="40" width="200" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-3" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;&lt;ul style=&quot;font-size: 11px;&quot;&gt;&lt;li&gt;&lt;font color=&quot;#ff0b03&quot;&gt;PARCEL&lt;/font&gt;&lt;/li&gt;&lt;li&gt;WATERID&lt;/li&gt;&lt;li&gt;LATERAL&lt;/li&gt;&lt;li&gt;SIDEGATE&lt;/li&gt;&lt;li&gt;NAME1&lt;/li&gt;&lt;li&gt;PHONE1&lt;/li&gt;&lt;li&gt;RQSTFLO&lt;/li&gt;&lt;li&gt;HOURS&lt;/li&gt;&lt;li&gt;CROP1&lt;/li&gt;&lt;li&gt;IRRIGTYPE&lt;/li&gt;&lt;li&gt;EVENT_TRANDATE&lt;/li&gt;&lt;li&gt;TRANTIME&lt;/li&gt;&lt;li&gt;EXCESSIVEORDER&lt;/li&gt;&lt;li&gt;LASTIRRIGATION&lt;/li&gt;&lt;li&gt;COMMENT1&lt;/li&gt;&lt;li&gt;COMMENT2&lt;/li&gt;&lt;li&gt;DELETED&lt;/li&gt;&lt;li&gt;SERVAREA&lt;/li&gt;&lt;li&gt;FLOWID&lt;/li&gt;&lt;li&gt;ISPEC&lt;/li&gt;&lt;/ul&gt;&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;align=left;" parent="r7F1epWELx6cj064-wnj-1" vertex="1">
+          <mxGeometry y="20" width="200" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-8" value="PARCD (from EXCEL)" style="swimlane;" parent="1" vertex="1">
+          <mxGeometry x="40" y="400" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-9" value="&lt;ul style=&quot;font-size: 11px;&quot;&gt;&lt;li&gt;PIACR&lt;/li&gt;&lt;li&gt;TIDPNUMB&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;align=left;" parent="r7F1epWELx6cj064-wnj-8" vertex="1">
+          <mxGeometry y="25" width="200" height="55" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-10" value="SBXDTL (from EXCEL)" style="swimlane;" parent="1" vertex="1">
+          <mxGeometry x="40" y="530" width="200" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-11" value="&lt;ul style=&quot;font-size: 11px;&quot;&gt;&lt;li&gt;SBXCFS&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;align=left;" parent="r7F1epWELx6cj064-wnj-10" vertex="1">
+          <mxGeometry y="25" width="200" height="35" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-12" value="Flood Orders" style="swimlane;" parent="1" vertex="1">
+          <mxGeometry x="320" y="40" width="200" height="320" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-14" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;&lt;ul style=&quot;font-size: 11px;&quot;&gt;&lt;li&gt;&lt;font color=&quot;#ff0b03&quot;&gt;COMBO&lt;/font&gt;&lt;/li&gt;&lt;li&gt;LAT&lt;/li&gt;&lt;li&gt;SG&lt;/li&gt;&lt;li&gt;NAME&lt;/li&gt;&lt;li&gt;PHONE&lt;/li&gt;&lt;li&gt;FLOW&lt;/li&gt;&lt;li&gt;HOURS&lt;/li&gt;&lt;li&gt;ACRE&lt;/li&gt;&lt;li&gt;CROP&lt;/li&gt;&lt;li&gt;TYPE&lt;/li&gt;&lt;li&gt;DATE&lt;/li&gt;&lt;li&gt;COMMENT&lt;/li&gt;&lt;li&gt;SBXCFS&lt;/li&gt;&lt;li&gt;HEAD&lt;/li&gt;&lt;li&gt;EST_START&lt;/li&gt;&lt;li&gt;EST_FINISH&lt;/li&gt;&lt;li&gt;ATTENTION&lt;/li&gt;&lt;li&gt;&lt;font color=&quot;#a680b8&quot;&gt;TRANTIME?&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font color=&quot;#a680b8&quot;&gt;EX?&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font color=&quot;#a680b8&quot;&gt;FINAL?&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;align=left;" parent="r7F1epWELx6cj064-wnj-12" vertex="1">
+          <mxGeometry y="20" width="200" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-16" value="MICRO ORDERS" style="swimlane;" parent="1" vertex="1">
+          <mxGeometry x="320" y="400" width="200" height="280" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-17" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;&lt;ul style=&quot;font-size: 11px;&quot;&gt;&lt;li&gt;&lt;font color=&quot;#ff0b03&quot;&gt;COMBO&lt;/font&gt;&lt;/li&gt;&lt;li&gt;LAT&lt;/li&gt;&lt;li&gt;SG&lt;/li&gt;&lt;li&gt;NAME&lt;/li&gt;&lt;li&gt;PHONE&lt;/li&gt;&lt;li&gt;FLOW&lt;/li&gt;&lt;li&gt;HOURS&lt;/li&gt;&lt;li&gt;DATE&lt;/li&gt;&lt;li&gt;TRANTIME&lt;/li&gt;&lt;li&gt;EX&lt;/li&gt;&lt;li&gt;FINAL&lt;/li&gt;&lt;li&gt;COMMENT&lt;/li&gt;&lt;li&gt;SBXCFS&lt;/li&gt;&lt;li&gt;HEAD&lt;/li&gt;&lt;li&gt;EST_START&lt;/li&gt;&lt;li&gt;EST_FINISH&lt;/li&gt;&lt;li&gt;ATTENTION&lt;/li&gt;&lt;/ul&gt;&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;align=left;" parent="r7F1epWELx6cj064-wnj-16" vertex="1">
+          <mxGeometry y="20" width="200" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-18" value="#H12345, UN, M" style="swimlane;" parent="1" vertex="1">
+          <mxGeometry x="600" y="40" width="200" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-19" value="&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;&lt;ul style=&quot;font-size: 11px;&quot;&gt;&lt;li&gt;&lt;font color=&quot;#ff0b03&quot;&gt;COMBO&lt;/font&gt;&lt;/li&gt;&lt;li&gt;LAT&lt;/li&gt;&lt;li&gt;SG&lt;/li&gt;&lt;li&gt;NAME&lt;/li&gt;&lt;li&gt;PHONE&lt;/li&gt;&lt;li&gt;RQST FLOW&lt;/li&gt;&lt;li&gt;HOURS&lt;/li&gt;&lt;li&gt;EST_START&lt;/li&gt;&lt;li&gt;PRIME DATE&lt;/li&gt;&lt;li&gt;PRIME TIME&lt;/li&gt;&lt;li&gt;START DATE&lt;/li&gt;&lt;li&gt;START TIME&lt;/li&gt;&lt;li&gt;FINISH DATE&lt;/li&gt;&lt;li&gt;FINISH TIME&lt;/li&gt;&lt;li&gt;PRIME TOTAL&lt;/li&gt;&lt;li&gt;TOTAL HOUR&lt;/li&gt;&lt;li&gt;BILLED&lt;/li&gt;&lt;li&gt;CALLED&lt;/li&gt;&lt;li&gt;WDO NOTES&lt;/li&gt;&lt;li&gt;FARMER COMMENTS&lt;/li&gt;&lt;li&gt;MARK IF ABNORMAL&lt;/li&gt;&lt;li&gt;TOWA RESPONSE&lt;/li&gt;&lt;/ul&gt;&lt;blockquote style=&quot;margin: 0 0 0 40px; border: none; padding: 0px;&quot;&gt;&lt;/blockquote&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;align=left;" parent="r7F1epWELx6cj064-wnj-18" vertex="1">
+          <mxGeometry y="20" width="200" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="r7F1epWELx6cj064-wnj-20" value="CLIENT" style="swimlane;verticalAlign=top;" parent="1" vertex="1">
+          <mxGeometry x="880" y="40" width="200" height="390" as="geometry" />
+        </mxCell>
+        <mxCell id="0wN-prdxW3TescoY6tee-1" value="&lt;ul&gt;&lt;li&gt;&lt;font color=&quot;#ff0b03&quot;&gt;USERNAME&lt;/font&gt;&lt;/li&gt;&lt;li&gt;PASSWORD&lt;/li&gt;&lt;li&gt;FNAME&lt;/li&gt;&lt;li&gt;LNAME&lt;/li&gt;&lt;li&gt;EMAIL&lt;/li&gt;&lt;li&gt;PHONE&lt;/li&gt;&lt;li&gt;ADDRESS&lt;/li&gt;&lt;ul&gt;&lt;li&gt;APT#&lt;/li&gt;&lt;li&gt;CITY&lt;/li&gt;&lt;li&gt;STATE&lt;/li&gt;&lt;li&gt;ZIP&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;IDENTITY&lt;/li&gt;&lt;ul&gt;&lt;li&gt;SSN&lt;/li&gt;&lt;li&gt;DL&lt;/li&gt;&lt;li&gt;FEDID&lt;/li&gt;&lt;li&gt;ETC.&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;ABOUT&lt;/li&gt;&lt;ul&gt;&lt;li&gt;METER#&lt;/li&gt;&lt;li&gt;OTHER ADULT&lt;/li&gt;&lt;li&gt;BILLINGDATE&lt;/li&gt;&lt;li&gt;CARES SIGNUP&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;STARTDATE&lt;/li&gt;&lt;li&gt;MAIL/PAPERLESS&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" vertex="1" parent="r7F1epWELx6cj064-wnj-20">
+          <mxGeometry y="20" width="200" height="370" as="geometry" />
+        </mxCell>
+        <mxCell id="0wN-prdxW3TescoY6tee-2" value="WDO" style="swimlane;" vertex="1" parent="1">
+          <mxGeometry x="880" y="470" width="200" height="310" as="geometry" />
+        </mxCell>
+        <mxCell id="0wN-prdxW3TescoY6tee-4" value="&lt;ul&gt;&lt;li&gt;USERNAME&lt;/li&gt;&lt;li&gt;PASSWORD&lt;/li&gt;&lt;li&gt;FNAME&lt;/li&gt;&lt;li&gt;LNAME&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;EMAIL&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;PHONE&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;ADDRESS&lt;/li&gt;&lt;ul style=&quot;border-color: var(--border-color);&quot;&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;APT#&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;CITY&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;STATE&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;ZIP&lt;/li&gt;&lt;/ul&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font color=&quot;#a680b8&quot;&gt;IDENTITY&lt;/font&gt;&lt;/li&gt;&lt;ul style=&quot;border-color: var(--border-color);&quot;&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font color=&quot;#a680b8&quot;&gt;SSN&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font color=&quot;#a680b8&quot;&gt;DL&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font color=&quot;#a680b8&quot;&gt;FEDID&lt;/font&gt;&lt;/li&gt;&lt;li style=&quot;border-color: var(--border-color);&quot;&gt;&lt;font color=&quot;#a680b8&quot;&gt;ETC.&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;&lt;li&gt;&lt;font color=&quot;#a680b8&quot;&gt;SA (default)&lt;/font&gt;&lt;/li&gt;&lt;li&gt;&lt;font color=&quot;#a680b8&quot;&gt;SHIFTTYPE?&lt;/font&gt;&lt;/li&gt;&lt;/ul&gt;" style="text;strokeColor=none;fillColor=none;html=1;whiteSpace=wrap;verticalAlign=top;overflow=hidden;" vertex="1" parent="0wN-prdxW3TescoY6tee-2">
+          <mxGeometry y="20" width="200" height="280" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
