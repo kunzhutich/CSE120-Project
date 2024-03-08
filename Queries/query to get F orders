@@ -1,0 +1,37 @@
+INSERT INTO RHDB.Orders (
+  COMBO, -- Assuming PARCEL can be used here; adjust accordingly
+  LAT, -- No direct equivalent, using a static value or transformation
+  SG, -- No direct equivalent, using a static value or transformation
+  NAME, -- Assuming NAME1 matches this; adjust accordingly
+  PHONE, -- Assuming PHONE1 matches this; adjust accordingly
+  FLOW, -- Assuming RQSTFLO matches this; adjust accordingly
+  HOURS, -- Direct match
+  CROP, -- Assuming CROP1 can be transformed; needs conversion
+  TYPE, -- No direct equivalent, using a static value or transformation
+  DATE, -- Assuming EVENT_TRANDATE matches this; adjust accordingly
+  TRANTIME, -- Direct match
+  EX, -- Assuming EXCESSIVEORDER can be transformed; needs conversion
+  FINAL, -- No direct equivalent, using a static value or transformation
+  COMMENT, -- Assuming COMMENT1 or COMMENT2; needs decision
+  SBXCFS, -- No direct equivalent, using NULL or a static value
+  DELETED, -- Assuming DELETED matches; needs conversion
+  SA, -- No direct equivalent, using a static value or transformation
+)
+SELECT CONCAT(EVENT.PARCEL,'  ', EVENT.WATERID) AS 'COMBO', 
+        EVENT.LATERAL AS 'LAT', 
+        EVENT.SIDEGATE AS 'SG', 
+        EVENT.NAME1 as 'NAME', 
+        EVENT.PHONE1 as 'PHONE', 
+        EVENT.RQSTFLO AS 'FLOW', 
+        EVENT.HOURS, 
+        EVENT.CROP1 as 'CROP', 
+        EVENT.IRRIGTYP AS 'TYPE', 
+        EVENT.EVENT_TRANDATE AS 'DATE', 
+        EVENT.TRANTIME, 
+        EVENT.EXCESSIVEORDER AS 'EX', 
+        PARCD.LASTIRRIGATION AS 'FINAL', 
+        CONCAT(EVENT.COMMENT1,'    ',EVENT.COMMENT2) AS 'COMMENT', 
+        EVENT.DELETED, 
+        EVENT.SERVAREA as 'SA'
+
+FROM TXDB.EVENT EVENT;
