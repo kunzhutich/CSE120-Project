@@ -1,105 +1,74 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
- 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin123@localhost/instance/TXDB03 only flood.sql'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin123@localhost/TXDB'
 app.config["SQLALCHEMY_BINDS"] = {
-    'RHDB':'mysql://root:admin123@localhost/instance/RHDB01 only flood.sql'
+    'RHDB':'mysql://root:admin123@localhost/RHDB'
 }
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-#db.init_app(app)
-db = SQLAlchemy()
- 
-@app.before_first_request
-def create_table():
-    db.create_all()
- 
-# app.run(host='localhost', port=5000)
+db = SQLAlchemy(app)
 
-# @app.route('/data/create' , methods = ['GET','POST'])
-# def create():
-#     if request.method == 'GET':
-#         return render_template('createpage.html')
- 
-#     if request.method == 'POST':
-#         combo = request.form['combo']
-#         lateral = request.form['lateral']
-#         sideGate = request.form['sideGate']
-#         name = request.form['name']
-#         phone = request.form['phone']
-#         flow = request.form['flow']
-#         hours = request.form['hours']
-#         acre = request.form['acre']
-#         crop = request.form['crop']
-#         irrigationType = request.form['irrigationType']
-#         date = request.form['date']
-#         tranTime = request.form['tranTime']
-#         excessive = request.form['excessive']
-#         final = request.form['final']
-#         comment = request.form['comment']
-#         SBXCFS = request.form['SBXCFS']
-#         deleted = request.form['deleted']
-#         sa = request.form['sa']
-#         head = request.form['head']
-#         estStart = request.form['estStart']
-#         estFinish = request.form['estFinish']
-#         attention = request.form['atention']
-#         db.session.add(order)
-#         db.session.commit()
-#         return redirect('/data')
-   
-# @app.route('/data')
-# def RetrieveDataList():
-#     orders = Orders.query.all()
-#     return render_template('datalist.html',orders = orders)
+#The following is the models for TXDB
+class Event(db.Model):
+    parcel = db.Column(db.String())
 
-# @app.route('/data/<int:ocombo>')
-# def RetrieveSingleOrder(ocombo):
-#     employee = Orders.query.filter_by(combo=ocombo).first()
-#     if order:
-#         return render_template('data.html', order = order)
-#     return f"Order with combo ={ocombo} doenst exist"
 
-# @app.route('/data/<int:ocombo>/update',methods = ['GET','POST'])
-# def update(ocombo):
-#     order = Orders.query.filter_by(combo=ocombo).first()
-#     if request.method == 'POST':
-#         if order:
-#             db.session.delete(order)
-#             db.session.commit()
+#The following is the models for RHDB
+class Orders(db.Model):
+    __bind_key__ = 'RHDB'
  
-#             combo = request.form['combo']
-#             lateral = request.form['lateral']
-#             sideGate = request.form['sideGate']
-#             name = request.form['name']
-#             phone = request.form['phone']
-#             flow = request.form['flow']
-#             hours = request.form['hours']
-#             acre = request.form['acre']
-#             crop = request.form['crop']
-#             irrigationType = request.form['irrigationType']
-#             date = request.form['date']
-#             tranTime = request.form['tranTime']
-#             excessive = request.form['excessive']
-#             final = request.form['final']
-#             comment = request.form['comment']
-#             SBXCFS = request.form['SBXCFS']
-#             deleted = request.form['deleted']
-#             sa = request.form['sa']
-#             head = request.form['head']
-#             estStart = request.form['estStart']
-#             estFinish = request.form['estFinish']
-#             attention = request.form['atention']
-#             order = Orders(combo = ocombo, lateral=lateral, sideGate = sideGate, name = name, phone = phone, flow = flow, hours = hours,
-#                               acre = acre, crop = crop, irrigationType = irrigationType,
-#                                date = date, tranTime = tranTime, excessive = excessive, final = final, comment = comment, SBXCFS = SBXCFS, 
-#                                deleted = deleted, sa = sa, head = head, estStart = estStart, estFinish = estFinish, attention = attention)
+    combo = db.Column(db.String(), primary_key=True)
+    lateral = db.Column(db.String())
+    sideGate = db.Column(db.String())
+    name = db.Column(db.String())
+    phone = db.Column(db.String())
+    flow = db.Column(db.String())
+    hours = db.Column(db.String())
+    acre = db.Column(db.Float())
+    crop = db.Column(db.String())
+    irrigationType = db.Column(db.String())
+    date = db.Column(db.String())
+    tranTime = db.Column(db.Float())
+    excessive = db.Column(db.Char())
+    final = db.Column(db.Char())
+    comment = db.Column(db.String())
+    SBXCFS = db.Column(db.String())
+    deleted = db.Column(db.String())
+    sa = db.Column(db.String())
+    head = db.Column(db.String())
+    estStart = db.Column(db.String())
+    estFinish = db.Column(db.String())
+    attention = db.Column(db.String())
  
-#             db.session.add(order)
-#             db.session.commit()
-#             return redirect(f'/data/{ocombo}')
-#         return f"Employee with id = {ocombo} Does nit exist"
+    def __init__(combo, lateral, sideGate, name, phone, flow, hours, acre, crop, irrigationType, date, tranTime, excessive, final, comment, 
+                    SBXCFS, deleted, sa, head, estStart, estFinish, attention):
+        self.combo = combo
+        self.lateral = lateral
+        self.sideGate = sideGate
+        self.name = name
+        self.phone = phone
+        self.flow = flow
+        self.hours = hours
+        self.acre = acre
+        self.crop = crop
+        self.irrigationType = irrigationType
+        self.date = date
+        self.tranTime = tranTime
+        self.excessive = excessive
+        self.final = final
+        self.comment = comment
+        self.SBXCFS = SBXCFS
+        self.deleted = deleted
+        self.sa = sa
+        self.head = head
+        self.estStart = estStart
+        self.estFinish = estFinish
+        self.attention = attention
+
  
-#     return render_template('update.html', order = order)
+    def __repr__(self):
+        return f"{self.name}"
+
+if __name__ == '__main__':
+    app.run(debug=True)
