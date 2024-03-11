@@ -1,9 +1,9 @@
-CREATE TABLE `Orders` (
+CREATE TABLE `RHDB`.`Orders` (
   `COMBO` varchar(17) NOT NULL,
   `LAT` varchar(10) NOT NULL,
   `SG` varchar(10) NOT NULL,
-  `NAME` varchar(45) NOT NULL,
-  `PHONE` varchar(8) NOT NULL,
+  `NAME` varchar(100) NOT NULL,
+  `PHONE` varchar(10) NOT NULL,
   `FLOW` double NOT NULL,
   `HOURS` double NOT NULL,
   `ACRE` double NOT NULL,
@@ -13,13 +13,13 @@ CREATE TABLE `Orders` (
   `TRANTIME` int NOT NULL,
   `EX` varchar(1) DEFAULT NULL,
   `FINAL` varchar(1) NOT NULL,
-  `COMMENT` varchar(225) DEFAULT NULL,
+  `COMMENT` varchar(255) DEFAULT NULL,
   `SBXCFS` double DEFAULT NULL,
   `DELETED` varchar(1) DEFAULT NULL,
   `SA` varchar(2) NOT NULL,
   `HEAD` varchar(4) DEFAULT NULL,
   `EST_START` datetime DEFAULT NULL,
   `EST_FINISH` datetime DEFAULT NULL,
-  `WDO_NOTES` varchar(225) DEFAULT NULL,
+  `WDO_NOTES` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`COMBO`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
