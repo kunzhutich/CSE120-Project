@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, TextField, Button } from '@mui/material';
+import { Container, TextField, Button, Box} from '@mui/material';
 
 export default function LoginPage() {
   const handleSubmit = (event) => {
@@ -25,14 +25,15 @@ export default function LoginPage() {
           required
           fullWidth
         />
+        <Box display="flex" justifyContent="center">
         <Button
           type="submit"
           variant="contained"
           color="primary"
-          fullWidth
         >
-          Login
+          Sign in
         </Button>
+        </Box>
       </form>
     </Container>
   );
