@@ -1,11 +1,10 @@
 import NavBar from "../components/navBar";
-// import 
 
-export default function fsorders() {
+export default function h5() {
     return (
         <div>
             <NavBar/>
-            <h1>FS Orders</h1>
+            <h1>H5</h1>
         </div>
     );
 }

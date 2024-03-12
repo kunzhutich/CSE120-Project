@@ -4,7 +4,7 @@ import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Button, Tooltip, Me
 import SettingsIcon from '@mui/icons-material/Settings';
 
 const pages = ['FS Orders', 'M Orders', 'F Orders', 'H1', 'H2', 'H3', 'H4', 'H5', 'UN', 'M'];
-const settings = ['Lat', 'SG'];
+const settings = ['Lat', 'SG', 'Name', 'Phone Number', 'Flow', 'Type'];
 
 function NavBar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -38,37 +38,20 @@ function NavBar() {
     <>
       <AppBar position="static" sx={{backgroundColor: "#00587c"}}>
           <Toolbar backgroundColor="#00587c">
-            <Box sx={{flexGrow: 1, display: { xs: 'flex', md: 'none' }}}>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleOpenNavMenu}
-                color="inherit">
-              </IconButton>
+            <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
               <Menu
                 id="menu-appbar"
                 anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'left',}}
                 keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
+                transformOrigin={{vertical: 'top',horizontal: 'left',}}
                 open={Boolean(anchorElNav)}
                 onClose={handleCloseNavMenu}
-                sx={{
-                  display: {xs: 'block', md: 'none'},
-                }}>
+                sx={{display: {xs: 'block', md: 'none'},}}>
                 {pages.map((page) => (
                   <MenuItem key={page} onClick={handleCloseNavMenu}>
                     <Typography textAlign="center">{page}</Typography>
-                  </MenuItem>
-                ))}
+                  </MenuItem>))}
               </Menu>
             </Box>
             <Typography
@@ -84,8 +67,7 @@ function NavBar() {
                 fontWeight: 700,
                 letterSpacing: '.3rem',
                 color: 'inherit',
-                textDecoration: 'none',
-              }}>
+                textDecoration: 'none',}}>
             </Typography>
             <Box sx={{flexGrow: 1, display: { xs: 'none', md: 'flex'}}}>
               {pages.map((page) => (
