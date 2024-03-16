@@ -365,7 +365,13 @@ CREATE TABLE `wdo` (
 
 LOCK TABLES `wdo` WRITE;
 /*!40000 ALTER TABLE `wdo` DISABLE KEYS */;
-INSERT INTO `wdo` VALUES ('bappoeattaco','1234'),('liliwillow','1234'),('paperpika','1234'),('sesame','1234'),('standingemoji','1234');
+INSERT INTO `wdo` 
+VALUES 
+('bappoeattaco','1234'),
+('liliwillow','1234'),
+('paperpika','1234'),
+('sesame','1234'),
+('standingemoji','1234');
 /*!40000 ALTER TABLE `wdo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
