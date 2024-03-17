@@ -1,7 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from sqlalchemy.sql import text
 
 app = Flask(__name__)
+CORS(app, resources={r"/forders": {"origins": "http://localhost:3000"}})
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin123@localhost/txdb'
 app.config["SQLALCHEMY_BINDS"] = {
     'rhdb':'mysql://root:admin123@localhost/rhdb'
@@ -261,6 +265,86 @@ def test_txdb():
 def test_rhdb():
     wdo_count = WDO.query.count()
     return f"Number of WDOs in RHDB: {wdo_count}"
+
+
+
+
+@app.route('/forders', methods=['GET'])
+def forders():
+    # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+    transfer_query = text("""
+        INSERT IGNORE INTO RHDB.Orders 
+            (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
+        SELECT 
+            CONCAT(TRIM(EVENT.PARCEL), '  ', TRIM(EVENT.WATERID)) AS 'COMBO', 
+            EVENT.LATERAL AS 'LAT', 
+            EVENT.SIDEGATE AS 'SG', 
+            EVENT.NAME1 AS 'NAME', 
+            EVENT.PHONE1 AS 'PHONE', 
+            EVENT.RQSTFLO AS 'FLOW', 
+            EVENT.HOURS, 
+            PARCD.PIACR AS 'ACRE', 
+            EVENT.CROP1 AS 'CROP', 
+            EVENT.IRRIGTYP AS 'TYPE', 
+            EVENT.EVENT_TRANDATE AS 'DATE', 
+            EVENT.TRANTIME, 
+            EVENT.EXCESSIVEORDER AS 'EX', 
+            PARCD.LASTIRRIGATION AS 'FINAL', 
+            CONCAT(EVENT.COMMENT1,'    ',EVENT.COMMENT2) AS 'COMMENT', 
+            SBXDTL.SBXCFS, 
+            EVENT.DELETED, 
+            EVENT.SERVAREA AS 'SA'  
+        FROM 
+            TXDB.EVENT EVENT
+            JOIN TXDB.PARCD PARCD ON EVENT.WTIDNO = PARCD.TIDPNUMB 
+            JOIN TXDB.SBXDTL SBXDTL ON EVENT.FLOWID = SBXDTL.FLOWID 
+        WHERE 
+            (
+                (EVENT.IRRIGTYP='01' AND EVENT.ISPEC='WRQST' AND EVENT.SERVAREA='01' AND EVENT.EVENT_TRANDATE > '2023-06-01' AND EVENT.EVENT_TRANDATE < '2023-06-08' AND SBXDTL.SBXDFT='X') 
+                OR 
+                (EVENT.IRRIGTYP='01' AND EVENT.ISPEC='WRQST' AND EVENT.SERVAREA='03' AND EVENT.EVENT_TRANDATE > '2023-06-01' AND EVENT.EVENT_TRANDATE < '2023-06-08' AND SBXDTL.SBXDFT='X') 
+                OR 
+                (EVENT.IRRIGTYP='01' AND EVENT.ISPEC='wrqst' AND EVENT.SERVAREA='05' AND EVENT.EVENT_TRANDATE > '2023-06-01' AND EVENT.EVENT_TRANDATE < '2023-06-08' AND SBXDTL.SBXDFT='X')
+            );
+    """)
+    
+    # Execute the transfer query on TXDB
+    # tx_result = db.engine.execute(transfer_query)
+
+    with db.engine.connect() as connection:
+        connection.execute(transfer_query)
+    
+    # Now, query the RHDB.Orders to fetch the transferred data
+    orders_query = Orders.query.all()
+    
+    # Convert the query result into a list of dictionaries to jsonify
+    orders_list = [
+        {
+            "Combo": order.combo, 
+            "Lat": order.lat, 
+            "SG": order.sg,
+            "Name": order.name,
+            "Flow": order.flow,
+            "Hours": order.hours,
+            "Acre": order.acre,
+            "Crop": order.crop,
+            "Type": order.type,
+            "Date": order.date,
+            "Trantime": order.trantime,
+            "EX": order.ex,
+            "Final": order.final,
+            "Comment": order.comment,
+            "Sbxcfs": order.sbxcfs,
+            "Deleted": order.deleted,
+            "SA": order.sa
+        }
+        for order in orders_query
+    ]
+    
+    return jsonify(orders_list)
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
