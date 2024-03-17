@@ -4,7 +4,7 @@ export default function morders() {
     return (
         <div>
             <NavBar/>
-            <h1>MOrders</h1>
+            <h1>M Orders</h1>
         </div>
     );
 }
