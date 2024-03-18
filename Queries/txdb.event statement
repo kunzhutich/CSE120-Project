@@ -1,5 +1,6 @@
 CREATE TABLE `event` (
   `ID` int DEFAULT NULL,
+  `ISPEC` text,
   `WTIDNO` text,
   `PARCEL` text,
   `WATERID` text,
@@ -11,8 +12,8 @@ CREATE TABLE `event` (
   `HOURS` double DEFAULT NULL,
   `CROP1` text,
   `IRRIGTYP` text,
-  `EVENT_TRANDATE` date DEFAULT NULL,
-  `TRANTIME` int DEFAULT NULL,
+  `EVENT_TRANDATE` text,
+  `TRANTIME` bigint DEFAULT NULL,
   `EXCESSIVEORDER` text,
   `DELETED` text,
   `SERVAREA` text,
