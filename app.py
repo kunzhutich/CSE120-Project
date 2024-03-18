@@ -4,7 +4,9 @@ from flask_cors import CORS
 from sqlalchemy.sql import text
 
 app = Flask(__name__)
+
 CORS(app, resources={r"/forders": {"origins": "http://localhost:3000"}})
+# CORS(app, resources={r"*": {"origins": "*"}})
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin123@localhost/txdb'
 app.config["SQLALCHEMY_BINDS"] = {
@@ -374,20 +376,24 @@ def forders():
             FROM 
                 txdb.event event
                 JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
-                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID 
-            WHERE 
-                (
-                    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
-                    OR 
-                    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
-                    OR 
-                    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
-                );
+                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID;
+            # WHERE 
+            #     (
+            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+            #         OR 
+            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+            #         OR 
+            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
+            #     );
         """)
         
-        with db.engine.connect() as connection:
-            result = connection.execute(transfer_query)
-            print(f"Data transfer successful. Rows affected: {result.rowcount}")
+        # with db.engine.connect() as connection:
+        #     result = connection.execute(transfer_query)
+        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
+
+        with db.engine.begin() as connection:
+            connection.execute(transfer_query)
+            print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.all()
