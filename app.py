@@ -66,11 +66,11 @@ class Orders(db.Model):
     crop = db.Column(db.String(2))
     type = db.Column(db.String(2))
     date = db.Column(db.Date())
-    tranTime = db.Column(db.Integer())
+    trantime = db.Column(db.Integer())
     ex = db.Column(db.String(1))
     final = db.Column(db.String(1))
     comment = db.Column(db.String(255))
-    SBXCFS = db.Column(db.Float())
+    sbxcfs = db.Column(db.Float())
     deleted = db.Column(db.String(1))
     sa = db.Column(db.String(2))
     head = db.Column(db.String(4))
@@ -269,79 +269,158 @@ def test_rhdb():
 
 
 
+# @app.route('/forders', methods=['GET'])
+# def forders():
+#     # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+#     transfer_query = text("""
+#         INSERT IGNORE INTO rhdb.orders 
+#             (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
+#         SELECT 
+#             CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID)) AS 'COMBO', 
+#             event.LATERAL AS 'LAT', 
+#             event.SIDEGATE AS 'SG', 
+#             event.NAME1 AS 'NAME', 
+#             event.PHONE1 AS 'PHONE', 
+#             event.RQSTFLO AS 'FLOW', 
+#             event.HOURS, 
+#             parcd.PIACR AS 'ACRE', 
+#             event.CROP1 AS 'CROP', 
+#             event.IRRIGTYP AS 'TYPE', 
+#             event.event_TRANDATE AS 'DATE', 
+#             event.TRANTIME, 
+#             event.EXCESSIVEORDER AS 'EX', 
+#             parcd.LASTIRRIGATION AS 'FINAL', 
+#             CONCAT(event.COMMENT1,'    ',event.COMMENT2) AS 'COMMENT', 
+#             sbxdtl.SBXCFS, 
+#             event.DELETED, 
+#             event.SERVAREA AS 'SA'  
+#         FROM 
+#             txdb.event event
+#             JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
+#             JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID 
+#             WHERE 
+#             (
+#                 (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+#                 OR 
+#                 (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+#                 OR 
+#                 (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
+#             );
+#     """)
+    
+#     # Execute the transfer query on TXDB
+#     # tx_result = db.engine.execute(transfer_query)
+
+#     with db.engine.connect() as connection:
+#         connection.execute(transfer_query)
+    
+#     # Now, query the RHDB.Orders to fetch the transferred data
+#     orders_query = Orders.query.all()
+    
+#     # Convert the query result into a list of dictionaries to jsonify
+#     orders_list = [
+#         {
+#             "Combo": order.combo, 
+#             "Lat": order.lat, 
+#             "SG": order.sg,
+#             "Name": order.name,
+#             "Flow": order.flow,
+#             "Hours": order.hours,
+#             "Acre": order.acre,
+#             "Crop": order.crop,
+#             "Type": order.type,
+#             "Date": order.date,
+#             "Trantime": order.trantime,
+#             "EX": order.ex,
+#             "Final": order.final,
+#             "Comment": order.comment,
+#             "Sbxcfs": order.sbxcfs,
+#             "Deleted": order.deleted,
+#             "SA": order.sa
+#         }
+#         for order in orders_query
+#     ]
+    
+#     return jsonify(orders_list)
+
+
+
 @app.route('/forders', methods=['GET'])
 def forders():
-    # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
-    transfer_query = text("""
-        INSERT IGNORE INTO RHDB.Orders 
-            (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
-        SELECT 
-            CONCAT(TRIM(EVENT.PARCEL), '  ', TRIM(EVENT.WATERID)) AS 'COMBO', 
-            EVENT.LATERAL AS 'LAT', 
-            EVENT.SIDEGATE AS 'SG', 
-            EVENT.NAME1 AS 'NAME', 
-            EVENT.PHONE1 AS 'PHONE', 
-            EVENT.RQSTFLO AS 'FLOW', 
-            EVENT.HOURS, 
-            PARCD.PIACR AS 'ACRE', 
-            EVENT.CROP1 AS 'CROP', 
-            EVENT.IRRIGTYP AS 'TYPE', 
-            EVENT.EVENT_TRANDATE AS 'DATE', 
-            EVENT.TRANTIME, 
-            EVENT.EXCESSIVEORDER AS 'EX', 
-            PARCD.LASTIRRIGATION AS 'FINAL', 
-            CONCAT(EVENT.COMMENT1,'    ',EVENT.COMMENT2) AS 'COMMENT', 
-            SBXDTL.SBXCFS, 
-            EVENT.DELETED, 
-            EVENT.SERVAREA AS 'SA'  
-        FROM 
-            TXDB.EVENT EVENT
-            JOIN TXDB.PARCD PARCD ON EVENT.WTIDNO = PARCD.TIDPNUMB 
-            JOIN TXDB.SBXDTL SBXDTL ON EVENT.FLOWID = SBXDTL.FLOWID 
-        WHERE 
-            (
-                (EVENT.IRRIGTYP='01' AND EVENT.ISPEC='WRQST' AND EVENT.SERVAREA='01' AND EVENT.EVENT_TRANDATE > '2023-06-01' AND EVENT.EVENT_TRANDATE < '2023-06-08' AND SBXDTL.SBXDFT='X') 
-                OR 
-                (EVENT.IRRIGTYP='01' AND EVENT.ISPEC='WRQST' AND EVENT.SERVAREA='03' AND EVENT.EVENT_TRANDATE > '2023-06-01' AND EVENT.EVENT_TRANDATE < '2023-06-08' AND SBXDTL.SBXDFT='X') 
-                OR 
-                (EVENT.IRRIGTYP='01' AND EVENT.ISPEC='wrqst' AND EVENT.SERVAREA='05' AND EVENT.EVENT_TRANDATE > '2023-06-01' AND EVENT.EVENT_TRANDATE < '2023-06-08' AND SBXDTL.SBXDFT='X')
-            );
-    """)
-    
-    # Execute the transfer query on TXDB
-    # tx_result = db.engine.execute(transfer_query)
+    try:
+        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+        transfer_query = text("""
+            INSERT IGNORE INTO rhdb.orders 
+                (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
+            SELECT 
+                CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID)) AS 'COMBO', 
+                event.LATERAL AS 'LAT', 
+                event.SIDEGATE AS 'SG', 
+                event.NAME1 AS 'NAME', 
+                event.PHONE1 AS 'PHONE', 
+                event.RQSTFLO AS 'FLOW', 
+                event.HOURS, 
+                parcd.PIACR AS 'ACRE', 
+                event.CROP1 AS 'CROP', 
+                event.IRRIGTYP AS 'TYPE', 
+                event.event_TRANDATE AS 'DATE', 
+                event.TRANTIME, 
+                event.EXCESSIVEORDER AS 'EX', 
+                parcd.LASTIRRIGATION AS 'FINAL', 
+                CONCAT(event.COMMENT1,'    ',event.COMMENT2) AS 'COMMENT', 
+                sbxdtl.SBXCFS, 
+                event.DELETED, 
+                event.SERVAREA AS 'SA'  
+            FROM 
+                txdb.event event
+                JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
+                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID 
+            WHERE 
+                (
+                    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+                    OR 
+                    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+                    OR 
+                    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
+                );
+        """)
+        
+        with db.engine.connect() as connection:
+            result = connection.execute(transfer_query)
+            print(f"Data transfer successful. Rows affected: {result.rowcount}")
+        
+        # Now, query the RHDB.Orders to fetch the transferred data
+        orders_query = Orders.query.all()
+        
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
+                "Combo": order.combo, 
+                "Lat": order.lat, 
+                "SG": order.sg,
+                "Name": order.name,
+                "Flow": order.flow,
+                "Hours": order.hours,
+                "Acre": order.acre,
+                "Crop": order.crop,
+                "Type": order.type,
+                "Date": order.date,
+                "Trantime": order.trantime,
+                "EX": order.ex,
+                "Final": order.final,
+                "Comment": order.comment,
+                "Sbxcfs": order.sbxcfs,
+                "Deleted": order.deleted,
+                "SA": order.sa
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
 
-    with db.engine.connect() as connection:
-        connection.execute(transfer_query)
-    
-    # Now, query the RHDB.Orders to fetch the transferred data
-    orders_query = Orders.query.all()
-    
-    # Convert the query result into a list of dictionaries to jsonify
-    orders_list = [
-        {
-            "Combo": order.combo, 
-            "Lat": order.lat, 
-            "SG": order.sg,
-            "Name": order.name,
-            "Flow": order.flow,
-            "Hours": order.hours,
-            "Acre": order.acre,
-            "Crop": order.crop,
-            "Type": order.type,
-            "Date": order.date,
-            "Trantime": order.trantime,
-            "EX": order.ex,
-            "Final": order.final,
-            "Comment": order.comment,
-            "Sbxcfs": order.sbxcfs,
-            "Deleted": order.deleted,
-            "SA": order.sa
-        }
-        for order in orders_query
-    ]
-    
-    return jsonify(orders_list)
 
 
 
