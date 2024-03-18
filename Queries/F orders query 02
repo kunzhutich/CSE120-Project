@@ -25,9 +25,9 @@ FROM
   JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID 
 WHERE 
   (
-    (event.IRRIGTYP='01' AND event.ISPEC='WRQST' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND sbxdtl.SBXDFT='X') 
+    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
     OR 
-    (event.IRRIGTYP='01' AND event.ISPEC='WRQST' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND sbxdtl.SBXDFT='X') 
+    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
     OR 
-    (event.IRRIGTYP='01' AND event.ISPEC='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND sbxdtl.SBXDFT='X')
+    (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
   );
