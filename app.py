@@ -401,23 +401,23 @@ def forders():
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
             {
-                "Combo": order.combo, 
-                "Lat": order.lat, 
-                "SG": order.sg,
-                "Name": order.name,
-                "Flow": order.flow,
-                "Hours": order.hours,
-                "Acre": order.acre,
-                "Crop": order.crop,
-                "Type": order.type,
-                "Date": order.date,
-                "Trantime": order.trantime,
-                "EX": order.ex,
-                "Final": order.final,
-                "Comment": order.comment,
-                "Sbxcfs": order.sbxcfs,
-                "Deleted": order.deleted,
-                "SA": order.sa
+                "combo": order.combo, 
+                "lat": order.lat, 
+                "sg": order.sg,
+                "name": order.name,
+                "flow": order.flow,
+                "hours": order.hours,
+                "acre": order.acre,
+                "crop": order.crop,
+                "type": order.type,
+                "date": order.date,
+                "trantime": order.trantime,
+                "ex": order.ex,
+                "final": order.final,
+                "comment": order.comment,
+                "sbxcfs": order.sbxcfs,
+                "deleted": order.deleted,
+                "sa": order.sa
             }
             for order in orders_query
         ]

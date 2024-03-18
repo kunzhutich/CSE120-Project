@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import NavBar from "../components/navBar";
 
 export default function forders() {
-   
     const [orders, setOrders] = useState([]); // Initialize orders state as an empty array
 
     useEffect(() => {
@@ -29,9 +28,23 @@ export default function forders() {
                 {orders.length > 0 ? (
                     orders.map((order, index) => (
                         <div key={index}>
-                            {/* Display your order data here. This is just an example. */}
-                            <p>Order ID: {order.id}</p>
-                            {/* Add more order details as needed */}
+                            <p>Combo: {order.combo}</p>
+                            <p>Lat: {order.lat}</p>
+                            <p>SG: {order.sg}</p>
+                            <p>Name: {order.name}</p>
+                            <p>Flow: {order.flow}</p>
+                            <p>Hours: {order.hours}</p>
+                            <p>Acre: {order.acre}</p>
+                            <p>Crop: {order.crop}</p>
+                            <p>Type: {order.type}</p>
+                            <p>Date: {order.date}</p>
+                            <p>Trantime: {order.trantime}</p>
+                            <p>EX: {order.ex}</p>
+                            <p>Final: {order.final}</p>
+                            <p>Comment: {order.comment}</p>
+                            <p>SBXCFS: {order.sbxcfs}</p>
+                            <p>Deleted: {order.deleted}</p>
+                            <p>SA: {order.sa}</p>
                         </div>
                     ))
                 ) : (
