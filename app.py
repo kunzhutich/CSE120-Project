@@ -1,7 +1,13 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
+from sqlalchemy.sql import text
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/forders": {"origins": "http://localhost:3000"}})
+# CORS(app, resources={r"*": {"origins": "*"}})
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin123@localhost/txdb'
 app.config["SQLALCHEMY_BINDS"] = {
     'rhdb':'mysql://root:admin123@localhost/rhdb'
@@ -62,11 +68,11 @@ class Orders(db.Model):
     crop = db.Column(db.String(2))
     type = db.Column(db.String(2))
     date = db.Column(db.Date())
-    tranTime = db.Column(db.Integer())
+    trantime = db.Column(db.Integer())
     ex = db.Column(db.String(1))
     final = db.Column(db.String(1))
     comment = db.Column(db.String(255))
-    SBXCFS = db.Column(db.Float())
+    sbxcfs = db.Column(db.Float())
     deleted = db.Column(db.String(1))
     sa = db.Column(db.String(2))
     head = db.Column(db.String(4))
@@ -261,6 +267,169 @@ def test_txdb():
 def test_rhdb():
     wdo_count = WDO.query.count()
     return f"Number of WDOs in RHDB: {wdo_count}"
+
+
+
+
+# @app.route('/forders', methods=['GET'])
+# def forders():
+#     # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+#     transfer_query = text("""
+#         INSERT IGNORE INTO rhdb.orders 
+#             (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
+#         SELECT 
+#             CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID)) AS 'COMBO', 
+#             event.LATERAL AS 'LAT', 
+#             event.SIDEGATE AS 'SG', 
+#             event.NAME1 AS 'NAME', 
+#             event.PHONE1 AS 'PHONE', 
+#             event.RQSTFLO AS 'FLOW', 
+#             event.HOURS, 
+#             parcd.PIACR AS 'ACRE', 
+#             event.CROP1 AS 'CROP', 
+#             event.IRRIGTYP AS 'TYPE', 
+#             event.event_TRANDATE AS 'DATE', 
+#             event.TRANTIME, 
+#             event.EXCESSIVEORDER AS 'EX', 
+#             parcd.LASTIRRIGATION AS 'FINAL', 
+#             CONCAT(event.COMMENT1,'    ',event.COMMENT2) AS 'COMMENT', 
+#             sbxdtl.SBXCFS, 
+#             event.DELETED, 
+#             event.SERVAREA AS 'SA'  
+#         FROM 
+#             txdb.event event
+#             JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
+#             JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID 
+#             WHERE 
+#             (
+#                 (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+#                 OR 
+#                 (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+#                 OR 
+#                 (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
+#             );
+#     """)
+    
+#     # Execute the transfer query on TXDB
+#     # tx_result = db.engine.execute(transfer_query)
+
+#     with db.engine.connect() as connection:
+#         connection.execute(transfer_query)
+    
+#     # Now, query the RHDB.Orders to fetch the transferred data
+#     orders_query = Orders.query.all()
+    
+#     # Convert the query result into a list of dictionaries to jsonify
+#     orders_list = [
+#         {
+#             "Combo": order.combo, 
+#             "Lat": order.lat, 
+#             "SG": order.sg,
+#             "Name": order.name,
+#             "Flow": order.flow,
+#             "Hours": order.hours,
+#             "Acre": order.acre,
+#             "Crop": order.crop,
+#             "Type": order.type,
+#             "Date": order.date,
+#             "Trantime": order.trantime,
+#             "EX": order.ex,
+#             "Final": order.final,
+#             "Comment": order.comment,
+#             "Sbxcfs": order.sbxcfs,
+#             "Deleted": order.deleted,
+#             "SA": order.sa
+#         }
+#         for order in orders_query
+#     ]
+    
+#     return jsonify(orders_list)
+
+
+
+@app.route('/forders', methods=['GET'])
+def forders():
+    try:
+        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+        transfer_query = text("""
+            INSERT IGNORE INTO rhdb.orders 
+                (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
+            SELECT 
+                CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID)) AS 'COMBO', 
+                event.LATERAL AS 'LAT', 
+                event.SIDEGATE AS 'SG', 
+                event.NAME1 AS 'NAME', 
+                event.PHONE1 AS 'PHONE', 
+                event.RQSTFLO AS 'FLOW', 
+                event.HOURS, 
+                parcd.PIACR AS 'ACRE', 
+                event.CROP1 AS 'CROP', 
+                event.IRRIGTYP AS 'TYPE', 
+                event.event_TRANDATE AS 'DATE', 
+                event.TRANTIME, 
+                event.EXCESSIVEORDER AS 'EX', 
+                parcd.LASTIRRIGATION AS 'FINAL', 
+                CONCAT(event.COMMENT1,'    ',event.COMMENT2) AS 'COMMENT', 
+                sbxdtl.SBXCFS, 
+                event.DELETED, 
+                event.SERVAREA AS 'SA'  
+            FROM 
+                txdb.event event
+                JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
+                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID;
+            # WHERE 
+            #     (
+            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+            #         OR 
+            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
+            #         OR 
+            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
+            #     );
+        """)
+        
+        # with db.engine.connect() as connection:
+        #     result = connection.execute(transfer_query)
+        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
+
+        with db.engine.begin() as connection:
+            connection.execute(transfer_query)
+            print("Data transfer successful.")
+        
+        # Now, query the RHDB.Orders to fetch the transferred data
+        orders_query = Orders.query.all()
+        
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat, 
+                "sg": order.sg,
+                "name": order.name,
+                "flow": order.flow,
+                "hours": order.hours,
+                "acre": order.acre,
+                "crop": order.crop,
+                "type": order.type,
+                "date": order.date,
+                "trantime": order.trantime,
+                "ex": order.ex,
+                "final": order.final,
+                "comment": order.comment,
+                "sbxcfs": order.sbxcfs,
+                "deleted": order.deleted,
+                "sa": order.sa
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
