@@ -47,7 +47,7 @@ export default function forders() {
                             <p>SA: {order.sa}</p>
                         </div>
                     ))
-                ) : (
+                    ) : (
                     <p>No orders found.</p>
                 )}
             </div>
