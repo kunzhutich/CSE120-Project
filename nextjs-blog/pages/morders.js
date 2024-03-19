@@ -1,10 +1,11 @@
 import NavBar from "../components/navBar";
+import Tables from "../components/tables";
 
 export default function morders() {
     return (
         <div>
             <NavBar/>
-            <h1>M Orders</h1>
+            <Tables/>
         </div>
     );
 }

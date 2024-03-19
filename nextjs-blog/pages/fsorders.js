@@ -1,11 +1,11 @@
 import NavBar from "../components/navBar";
-// import 
+import Tables from "../components/tables";
 
 export default function fsorders() {
     return (
         <div>
             <NavBar/>
-            <h1>FS Orders</h1>
+            <Tables/>
         </div>
     );
 }

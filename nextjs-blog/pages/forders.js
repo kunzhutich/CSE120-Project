@@ -1,10 +1,11 @@
 import NavBar from "../components/navBar";
+import Tables from "../components/tables";
 
 export default function forders() {
     return (
         <div>
             <NavBar/>
-            <h1>F Orders</h1>
+            <Tables/>
         </div>
     );
 }
