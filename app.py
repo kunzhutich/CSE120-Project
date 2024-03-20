@@ -19,6 +19,7 @@ db = SQLAlchemy(app)
 #The following are the models for TXDB
 class Event(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
+    ispec = db.Column(db.String())
     wtidno = db.Column(db.String())
     parcel = db.Column(db.String())
     waterid = db.Column(db.String())
@@ -253,6 +254,7 @@ class WDO(db.Model):
 
     username = db.Column(db.String(20), primary_key=True)
     password = db.Column(db.String(10))
+    sa = db.Column(db.String(2))
 
 
 
@@ -386,10 +388,6 @@ def forders():
             #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
             #     );
         """)
-        
-        # with db.engine.connect() as connection:
-        #     result = connection.execute(transfer_query)
-        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
 
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
