@@ -13,16 +13,17 @@ export default function NavBar() {
   const [openSettingsDialog, setOpenSettingsDialog] = React.useState(false);
 
   const handleOpenSettingsDialog = () => {
-    setOpenSettingsDialog(true);
+    setOpenSettingsDialog(true); // Opens the settings dialog
   };
 
   const handleCloseSettingsDialog = () => {
-    setOpenSettingsDialog(false);
+    setOpenSettingsDialog(false); // Closes the settings dialog
   };
 
   return (
     <AppBar position="static" sx={{backgroundColor: '#00587c'}}>
       <Toolbar display= 'flex' justifyContent="space-between">
+        {/* Creates all the buttons for the navigation */}
         <Box sx={{flexGrow: 1}}>
           <Link href="/fsorders">
             <Button sx={{color: router.pathname === "/fsorders" ? "secondary" : 'white'}}>
@@ -77,7 +78,7 @@ export default function NavBar() {
         </Box>
 
         <SearchInput/>
-        
+        {/* Opens the settings dialog when the settings icon is clicked */}
         <Box sx={{display:'flex', justifyContent:'flex-end'}}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenSettingsDialog} sx={{p:0}}>

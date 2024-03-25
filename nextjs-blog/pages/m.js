@@ -1,10 +1,11 @@
 import NavBar from "../components/navBar";
+import Tables from "../components/tables";
 
 export default function m() {
     return (
         <div>
             <NavBar/>
-            <h1>M</h1>
+            <Tables/>
         </div>
     );
 }

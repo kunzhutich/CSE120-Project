@@ -1,10 +1,11 @@
 import NavBar from "../components/navBar";
+import Tables from "../components/tables";
 
 export default function un() {
     return (
         <div>
             <NavBar/>
-            <h1>UN</h1>
+            <Tables/>
         </div>
     );
 }

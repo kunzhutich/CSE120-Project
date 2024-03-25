@@ -1,10 +1,11 @@
 import NavBar from "../components/navBar";
+import Tables from "../components/tables";
 
 export default function h5() {
     return (
         <div>
             <NavBar/>
-            <h1>H5</h1>
+            <Tables/>
         </div>
     );
 }
