@@ -46,6 +46,7 @@ export default function LoginPage() {
         alignItems: 'center'
         }}
     >
+        {/* Adds the logo to the login page */}
         <Box>
             <img src="/logo.png" alt="Logo" style={{ width: '550px', height: 'auto', marginBottom: '50px' }} />
         </Box>
@@ -57,6 +58,7 @@ export default function LoginPage() {
                 padding: 3,
             }}
         >
+            {/* Username field and password field */}
             <form onSubmit={handleSubmit}>
                 <TextField
                     name="username"
@@ -85,6 +87,7 @@ export default function LoginPage() {
                         Sign in
                     </Button>
                 </Box>
+                {/* Adds link to the forgot password page */}
                 <Box display="flex" justifyContent="center" mb>
                     <Link href="/forgot-password">
                         Forgot Password?

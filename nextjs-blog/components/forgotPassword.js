@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import React from 'react';
 
+/// Basic Forgot Password page
 export default function ForgotPassword() {
     return (
         <Box
