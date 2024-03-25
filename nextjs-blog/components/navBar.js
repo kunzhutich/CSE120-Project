@@ -23,7 +23,8 @@ export default function NavBar() {
   return (
     <AppBar position="static" sx={{backgroundColor: '#00587c'}}>
       <Toolbar display= 'flex' justifyContent="space-between">
-        <Box sx={{flexGrow: 1}}> // Creates all the buttons for the navigation
+        {/* Creates all the buttons for the navigation */}
+        <Box sx={{flexGrow: 1}}>
           <Link href="/fsorders">
             <Button sx={{color: router.pathname === "/fsorders" ? "secondary" : 'white'}}>
               FS Orders
