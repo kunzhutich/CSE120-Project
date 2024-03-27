@@ -2,56 +2,27 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import {DataGrid} from '@mui/x-data-grid';
 
+// Creates column definitions for the DataGrid
 const columns = [
-  {
-    field: 'id', headerName: 'ID', width: 30
-  },
-  {
-    field: 'combo', headerName: 'Combo', width: 150
-  },
-  { 
-    field: 'lateral', headerName: 'Lat', width: 50
-  },
-  { field: 'sg', headerName: 'SG', width: 75
-  },
-  {
-    field: 'name', headerName: 'Name', width: 200
-  },
-  {
-    field: 'phoneNumber', headerName: 'Phone', width: 100
-  },
-  {
-    field: 'flow', headerName: 'Flow', width: 75
-  },
-  {
-    field: 'hours', headerName: 'Hours', width: 10
-  },
-  {
-    field: 'acre', headerName: 'Acre', width: 75
-  },
-  {
-    field: 'crop', headerName: 'Crop', width: 10
-  },
-  {
-    field: 'type', headerName: 'Type', width: 10
-  },
-  {
-    field: 'date', headerName: 'Date', width: 100
-  },
-  { 
-    field: 'sbxcfs', headerName: 'SBXCFS', width: 75
-  },
-  {
-    field: 'head', headerName: 'Head', width: 75
-  },
-  {
-    field: 'estStart', headerName: 'Est Start', width: 100
-  },
-  {
-    field: 'estStop', headerName: 'Est Stop', width: 100
-  },
+  { field: 'id', headerName: '', width: 30 },
+  { field: 'combo', headerName: 'Combo', flex: 2 },
+  { field: 'lateral', headerName: 'Lat', flex: 1 },
+  { field: 'sg', headerName: 'SG', flex: 1 },
+  { field: 'name', headerName: 'Name', flex: 2 },
+  { field: 'phoneNumber', headerName: 'Phone', flex: 1 },
+  { field: 'flow', headerName: 'Flow', flex: 1 },
+  { field: 'hours', headerName: 'Hours', flex: 1 },
+  { field: 'acre', headerName: 'Acre', flex: 1 },
+  { field: 'crop', headerName: 'Crop', flex: 1 },
+  { field: 'type', headerName: 'Type', flex: 1 },
+  { field: 'date', headerName: 'Date', flex: 1 },
+  { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
+  { field: 'head', headerName: 'Head', flex: 1 },
+  { field: 'estStart', headerName: 'Est Start', flex: 1 },
+  { field: 'estStop', headerName: 'Est Stop', flex: 1 },
 ];
 
+// Creates row data for the DataGrid
 const rows = [
   { id: 1, combo: '001002003 -654258', lateral: 'CM', sg: '06-05',
     name: 'George Washington', phoneNumber: '111-2345', flow: '16.77',
