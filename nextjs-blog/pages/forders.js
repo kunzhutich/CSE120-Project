@@ -24,7 +24,6 @@ export default function forders() {
     return (
         <div>
             <NavBar/>
-            <h1>F Orders</h1>
             <FTable/>
             <div>
                 {orders.length > 0 ? (
