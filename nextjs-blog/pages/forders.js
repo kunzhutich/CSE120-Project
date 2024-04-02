@@ -25,7 +25,8 @@ export default function forders() {
         <div>
             <NavBar/>
             <h1>F Orders</h1>
-            <div>2
+            <div>
+            <BasicTable />
                 {orders.length > 0 ? (
                     orders.map((order, index) => (
                         <div key={index}>
