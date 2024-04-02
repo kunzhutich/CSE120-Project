@@ -293,6 +293,8 @@ def login():
 @app.route('/forders', methods=['GET'])
 def forders():
     try:
+        sa = request.headers.get('SA')
+
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
             INSERT IGNORE INTO rhdb.orders 
@@ -320,14 +322,12 @@ def forders():
                 txdb.event event
                 JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
                 JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID;
-            # WHERE 
-            #     (
-            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='01' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
-            #         OR 
-            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='03' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x') 
-            #         OR 
-            #         (event.IRRIGTYP='01' AND LOWER(event.ISPEC)='wrqst' AND event.SERVAREA='05' AND event.event_TRANDATE > '2023-06-01' AND event.event_TRANDATE < '2023-06-08' AND LOWER(sbxdtl.SBXDFT)='x')
-            #     );
+            WHERE 
+                event.IRRIGTYP='01' 
+            AND LOWER(event.ISPEC)='wrqst' 
+            AND event.event_TRANDATE > '2023-06-01' 
+            AND event.event_TRANDATE < '2023-06-08' 
+            AND LOWER(sbxdtl.SBXDFT)='x');
         """)
 
         with db.engine.begin() as connection:
@@ -335,7 +335,7 @@ def forders():
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.all()
+        orders_query = Orders.query.filter_by(sa=sa).all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
@@ -366,6 +366,82 @@ def forders():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
+
+@app.route('/morders', methods=['GET'])
+def forders():
+    try:
+        sa = request.headers.get('SA')
+
+        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+        transfer_query = text("""
+            INSERT IGNORE INTO rhdb.orders 
+                (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
+            SELECT 
+                CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID)) AS 'COMBO', 
+                event.LATERAL AS 'LAT', 
+                event.SIDEGATE AS 'SG', 
+                event.NAME1 AS 'NAME', 
+                event.PHONE1 AS 'PHONE', 
+                event.RQSTFLO AS 'FLOW', 
+                event.HOURS, 
+                parcd.PIACR AS 'ACRE', 
+                event.CROP1 AS 'CROP', 
+                event.IRRIGTYP AS 'TYPE', 
+                event.event_TRANDATE AS 'DATE', 
+                event.TRANTIME, 
+                event.EXCESSIVEORDER AS 'EX', 
+                parcd.LASTIRRIGATION AS 'FINAL', 
+                CONCAT(event.COMMENT1,'    ',event.COMMENT2) AS 'COMMENT', 
+                sbxdtl.SBXCFS, 
+                event.DELETED, 
+                event.SERVAREA AS 'SA'  
+            FROM 
+                txdb.event event
+                JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
+                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID;
+            WHERE 
+                LOWER(event.ISPEC)='wrqst'    
+            AND (event.IRRIGTYP='02' Or event.IRRIGTYP='03')  
+            AND event.event_TRANDATE > '2023-06-01' 
+            AND event.event_TRANDATE < '2023-06-08' 
+            AND LOWER(sbxdtl.SBXDFT)='x');
+        """)
+
+        with db.engine.begin() as connection:
+            connection.execute(transfer_query)
+            print("Data transfer successful.")
+        
+        # Now, query the RHDB.Orders to fetch the transferred data
+        orders_query = Orders.query.filter_by(sa=sa).all()
+        
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat, 
+                "sg": order.sg,
+                "name": order.name,
+                "flow": order.flow,
+                "hours": order.hours,
+                "acre": order.acre,
+                "crop": order.crop,
+                "type": order.type,
+                "date": order.date,
+                "trantime": order.trantime,
+                "ex": order.ex,
+                "final": order.final,
+                "comment": order.comment,
+                "sbxcfs": order.sbxcfs,
+                "deleted": order.deleted,
+                "sa": order.sa
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
 
 
 
