@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from "../components/navBar";
+import BasicTable from "../components/test_Table";
 
 export default function forders() {
     const [orders, setOrders] = useState([]); // Initialize orders state as an empty array
@@ -25,6 +26,7 @@ export default function forders() {
             <NavBar/>
             <h1>F Orders</h1>
             <div>
+                <BasicTable/>
                 {orders.length > 0 ? (
                     orders.map((order, index) => (
                         <div key={index}>
