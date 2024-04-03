@@ -297,7 +297,7 @@ def forders():
 
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
-            INSERT IGNORE INTO rhdb.orders 
+            INSERT INTO rhdb.orders 
                 (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
             SELECT 
                 CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID)) AS 'COMBO', 
@@ -317,17 +317,38 @@ def forders():
                 CONCAT(event.COMMENT1,'    ',event.COMMENT2) AS 'COMMENT', 
                 sbxdtl.SBXCFS, 
                 event.DELETED, 
-                event.SERVAREA AS 'SA'  
+                event.SERVAREA AS 'SA'
             FROM 
                 txdb.event event
                 JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
-                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID;
-            WHERE 
-                event.IRRIGTYP='01' 
-            AND LOWER(event.ISPEC)='wrqst' 
+                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID
+            WHERE       
+                LOWER(event.ISPEC)='wrqst'    
             AND event.event_TRANDATE > '2023-06-01' 
             AND event.event_TRANDATE < '2023-06-08' 
-            AND LOWER(sbxdtl.SBXDFT)='x');
+            AND LOWER(sbxdtl.SBXDFT)='x'
+            AND NOT EXISTS (
+                SELECT 1
+                FROM rhdb.orders o
+                WHERE o.COMBO = CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID))
+                AND o.LAT = event.LATERAL
+                AND o.SG = event.SIDEGATE
+                AND o.NAME = event.NAME1
+                AND o.PHONE = event.PHONE1
+                AND o.FLOW = event.RQSTFLO
+                AND o.HOURS = event.HOURS
+                AND o.ACRE = parcd.PIACR
+                AND o.CROP = event.CROP1
+                AND o.TYPE = event.IRRIGTYP
+                AND o.DATE = event.event_TRANDATE
+                AND o.TRANTIME = event.TRANTIME
+                AND o.EX = event.EXCESSIVEORDER
+                AND o.FINAL = parcd.LASTIRRIGATION
+                AND o.COMMENT = CONCAT(event.COMMENT1,'    ',event.COMMENT2)
+                AND o.SBXCFS = sbxdtl.SBXCFS
+                AND o.DELETED = event.DELETED
+                AND o.SA = event.SERVAREA
+            );
         """)
 
         with db.engine.begin() as connection:
@@ -335,7 +356,10 @@ def forders():
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.filter_by(sa=sa, type = "01").all()
+        orders_query = Orders.query.filter(
+            Orders.sa == sa, 
+            Orders.type == "01"
+        ).all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
@@ -374,7 +398,7 @@ def forders():
 
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
-            INSERT IGNORE INTO rhdb.orders 
+            INSERT INTO rhdb.orders 
                 (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
             SELECT 
                 CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID)) AS 'COMBO', 
@@ -394,17 +418,38 @@ def forders():
                 CONCAT(event.COMMENT1,'    ',event.COMMENT2) AS 'COMMENT', 
                 sbxdtl.SBXCFS, 
                 event.DELETED, 
-                event.SERVAREA AS 'SA'  
+                event.SERVAREA AS 'SA'
             FROM 
                 txdb.event event
                 JOIN txdb.parcd parcd ON event.WTIDNO = parcd.TIDPNUMB 
-                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID;
-            WHERE 
+                JOIN txdb.sbxdtl sbxdtl ON event.FLOWID = sbxdtl.FLOWID
+            WHERE       
                 LOWER(event.ISPEC)='wrqst'    
-            AND (event.IRRIGTYP='02' Or event.IRRIGTYP='03')  
             AND event.event_TRANDATE > '2023-06-01' 
             AND event.event_TRANDATE < '2023-06-08' 
-            AND LOWER(sbxdtl.SBXDFT)='x');
+            AND LOWER(sbxdtl.SBXDFT)='x'
+            AND NOT EXISTS (
+                SELECT 1
+                FROM rhdb.orders o
+                WHERE o.COMBO = CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID))
+                AND o.LAT = event.LATERAL
+                AND o.SG = event.SIDEGATE
+                AND o.NAME = event.NAME1
+                AND o.PHONE = event.PHONE1
+                AND o.FLOW = event.RQSTFLO
+                AND o.HOURS = event.HOURS
+                AND o.ACRE = parcd.PIACR
+                AND o.CROP = event.CROP1
+                AND o.TYPE = event.IRRIGTYP
+                AND o.DATE = event.event_TRANDATE
+                AND o.TRANTIME = event.TRANTIME
+                AND o.EX = event.EXCESSIVEORDER
+                AND o.FINAL = parcd.LASTIRRIGATION
+                AND o.COMMENT = CONCAT(event.COMMENT1,'    ',event.COMMENT2)
+                AND o.SBXCFS = sbxdtl.SBXCFS
+                AND o.DELETED = event.DELETED
+                AND o.SA = event.SERVAREA
+            );
         """)
 
         with db.engine.begin() as connection:
@@ -414,7 +459,7 @@ def forders():
         # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(
             Orders.sa == sa,
-            or_(Order.type == "02", type == "03")
+            or_(Orders.type == "02", Orders.type == "03")
         ).all()
         
         # Convert the query result into a list of dictionaries to jsonify
