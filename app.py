@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-from sqlalchemy.sql import text
+from sqlalchemy.sql import text, or_
 
 app = Flask(__name__)
 
@@ -81,151 +81,151 @@ class Orders(db.Model):
     est_finish = db.Column(db.DateTime())
     wdo_notes = db.Column(db.String(255))
  
-class Head1(db.Model):
-    __bind_key__ = 'rhdb'
+# class Head1(db.Model):
+#     __bind_key__ = 'rhdb'
  
-    combo = db.Column(db.String(17), primary_key=True)
-    lat = db.Column(db.String(10))
-    sg = db.Column(db.String(10))
-    name = db.Column(db.String(100))
-    phone = db.Column(db.String(10))
-    flow = db.Column(db.Float())
-    hours = db.Column(db.Float())
-    est_start = db.Column(db.DateTime())
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
-    prime_total = db.Column(db.Integer())
-    total_hours = db.Column(db.Integer())
-    called = db.Column(db.String(1))
-    wdo_notes = db.Column(db.String(255))
-    comment = db.Column(db.String(255))
-    abnormal = db.Column(db.String(1))
+#     combo = db.Column(db.String(17), primary_key=True)
+#     lat = db.Column(db.String(10))
+#     sg = db.Column(db.String(10))
+#     name = db.Column(db.String(100))
+#     phone = db.Column(db.String(10))
+#     flow = db.Column(db.Float())
+#     hours = db.Column(db.Float())
+#     est_start = db.Column(db.DateTime())
+#     prime_date = db.Column(db.Date())
+#     prime_time = db.Column(db.Integer())
+#     start_date = db.Column(db.Date())
+#     start_time = db.Column(db.Integer())
+#     finish_date = db.Column(db.Date())
+#     finish_time = db.Column(db.Integer())
+#     prime_total = db.Column(db.Integer())
+#     total_hours = db.Column(db.Integer())
+#     called = db.Column(db.String(1))
+#     wdo_notes = db.Column(db.String(255))
+#     comment = db.Column(db.String(255))
+#     abnormal = db.Column(db.String(1))
 
-class Head2(db.Model):
-    __bind_key__ = 'rhdb'
+# class Head2(db.Model):
+#     __bind_key__ = 'rhdb'
  
-    combo = db.Column(db.String(17), primary_key=True)
-    lat = db.Column(db.String(10))
-    sg = db.Column(db.String(10))
-    name = db.Column(db.String(100))
-    phone = db.Column(db.String(10))
-    flow = db.Column(db.Float())
-    hours = db.Column(db.Float())
-    est_start = db.Column(db.DateTime())
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
-    prime_total = db.Column(db.Integer())
-    total_hours = db.Column(db.Integer())
-    called = db.Column(db.String(1))
-    wdo_notes = db.Column(db.String(255))
-    comment = db.Column(db.String(255))
-    abnormal = db.Column(db.String(1))
+#     combo = db.Column(db.String(17), primary_key=True)
+#     lat = db.Column(db.String(10))
+#     sg = db.Column(db.String(10))
+#     name = db.Column(db.String(100))
+#     phone = db.Column(db.String(10))
+#     flow = db.Column(db.Float())
+#     hours = db.Column(db.Float())
+#     est_start = db.Column(db.DateTime())
+#     prime_date = db.Column(db.Date())
+#     prime_time = db.Column(db.Integer())
+#     start_date = db.Column(db.Date())
+#     start_time = db.Column(db.Integer())
+#     finish_date = db.Column(db.Date())
+#     finish_time = db.Column(db.Integer())
+#     prime_total = db.Column(db.Integer())
+#     total_hours = db.Column(db.Integer())
+#     called = db.Column(db.String(1))
+#     wdo_notes = db.Column(db.String(255))
+#     comment = db.Column(db.String(255))
+#     abnormal = db.Column(db.String(1))
 
-class Head3(db.Model):
-    __bind_key__ = 'rhdb'
+# class Head3(db.Model):
+#     __bind_key__ = 'rhdb'
  
-    combo = db.Column(db.String(17), primary_key=True)
-    lat = db.Column(db.String(10))
-    sg = db.Column(db.String(10))
-    name = db.Column(db.String(100))
-    phone = db.Column(db.String(10))
-    flow = db.Column(db.Float())
-    hours = db.Column(db.Float())
-    est_start = db.Column(db.DateTime())
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
-    prime_total = db.Column(db.Integer())
-    total_hours = db.Column(db.Integer())
-    called = db.Column(db.String(1))
-    wdo_notes = db.Column(db.String(255))
-    comment = db.Column(db.String(255))
-    abnormal = db.Column(db.String(1))
+#     combo = db.Column(db.String(17), primary_key=True)
+#     lat = db.Column(db.String(10))
+#     sg = db.Column(db.String(10))
+#     name = db.Column(db.String(100))
+#     phone = db.Column(db.String(10))
+#     flow = db.Column(db.Float())
+#     hours = db.Column(db.Float())
+#     est_start = db.Column(db.DateTime())
+#     prime_date = db.Column(db.Date())
+#     prime_time = db.Column(db.Integer())
+#     start_date = db.Column(db.Date())
+#     start_time = db.Column(db.Integer())
+#     finish_date = db.Column(db.Date())
+#     finish_time = db.Column(db.Integer())
+#     prime_total = db.Column(db.Integer())
+#     total_hours = db.Column(db.Integer())
+#     called = db.Column(db.String(1))
+#     wdo_notes = db.Column(db.String(255))
+#     comment = db.Column(db.String(255))
+#     abnormal = db.Column(db.String(1))
 
-class Head4(db.Model):
-    __bind_key__ = 'rhdb'
+# class Head4(db.Model):
+#     __bind_key__ = 'rhdb'
  
-    combo = db.Column(db.String(17), primary_key=True)
-    lat = db.Column(db.String(10))
-    sg = db.Column(db.String(10))
-    name = db.Column(db.String(100))
-    phone = db.Column(db.String(10))
-    flow = db.Column(db.Float())
-    hours = db.Column(db.Float())
-    est_start = db.Column(db.DateTime())
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
-    prime_total = db.Column(db.Integer())
-    total_hours = db.Column(db.Integer())
-    called = db.Column(db.String(1))
-    wdo_notes = db.Column(db.String(255))
-    comment = db.Column(db.String(255))
-    abnormal = db.Column(db.String(1))
+#     combo = db.Column(db.String(17), primary_key=True)
+#     lat = db.Column(db.String(10))
+#     sg = db.Column(db.String(10))
+#     name = db.Column(db.String(100))
+#     phone = db.Column(db.String(10))
+#     flow = db.Column(db.Float())
+#     hours = db.Column(db.Float())
+#     est_start = db.Column(db.DateTime())
+#     prime_date = db.Column(db.Date())
+#     prime_time = db.Column(db.Integer())
+#     start_date = db.Column(db.Date())
+#     start_time = db.Column(db.Integer())
+#     finish_date = db.Column(db.Date())
+#     finish_time = db.Column(db.Integer())
+#     prime_total = db.Column(db.Integer())
+#     total_hours = db.Column(db.Integer())
+#     called = db.Column(db.String(1))
+#     wdo_notes = db.Column(db.String(255))
+#     comment = db.Column(db.String(255))
+#     abnormal = db.Column(db.String(1))
 
-class Head5(db.Model):
-    __bind_key__ = 'rhdb'
+# class Head5(db.Model):
+#     __bind_key__ = 'rhdb'
  
-    combo = db.Column(db.String(17), primary_key=True)
-    lat = db.Column(db.String(10))
-    sg = db.Column(db.String(10))
-    name = db.Column(db.String(100))
-    phone = db.Column(db.String(10))
-    flow = db.Column(db.Float())
-    hours = db.Column(db.Float())
-    est_start = db.Column(db.DateTime())
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
-    prime_total = db.Column(db.Integer())
-    total_hours = db.Column(db.Integer())
-    called = db.Column(db.String(1))
-    wdo_notes = db.Column(db.String(255))
-    comment = db.Column(db.String(255))
-    abnormal = db.Column(db.String(1))
+#     combo = db.Column(db.String(17), primary_key=True)
+#     lat = db.Column(db.String(10))
+#     sg = db.Column(db.String(10))
+#     name = db.Column(db.String(100))
+#     phone = db.Column(db.String(10))
+#     flow = db.Column(db.Float())
+#     hours = db.Column(db.Float())
+#     est_start = db.Column(db.DateTime())
+#     prime_date = db.Column(db.Date())
+#     prime_time = db.Column(db.Integer())
+#     start_date = db.Column(db.Date())
+#     start_time = db.Column(db.Integer())
+#     finish_date = db.Column(db.Date())
+#     finish_time = db.Column(db.Integer())
+#     prime_total = db.Column(db.Integer())
+#     total_hours = db.Column(db.Integer())
+#     called = db.Column(db.String(1))
+#     wdo_notes = db.Column(db.String(255))
+#     comment = db.Column(db.String(255))
+#     abnormal = db.Column(db.String(1))
 
-class UN(db.Model):
-    __bind_key__ = 'rhdb'
+# class UN(db.Model):
+#     __bind_key__ = 'rhdb'
  
-    combo = db.Column(db.String(17), primary_key=True)
-    lat = db.Column(db.String(10))
-    sg = db.Column(db.String(10))
-    name = db.Column(db.String(100))
-    phone = db.Column(db.String(10))
-    flow = db.Column(db.Float())
-    hours = db.Column(db.Float())
-    est_start = db.Column(db.DateTime())
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
-    prime_total = db.Column(db.Integer())
-    total_hours = db.Column(db.Integer())
-    called = db.Column(db.String(1))
-    wdo_notes = db.Column(db.String(255))
-    comment = db.Column(db.String(255))
-    abnormal = db.Column(db.String(1))
+#     combo = db.Column(db.String(17), primary_key=True)
+#     lat = db.Column(db.String(10))
+#     sg = db.Column(db.String(10))
+#     name = db.Column(db.String(100))
+#     phone = db.Column(db.String(10))
+#     flow = db.Column(db.Float())
+#     hours = db.Column(db.Float())
+#     est_start = db.Column(db.DateTime())
+#     prime_date = db.Column(db.Date())
+#     prime_time = db.Column(db.Integer())
+#     start_date = db.Column(db.Date())
+#     start_time = db.Column(db.Integer())
+#     finish_date = db.Column(db.Date())
+#     finish_time = db.Column(db.Integer())
+#     prime_total = db.Column(db.Integer())
+#     total_hours = db.Column(db.Integer())
+#     called = db.Column(db.String(1))
+#     wdo_notes = db.Column(db.String(255))
+#     comment = db.Column(db.String(255))
+#     abnormal = db.Column(db.String(1))
 
-class M(db.Model):
+# class M(db.Model):
     __bind_key__ = 'rhdb'
  
     combo = db.Column(db.String(17), primary_key=True)
@@ -335,7 +335,7 @@ def forders():
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.filter_by(sa=sa).all()
+        orders_query = Orders.query.filter_by(sa=sa, type = "01").all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
@@ -412,7 +412,10 @@ def forders():
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.filter_by(sa=sa).all()
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            or_(Order.type == "02", type == "03")
+        ).all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
