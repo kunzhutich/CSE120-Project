@@ -392,7 +392,7 @@ def forders():
 
 
 @app.route('/morders', methods=['GET'])
-def forders():
+def morders():
     try:
         sa = request.headers.get('SA')
 
