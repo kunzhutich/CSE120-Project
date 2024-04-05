@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
@@ -68,13 +67,16 @@ export default function FTable() {
     }, []);
 
     return (
-        <Box sx={{ height: 400, width: '100%' }}>
+        <Box sx={{height: 847, width: '100%'}}>
             <DataGrid
                 rows={orders}
                 columns={columns}
                 pageSize={5}
-                rowsPerPageOptions={[5, 10, 20]}
-                checkboxSelection
+                hideFooter
+                
+                slots={{
+                  toolbar: CustomToolbar
+                }}
             />
         </Box>
     );

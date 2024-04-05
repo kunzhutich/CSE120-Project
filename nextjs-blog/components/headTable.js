@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbarContainer,GridToolbarColumnsButton, GridToolbarFilterButton,
+import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
   GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 // Creates column definitions for the DataGrid
@@ -70,11 +70,6 @@ function CustomToolbar() {
   );
 }
 export default function HeadTable() {
-  // Hides row ids
-  const [columnVisibilityModel, setColumnVisibilityModel] = React.useState({
-    id: false
-  })
-  
   return (
     <Box sx = {{height: 847, width: '100%', paddingLeft: 4, paddingRight: 4}}>
       <DataGrid
@@ -85,8 +80,6 @@ export default function HeadTable() {
       slots={{
         toolbar: CustomToolbar
       }}
-
-      columnVisibilityModel={columnVisibilityModel}
       />
     </Box>
   );
