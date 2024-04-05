@@ -1,44 +1,67 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import {DataGrid} from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 
-// Creates column definitions for the DataGrid
+// Define the columns for the DataGrid
 const columns = [
-  { field: 'id', headerName: '', width: 30 },
-  { field: 'combo', headerName: 'Combo', flex: 2 },
-  { field: 'lateral', headerName: 'Lat', flex: 1 },
-  { field: 'sg', headerName: 'SG', flex: 1 },
-  { field: 'name', headerName: 'Name', flex: 2 },
-  { field: 'phoneNumber', headerName: 'Phone', flex: 1 },
-  { field: 'flow', headerName: 'Flow', flex: 1 },
-  { field: 'hours', headerName: 'Hours', flex: 1 },
-  { field: 'acre', headerName: 'Acre', flex: 1 },
-  { field: 'crop', headerName: 'Crop', flex: 1 },
-  { field: 'type', headerName: 'Type', flex: 1 },
-  { field: 'date', headerName: 'Date', editable: true, flex: 1 },
-  { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
-  { field: 'head', headerName: 'Head', editable: true, flex: 1 },
-  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
-  { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
-];
-
-// Creates row data for the DataGrid
-const rows = [
-  { id: 1, combo: '001002003 -654258', lateral: 'CM', sg: '06-05',
-    name: 'George Washington', phoneNumber: '111-2345', flow: '16.77',
-    hours: '11', acre: '22.00', crop: '29', type: '1', date: '12/10',
-    sbxcfs: '16.77', head: '#H1', estStart: 'Thu 1430', estStop: 'Fri 0130' 
-  },
+    { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
+    { field: 'lat', headerName: 'Lat', flex: 1 },
+    { field: 'sg', headerName: 'SG', flex: 1 },
+    { field: 'name', headerName: 'Name', flex: 2 },
+    { field: 'phone', headerName: 'Phone', flex: 1 },
+    { field: 'flow', headerName: 'Flow', flex: 1 },
+    { field: 'hours', headerName: 'Hours', flex: 1 },
+    { field: 'acre', headerName: 'Acre', flex: 1 },
+    { field: 'crop', headerName: 'Crop', flex: 1 },
+    { field: 'type', headerName: 'Type', flex: 1 },
+    { field: 'date', headerName: 'Date', editable: true, flex: 1 },
+    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1 },
+    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
+    { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
 ];
 
 export default function FTable() {
-  return (
-    <Box sx = {{height: 'auto', width: '100%'}}>
-      <DataGrid
-      rows={rows}
-      columns={columns}
-      hideFooter
-      />
-    </Box>
-  );
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const sa = sessionStorage.getItem('sa');
+                const response = await fetch('http://127.0.0.1:5000/forders', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'SA': sa,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                // Map the fetched data to include a unique 'id' for each row using 'combo'
+                const formattedData = data.map((item) => ({
+                    ...item,
+                    id: item.combo, // Use `combo` as the `id`
+                }));
+                setOrders(formattedData);
+            } catch (error) {
+                console.error("Failed to fetch orders:", error);
+            }
+        };
+
+        fetchOrders();
+    }, []);
+
+    return (
+        <Box sx={{ height: 400, width: '100%' }}>
+            <DataGrid
+                rows={orders}
+                columns={columns}
+                pageSize={5}
+                rowsPerPageOptions={[5, 10, 20]}
+                checkboxSelection
+            />
+        </Box>
+    );
 }
