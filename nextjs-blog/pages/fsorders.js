@@ -6,11 +6,16 @@ export default function fsorders() {
     return (
         <div>
             <NavBar/>
-            <div style={{float: 'left'}}>
-                <FSTables/>
-            </div>
-            <div>
-                <HeadTable/>
+            <div syle={{display: 'grid'}}>
+                <div style={{float: 'left'}}>
+                    <FSTables/>
+                </div>
+                <div>
+                    <HeadTable/>
+                </div>
+                <div>
+                    <HeadTable/>
+                </div>
             </div>
         </div>
     );
