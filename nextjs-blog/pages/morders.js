@@ -1,9 +1,11 @@
 import NavBar from "../components/navBar";
+import MordersTable from "../components/mordersTable";
 
-export default function morders() {
+export default function morders(){
     return (
         <div>
             <NavBar/>
+            <MordersTable/>
         </div>
     );
 }
