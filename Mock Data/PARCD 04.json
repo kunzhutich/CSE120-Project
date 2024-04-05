@@ -1,0 +1,2060 @@
+﻿[
+    {
+        "ID": "1",
+        "TIDPNUMB": "45",
+        "PIACR": "38",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "2",
+        "TIDPNUMB": "197",
+        "PIACR": "54.39",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "3",
+        "TIDPNUMB": "198",
+        "PIACR": "19.72",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "4",
+        "TIDPNUMB": "202",
+        "PIACR": "19.72",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "5",
+        "TIDPNUMB": "206",
+        "PIACR": "49.62",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "6",
+        "TIDPNUMB": "242",
+        "PIACR": "7.86",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "7",
+        "TIDPNUMB": "252",
+        "PIACR": "48.97",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "8",
+        "TIDPNUMB": "268",
+        "PIACR": "152.57",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "9",
+        "TIDPNUMB": "275",
+        "PIACR": "11.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "10",
+        "TIDPNUMB": "276",
+        "PIACR": "9.89",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "11",
+        "TIDPNUMB": "278",
+        "PIACR": "9.89",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "12",
+        "TIDPNUMB": "282",
+        "PIACR": "9.44",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "13",
+        "TIDPNUMB": "283",
+        "PIACR": "9.73",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "14",
+        "TIDPNUMB": "285",
+        "PIACR": "9.89",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "15",
+        "TIDPNUMB": "288",
+        "PIACR": "72.4",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "16",
+        "TIDPNUMB": "291",
+        "PIACR": "24.14",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "17",
+        "TIDPNUMB": "292",
+        "PIACR": "65.69",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "18",
+        "TIDPNUMB": "294",
+        "PIACR": "35.59",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "19",
+        "TIDPNUMB": "296",
+        "PIACR": "36.71",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "20",
+        "TIDPNUMB": "302",
+        "PIACR": "93.51",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "21",
+        "TIDPNUMB": "310",
+        "PIACR": "120.51",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "22",
+        "TIDPNUMB": "323",
+        "PIACR": "9.91",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "23",
+        "TIDPNUMB": "330",
+        "PIACR": "36.79",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "24",
+        "TIDPNUMB": "333",
+        "PIACR": "77.35",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "25",
+        "TIDPNUMB": "345",
+        "PIACR": "39.1",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "26",
+        "TIDPNUMB": "350",
+        "PIACR": "38.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "27",
+        "TIDPNUMB": "351",
+        "PIACR": "77.3",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "28",
+        "TIDPNUMB": "362",
+        "PIACR": "83.14",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "29",
+        "TIDPNUMB": "363",
+        "PIACR": "79.44",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "30",
+        "TIDPNUMB": "371",
+        "PIACR": "77.13",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "31",
+        "TIDPNUMB": "373",
+        "PIACR": "98.1",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "32",
+        "TIDPNUMB": "379",
+        "PIACR": "29.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "33",
+        "TIDPNUMB": "386",
+        "PIACR": "59.78",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "34",
+        "TIDPNUMB": "387",
+        "PIACR": "79.74",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "35",
+        "TIDPNUMB": "390",
+        "PIACR": "40.75",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "36",
+        "TIDPNUMB": "391",
+        "PIACR": "40.21",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "37",
+        "TIDPNUMB": "418",
+        "PIACR": "18.36",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "38",
+        "TIDPNUMB": "425",
+        "PIACR": "59.68",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "39",
+        "TIDPNUMB": "426",
+        "PIACR": "23.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "40",
+        "TIDPNUMB": "427",
+        "PIACR": "36.39",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "41",
+        "TIDPNUMB": "431",
+        "PIACR": "17.94",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "42",
+        "TIDPNUMB": "439",
+        "PIACR": "118.89",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "43",
+        "TIDPNUMB": "441",
+        "PIACR": "38.25",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "44",
+        "TIDPNUMB": "443",
+        "PIACR": "41",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "45",
+        "TIDPNUMB": "444",
+        "PIACR": "66",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "46",
+        "TIDPNUMB": "445",
+        "PIACR": "79.28",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "47",
+        "TIDPNUMB": "449",
+        "PIACR": "78.19",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "48",
+        "TIDPNUMB": "451",
+        "PIACR": "48",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "49",
+        "TIDPNUMB": "452",
+        "PIACR": "33",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "50",
+        "TIDPNUMB": "461",
+        "PIACR": "35.54",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "51",
+        "TIDPNUMB": "484",
+        "PIACR": "80.07",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "52",
+        "TIDPNUMB": "488",
+        "PIACR": "40",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "53",
+        "TIDPNUMB": "489",
+        "PIACR": "37.99",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "54",
+        "TIDPNUMB": "491",
+        "PIACR": "74.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "55",
+        "TIDPNUMB": "513",
+        "PIACR": "72.86",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "56",
+        "TIDPNUMB": "516",
+        "PIACR": "1.56",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "57",
+        "TIDPNUMB": "518",
+        "PIACR": "51.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "58",
+        "TIDPNUMB": "519",
+        "PIACR": "56.54",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "59",
+        "TIDPNUMB": "533",
+        "PIACR": "94.2",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "60",
+        "TIDPNUMB": "534",
+        "PIACR": "113.39",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "61",
+        "TIDPNUMB": "598",
+        "PIACR": "31.25",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "62",
+        "TIDPNUMB": "599",
+        "PIACR": "35.75",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "63",
+        "TIDPNUMB": "604",
+        "PIACR": "9.14",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "64",
+        "TIDPNUMB": "615",
+        "PIACR": "2.32",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "65",
+        "TIDPNUMB": "618",
+        "PIACR": "9.77",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "66",
+        "TIDPNUMB": "625",
+        "PIACR": "77.09",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "67",
+        "TIDPNUMB": "641",
+        "PIACR": "25.01",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "68",
+        "TIDPNUMB": "643",
+        "PIACR": "83.06",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "69",
+        "TIDPNUMB": "658",
+        "PIACR": "39.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "70",
+        "TIDPNUMB": "659",
+        "PIACR": "43.9",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "71",
+        "TIDPNUMB": "660",
+        "PIACR": "43.4",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "72",
+        "TIDPNUMB": "662",
+        "PIACR": "42",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "73",
+        "TIDPNUMB": "665",
+        "PIACR": "30",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "74",
+        "TIDPNUMB": "666",
+        "PIACR": "58.73",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "75",
+        "TIDPNUMB": "668",
+        "PIACR": "39.17",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "76",
+        "TIDPNUMB": "669",
+        "PIACR": "28.28",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "77",
+        "TIDPNUMB": "677",
+        "PIACR": "38.51",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "78",
+        "TIDPNUMB": "679",
+        "PIACR": "19.67",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "79",
+        "TIDPNUMB": "680",
+        "PIACR": "19.06",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "80",
+        "TIDPNUMB": "681",
+        "PIACR": "25.23",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "81",
+        "TIDPNUMB": "685",
+        "PIACR": "39.67",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "82",
+        "TIDPNUMB": "687",
+        "PIACR": "33.39",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "83",
+        "TIDPNUMB": "688",
+        "PIACR": "19.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "84",
+        "TIDPNUMB": "689",
+        "PIACR": "31.73",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "85",
+        "TIDPNUMB": "690",
+        "PIACR": "20.16",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "86",
+        "TIDPNUMB": "694",
+        "PIACR": "32.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "87",
+        "TIDPNUMB": "695",
+        "PIACR": "32.23",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "88",
+        "TIDPNUMB": "702",
+        "PIACR": "34.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "89",
+        "TIDPNUMB": "704",
+        "PIACR": "35.51",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "90",
+        "TIDPNUMB": "705",
+        "PIACR": "18",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "91",
+        "TIDPNUMB": "706",
+        "PIACR": "49.55",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "92",
+        "TIDPNUMB": "707",
+        "PIACR": "29.83",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "93",
+        "TIDPNUMB": "708",
+        "PIACR": "27.81",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "94",
+        "TIDPNUMB": "709",
+        "PIACR": "28.88",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "95",
+        "TIDPNUMB": "711",
+        "PIACR": "19.99",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "96",
+        "TIDPNUMB": "712",
+        "PIACR": "20.04",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "97",
+        "TIDPNUMB": "713",
+        "PIACR": "20.01",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "98",
+        "TIDPNUMB": "714",
+        "PIACR": "17.29",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "99",
+        "TIDPNUMB": "716",
+        "PIACR": "18.61",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "100",
+        "TIDPNUMB": "719",
+        "PIACR": "16.04",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "101",
+        "TIDPNUMB": "720",
+        "PIACR": "105.08",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "102",
+        "TIDPNUMB": "723",
+        "PIACR": "39.47",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "103",
+        "TIDPNUMB": "729",
+        "PIACR": "21.15",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "104",
+        "TIDPNUMB": "730",
+        "PIACR": "19.17",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "105",
+        "TIDPNUMB": "731",
+        "PIACR": "19.17",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "106",
+        "TIDPNUMB": "735",
+        "PIACR": "2.93",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "107",
+        "TIDPNUMB": "736",
+        "PIACR": "15.08",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "108",
+        "TIDPNUMB": "743",
+        "PIACR": "21.2",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "109",
+        "TIDPNUMB": "750",
+        "PIACR": "18.43",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "110",
+        "TIDPNUMB": "751",
+        "PIACR": "1.13",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "111",
+        "TIDPNUMB": "770",
+        "PIACR": "31.67",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "112",
+        "TIDPNUMB": "776",
+        "PIACR": "39.14",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "113",
+        "TIDPNUMB": "816",
+        "PIACR": "14.3",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "114",
+        "TIDPNUMB": "847",
+        "PIACR": "18.44",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "115",
+        "TIDPNUMB": "849",
+        "PIACR": "0.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "116",
+        "TIDPNUMB": "879",
+        "PIACR": "30.94",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "117",
+        "TIDPNUMB": "889",
+        "PIACR": "9.47",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "118",
+        "TIDPNUMB": "890",
+        "PIACR": "14.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "119",
+        "TIDPNUMB": "958",
+        "PIACR": "48.64",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "120",
+        "TIDPNUMB": "961",
+        "PIACR": "0.72",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "121",
+        "TIDPNUMB": "962",
+        "PIACR": "31.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "122",
+        "TIDPNUMB": "963",
+        "PIACR": "6.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "123",
+        "TIDPNUMB": "964",
+        "PIACR": "5.03",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "124",
+        "TIDPNUMB": "1405",
+        "PIACR": "21.47",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "125",
+        "TIDPNUMB": "1406",
+        "PIACR": "20.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "126",
+        "TIDPNUMB": "1408",
+        "PIACR": "9.25",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "127",
+        "TIDPNUMB": "1409",
+        "PIACR": "9.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "128",
+        "TIDPNUMB": "1412",
+        "PIACR": "9.55",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "129",
+        "TIDPNUMB": "1415",
+        "PIACR": "9.29",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "130",
+        "TIDPNUMB": "1423",
+        "PIACR": "1.99",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "131",
+        "TIDPNUMB": "1426",
+        "PIACR": "89.55",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "132",
+        "TIDPNUMB": "1431",
+        "PIACR": "9.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "133",
+        "TIDPNUMB": "1432",
+        "PIACR": "9.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "134",
+        "TIDPNUMB": "1441",
+        "PIACR": "24.63",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "135",
+        "TIDPNUMB": "1442",
+        "PIACR": "17.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "136",
+        "TIDPNUMB": "1452",
+        "PIACR": "9.88",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "137",
+        "TIDPNUMB": "1455",
+        "PIACR": "20.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "138",
+        "TIDPNUMB": "1458",
+        "PIACR": "10",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "139",
+        "TIDPNUMB": "1460",
+        "PIACR": "19.4",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "140",
+        "TIDPNUMB": "1465",
+        "PIACR": "24.92",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "141",
+        "TIDPNUMB": "1477",
+        "PIACR": "19.1",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "142",
+        "TIDPNUMB": "1478",
+        "PIACR": "9.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "143",
+        "TIDPNUMB": "1484",
+        "PIACR": "8.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "144",
+        "TIDPNUMB": "1501",
+        "PIACR": "29.55",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "145",
+        "TIDPNUMB": "1505",
+        "PIACR": "5.66",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "146",
+        "TIDPNUMB": "1511",
+        "PIACR": "38.8",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "147",
+        "TIDPNUMB": "1527",
+        "PIACR": "19.62",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "148",
+        "TIDPNUMB": "1583",
+        "PIACR": "3.27",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "149",
+        "TIDPNUMB": "1584",
+        "PIACR": "3.27",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "150",
+        "TIDPNUMB": "1585",
+        "PIACR": "3.27",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "151",
+        "TIDPNUMB": "1589",
+        "PIACR": "19.73",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "152",
+        "TIDPNUMB": "1590",
+        "PIACR": "19.72",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "153",
+        "TIDPNUMB": "1649",
+        "PIACR": "2.2",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "154",
+        "TIDPNUMB": "1661",
+        "PIACR": "1.02",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "155",
+        "TIDPNUMB": "1662",
+        "PIACR": "1.69",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "156",
+        "TIDPNUMB": "1663",
+        "PIACR": "5.51",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "157",
+        "TIDPNUMB": "1667",
+        "PIACR": "4.34",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "158",
+        "TIDPNUMB": "1686",
+        "PIACR": "26.36",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "159",
+        "TIDPNUMB": "1688",
+        "PIACR": "8.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "160",
+        "TIDPNUMB": "1692",
+        "PIACR": "34.25",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "161",
+        "TIDPNUMB": "1696",
+        "PIACR": "19.12",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "162",
+        "TIDPNUMB": "1697",
+        "PIACR": "2.8",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "163",
+        "TIDPNUMB": "1718",
+        "PIACR": "2",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "164",
+        "TIDPNUMB": "1723",
+        "PIACR": "55.17",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "165",
+        "TIDPNUMB": "1727",
+        "PIACR": "12",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "166",
+        "TIDPNUMB": "1728",
+        "PIACR": "65.15",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "167",
+        "TIDPNUMB": "1751",
+        "PIACR": "19.73",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "168",
+        "TIDPNUMB": "1753",
+        "PIACR": "19.1",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "169",
+        "TIDPNUMB": "1755",
+        "PIACR": "15.78",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "170",
+        "TIDPNUMB": "1757",
+        "PIACR": "19.78",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "171",
+        "TIDPNUMB": "1758",
+        "PIACR": "19.78",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "172",
+        "TIDPNUMB": "1760",
+        "PIACR": "2.42",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "173",
+        "TIDPNUMB": "1764",
+        "PIACR": "21.65",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "174",
+        "TIDPNUMB": "1773",
+        "PIACR": "29.61",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "175",
+        "TIDPNUMB": "1805",
+        "PIACR": "78.66",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "176",
+        "TIDPNUMB": "1810",
+        "PIACR": "29.18",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "177",
+        "TIDPNUMB": "1825",
+        "PIACR": "18.95",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "178",
+        "TIDPNUMB": "1839",
+        "PIACR": "13.9",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "179",
+        "TIDPNUMB": "1855",
+        "PIACR": "13.18",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "180",
+        "TIDPNUMB": "1860",
+        "PIACR": "17.83",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "181",
+        "TIDPNUMB": "1878",
+        "PIACR": "18",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "182",
+        "TIDPNUMB": "2783",
+        "PIACR": "33.65",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "183",
+        "TIDPNUMB": "2787",
+        "PIACR": "27.31",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "184",
+        "TIDPNUMB": "2788",
+        "PIACR": "1.92",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "185",
+        "TIDPNUMB": "2793",
+        "PIACR": "40.38",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "186",
+        "TIDPNUMB": "2795",
+        "PIACR": "26.61",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "187",
+        "TIDPNUMB": "2796",
+        "PIACR": "12.95",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "188",
+        "TIDPNUMB": "2797",
+        "PIACR": "3.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "189",
+        "TIDPNUMB": "2798",
+        "PIACR": "44.6",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "190",
+        "TIDPNUMB": "2810",
+        "PIACR": "27.92",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "191",
+        "TIDPNUMB": "2811",
+        "PIACR": "55.92",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "192",
+        "TIDPNUMB": "2815",
+        "PIACR": "29.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "193",
+        "TIDPNUMB": "3015",
+        "PIACR": "10.03",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "194",
+        "TIDPNUMB": "3033",
+        "PIACR": "19.59",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "195",
+        "TIDPNUMB": "3621",
+        "PIACR": "18.2",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "196",
+        "TIDPNUMB": "3638",
+        "PIACR": "39.08",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "197",
+        "TIDPNUMB": "3648",
+        "PIACR": "3",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "198",
+        "TIDPNUMB": "3650",
+        "PIACR": "19.69",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "199",
+        "TIDPNUMB": "3654",
+        "PIACR": "19.69",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "200",
+        "TIDPNUMB": "3677",
+        "PIACR": "13.5",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "201",
+        "TIDPNUMB": "3690",
+        "PIACR": "42.67",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "202",
+        "TIDPNUMB": "3692",
+        "PIACR": "60.9",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "203",
+        "TIDPNUMB": "3693",
+        "PIACR": "57.25",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "204",
+        "TIDPNUMB": "3694",
+        "PIACR": "39.43",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "205",
+        "TIDPNUMB": "3745",
+        "PIACR": "40.65",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "206",
+        "TIDPNUMB": "13366",
+        "PIACR": "2.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "207",
+        "TIDPNUMB": "13369",
+        "PIACR": "19.43",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "208",
+        "TIDPNUMB": "13370",
+        "PIACR": "38.48",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "209",
+        "TIDPNUMB": "13386",
+        "PIACR": "34.9",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "210",
+        "TIDPNUMB": "13387",
+        "PIACR": "34.9",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "211",
+        "TIDPNUMB": "13390",
+        "PIACR": "65.08",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "212",
+        "TIDPNUMB": "13391",
+        "PIACR": "11.81",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "213",
+        "TIDPNUMB": "13393",
+        "PIACR": "29.57",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "214",
+        "TIDPNUMB": "13396",
+        "PIACR": "9",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "215",
+        "TIDPNUMB": "13397",
+        "PIACR": "34.9",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "216",
+        "TIDPNUMB": "13414",
+        "PIACR": "103.34",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "217",
+        "TIDPNUMB": "13426",
+        "PIACR": "36.93",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "218",
+        "TIDPNUMB": "13427",
+        "PIACR": "38.42",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "219",
+        "TIDPNUMB": "13430",
+        "PIACR": "34.96",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "220",
+        "TIDPNUMB": "13476",
+        "PIACR": "133",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "221",
+        "TIDPNUMB": "13522",
+        "PIACR": "44",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "222",
+        "TIDPNUMB": "13527",
+        "PIACR": "26",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "223",
+        "TIDPNUMB": "13542",
+        "PIACR": "4.52",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "224",
+        "TIDPNUMB": "13549",
+        "PIACR": "3.03",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "225",
+        "TIDPNUMB": "13552",
+        "PIACR": "3.36",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "226",
+        "TIDPNUMB": "13582",
+        "PIACR": "4.78",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "227",
+        "TIDPNUMB": "13583",
+        "PIACR": "6.76",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "228",
+        "TIDPNUMB": "13584",
+        "PIACR": "2.96",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "229",
+        "TIDPNUMB": "13585",
+        "PIACR": "4.14",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "230",
+        "TIDPNUMB": "13589",
+        "PIACR": "6.03",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "231",
+        "TIDPNUMB": "13594",
+        "PIACR": "3.33",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "232",
+        "TIDPNUMB": "13599",
+        "PIACR": "2.53",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "233",
+        "TIDPNUMB": "13603",
+        "PIACR": "32.85",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "234",
+        "TIDPNUMB": "13606",
+        "PIACR": "24.67",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "235",
+        "TIDPNUMB": "13749",
+        "PIACR": "39.59",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "236",
+        "TIDPNUMB": "13756",
+        "PIACR": "39.17",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "237",
+        "TIDPNUMB": "13757",
+        "PIACR": "77.77",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "238",
+        "TIDPNUMB": "13768",
+        "PIACR": "36.05",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "239",
+        "TIDPNUMB": "13769",
+        "PIACR": "36.98",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "240",
+        "TIDPNUMB": "13770",
+        "PIACR": "41.46",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "241",
+        "TIDPNUMB": "13771",
+        "PIACR": "38.67",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "242",
+        "TIDPNUMB": "13774",
+        "PIACR": "38.43",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "243",
+        "TIDPNUMB": "13777",
+        "PIACR": "13.13",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "244",
+        "TIDPNUMB": "13778",
+        "PIACR": "12.03",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "245",
+        "TIDPNUMB": "13784",
+        "PIACR": "9.8",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "246",
+        "TIDPNUMB": "13795",
+        "PIACR": "37.71",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "247",
+        "TIDPNUMB": "13798",
+        "PIACR": "28.05",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "248",
+        "TIDPNUMB": "13804",
+        "PIACR": "17.1",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "249",
+        "TIDPNUMB": "13805",
+        "PIACR": "7.52",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "250",
+        "TIDPNUMB": "13806",
+        "PIACR": "39.32",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "251",
+        "TIDPNUMB": "13817",
+        "PIACR": "59.52",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "252",
+        "TIDPNUMB": "13834",
+        "PIACR": "1",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "253",
+        "TIDPNUMB": "13835",
+        "PIACR": "8.5",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "254",
+        "TIDPNUMB": "13859",
+        "PIACR": "51.23",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "255",
+        "TIDPNUMB": "13860",
+        "PIACR": "35.43",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "256",
+        "TIDPNUMB": "13861",
+        "PIACR": "40.99",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "257",
+        "TIDPNUMB": "13864",
+        "PIACR": "2.03",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "258",
+        "TIDPNUMB": "13866",
+        "PIACR": "18.83",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "259",
+        "TIDPNUMB": "13867",
+        "PIACR": "18.3",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "260",
+        "TIDPNUMB": "13873",
+        "PIACR": "0.95",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "261",
+        "TIDPNUMB": "13877",
+        "PIACR": "18.49",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "262",
+        "TIDPNUMB": "13905",
+        "PIACR": "19.07",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "263",
+        "TIDPNUMB": "13907",
+        "PIACR": "17.75",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "264",
+        "TIDPNUMB": "13926",
+        "PIACR": "19.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "265",
+        "TIDPNUMB": "13928",
+        "PIACR": "10.44",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "266",
+        "TIDPNUMB": "13931",
+        "PIACR": "4",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "267",
+        "TIDPNUMB": "13936",
+        "PIACR": "2.35",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "268",
+        "TIDPNUMB": "13989",
+        "PIACR": "77.64",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "269",
+        "TIDPNUMB": "13990",
+        "PIACR": "78.97",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "270",
+        "TIDPNUMB": "13993",
+        "PIACR": "37.19",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "271",
+        "TIDPNUMB": "13997",
+        "PIACR": "37.1",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "272",
+        "TIDPNUMB": "13998",
+        "PIACR": "80.23",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "273",
+        "TIDPNUMB": "14000",
+        "PIACR": "57.54",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "274",
+        "TIDPNUMB": "14006",
+        "PIACR": "147.44",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "275",
+        "TIDPNUMB": "14018",
+        "PIACR": "29.62",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "276",
+        "TIDPNUMB": "14029",
+        "PIACR": "5.73",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "277",
+        "TIDPNUMB": "14042",
+        "PIACR": "37.97",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "278",
+        "TIDPNUMB": "14043",
+        "PIACR": "19.55",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "279",
+        "TIDPNUMB": "14045",
+        "PIACR": "77.52",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "280",
+        "TIDPNUMB": "14052",
+        "PIACR": "10.59",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "281",
+        "TIDPNUMB": "14055",
+        "PIACR": "7.57",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "282",
+        "TIDPNUMB": "14056",
+        "PIACR": "2.59",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "283",
+        "TIDPNUMB": "14059",
+        "PIACR": "11.3",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "284",
+        "TIDPNUMB": "14060",
+        "PIACR": "10.65",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "285",
+        "TIDPNUMB": "14074",
+        "PIACR": "19.17",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "286",
+        "TIDPNUMB": "14075",
+        "PIACR": "37.99",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "287",
+        "TIDPNUMB": "14089",
+        "PIACR": "14.45",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "288",
+        "TIDPNUMB": "14091",
+        "PIACR": "18.64",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "289",
+        "TIDPNUMB": "14093",
+        "PIACR": "9.98",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "290",
+        "TIDPNUMB": "14096",
+        "PIACR": "121.36",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "291",
+        "TIDPNUMB": "26011",
+        "PIACR": "44.43",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "292",
+        "TIDPNUMB": "26896",
+        "PIACR": "9.59",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "293",
+        "TIDPNUMB": "26917",
+        "PIACR": "2.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "294",
+        "TIDPNUMB": "26918",
+        "PIACR": "2.81",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "295",
+        "TIDPNUMB": "26924",
+        "PIACR": "4.84",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "296",
+        "TIDPNUMB": "31633",
+        "PIACR": "7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "297",
+        "TIDPNUMB": "31634",
+        "PIACR": "2.39",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "298",
+        "TIDPNUMB": "31635",
+        "PIACR": "9.64",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "299",
+        "TIDPNUMB": "31636",
+        "PIACR": "8.63",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "300",
+        "TIDPNUMB": "31638",
+        "PIACR": "1.01",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "301",
+        "TIDPNUMB": "31639",
+        "PIACR": "4.35",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "302",
+        "TIDPNUMB": "31640",
+        "PIACR": "4.2",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "303",
+        "TIDPNUMB": "31717",
+        "PIACR": "9.4",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "304",
+        "TIDPNUMB": "31757",
+        "PIACR": "1.02",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "305",
+        "TIDPNUMB": "31758",
+        "PIACR": "1.01",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "306",
+        "TIDPNUMB": "31775",
+        "PIACR": "9.71",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "307",
+        "TIDPNUMB": "51819",
+        "PIACR": "14.13",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "308",
+        "TIDPNUMB": "54435",
+        "PIACR": "23.31",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "309",
+        "TIDPNUMB": "54671",
+        "PIACR": "18.57",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "310",
+        "TIDPNUMB": "54672",
+        "PIACR": "20",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "311",
+        "TIDPNUMB": "54674",
+        "PIACR": "311.29",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "312",
+        "TIDPNUMB": "54677",
+        "PIACR": "34.67",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "313",
+        "TIDPNUMB": "54685",
+        "PIACR": "14.82",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "314",
+        "TIDPNUMB": "54686",
+        "PIACR": "16.44",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "315",
+        "TIDPNUMB": "54688",
+        "PIACR": "7.34",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "316",
+        "TIDPNUMB": "54876",
+        "PIACR": "53.92",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "317",
+        "TIDPNUMB": "56277",
+        "PIACR": "32.19",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "318",
+        "TIDPNUMB": "58316",
+        "PIACR": "10",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "319",
+        "TIDPNUMB": "58317",
+        "PIACR": "9.8",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "320",
+        "TIDPNUMB": "58561",
+        "PIACR": "77.64",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "321",
+        "TIDPNUMB": "59692",
+        "PIACR": "1.5",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "322",
+        "TIDPNUMB": "60034",
+        "PIACR": "88.5",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "323",
+        "TIDPNUMB": "60050",
+        "PIACR": "63.84",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "324",
+        "TIDPNUMB": "60360",
+        "PIACR": "53.42",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "325",
+        "TIDPNUMB": "60363",
+        "PIACR": "50.52",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "326",
+        "TIDPNUMB": "60364",
+        "PIACR": "66.6",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "327",
+        "TIDPNUMB": "60476",
+        "PIACR": "9.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "328",
+        "TIDPNUMB": "60483",
+        "PIACR": "9.9",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "329",
+        "TIDPNUMB": "60736",
+        "PIACR": "22.11",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "330",
+        "TIDPNUMB": "60879",
+        "PIACR": "7.41",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "331",
+        "TIDPNUMB": "60880",
+        "PIACR": "19.11",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "332",
+        "TIDPNUMB": "60881",
+        "PIACR": "19.71",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "333",
+        "TIDPNUMB": "60947",
+        "PIACR": "35.4",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "334",
+        "TIDPNUMB": "60954",
+        "PIACR": "39.39",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "335",
+        "TIDPNUMB": "60955",
+        "PIACR": "39.57",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "336",
+        "TIDPNUMB": "60961",
+        "PIACR": "18.6",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "337",
+        "TIDPNUMB": "60973",
+        "PIACR": "18.7",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "338",
+        "TIDPNUMB": "61178",
+        "PIACR": "18.28",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "339",
+        "TIDPNUMB": "61185",
+        "PIACR": "38.79",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "340",
+        "TIDPNUMB": "61943",
+        "PIACR": "9.75",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "341",
+        "TIDPNUMB": "62172",
+        "PIACR": "9.75",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "342",
+        "TIDPNUMB": "62376",
+        "PIACR": "96.37",
+        "LASTIRRIGATION": "N"
+    },
+    {
+        "ID": "343",
+        "TIDPNUMB": "62384",
+        "PIACR": "5.49",
+        "LASTIRRIGATION": "N"
+    }
+]
