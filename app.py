@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy.sql import text, or_
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -57,7 +58,7 @@ class Sbxdtl(db.Model):
 #The following is the models for RHDB
 class Orders(db.Model):
     __bind_key__ = 'rhdb'
- 
+    
     combo = db.Column(db.String(17), primary_key=True)
     lat = db.Column(db.String(10))
     sg = db.Column(db.String(10))
@@ -389,6 +390,51 @@ def forders():
     except Exception as e:
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
+    
+@app.route('/updateOrder/<string:combo>', methods=['PUT'])
+def updateOrder(combo):
+    try:
+        # Get the order object to update
+        order = Orders.query.filter_by(combo=combo).first()
+
+        # Check if the order exists
+        if not order:
+            return jsonify({"error": "Order not found"}), 404
+
+        # Get the updated data from the request
+        data = request.json
+
+        # Update the order object
+        order.lat = data.get('lat', order.lat)
+        order.sg = data.get('sg', order.sg)
+        order.name = data.get('name', order.name)
+        order.phone = data.get('phone', order.phone)
+        order.flow = data.get('flow', order.flow)
+        order.hours = data.get('hours', order.hours)
+        order.acre = data.get('acre', order.acre)
+        order.crop = data.get('crop', order.crop)
+        order.type = data.get('type', order.type)
+        order.date = datetime.strptime(data.get('date'), '%Y-%m-%d') if data.get('date') else order.date
+        order.trantime = data.get('trantime', order.trantime)
+        order.ex = data.get('ex', order.ex)
+        order.final = data.get('final', order.final)
+        order.comment = data.get('comment', order.comment)
+        order.sbxcfs = data.get('sbxcfs', order.sbxcfs)
+        order.deleted = data.get('deleted', order.deleted)
+        order.sa = data.get('sa', order.sa)
+        order.head = data.get('head', order.head)
+        order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
+        order.est_finish = datetime.strptime(data.get('est_finish'), '%Y-%m-%d %H:%M:%S') if data.get('est_finish') else order.est_finish
+        order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
+
+        # Commit the changes to the database
+        db.session.commit()
+
+        return jsonify({"message": "Order updated successfully"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 
 @app.route('/morders', methods=['GET'])
@@ -509,7 +555,7 @@ def h1():
                 rhdb.orders orders
             WHERE 
                  (
-                   orders.heads='h1'             
+                   orders.heads='H1'             
                   );
         """)
         
