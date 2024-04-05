@@ -1,5 +1,5 @@
 INSERT IGNORE INTO rhdb.orders 
-  ('COMBO', 'LAT', 'SG', 'NAME', 'PHONE', 'FLOW', 'HOURS', 'ACRE', 'CROP', 'TYPE', 'DATE', 'TRANTIME', 'EX', 'FINAL', 'COMMENT', 'SBXCFS', 'DELETED', 'SA')
+  (`COMBO`, `LAT`, `SG`, `NAME`, `PHONE`, `FLOW`, `HOURS`, `ACRE`, `CROP`, `TYPE`, `DATE`, `TRANTIME`, `EX`, `FINAL`, `COMMENT`, `SBXCFS`, `DELETED`, `SA`)
 SELECT 
   CONCAT(TRIM(event.PARCEL), '  ', TRIM(event.WATERID)) AS 'COMBO', 
   event.LATERAL AS 'LAT', 

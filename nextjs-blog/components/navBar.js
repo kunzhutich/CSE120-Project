@@ -3,6 +3,10 @@ import {Typography, Box, Toolbar, AppBar, IconButton, Tooltip, Dialog, DialogTit
         DialogContent, Button} from '@mui/material';
 import Link from 'next/link';
 import Router, {useRouter} from 'next/router';
+import SettingsIcon from '@mui/icons-material/Settings';
+import SearchInput from './search';
+
+const settings = [];
 
 export default function NavBar() {
   const router = useRouter();
@@ -72,7 +76,30 @@ export default function NavBar() {
             </Button>
           </Link>
         </Box>
-        
+
+        <SearchInput/>
+        {/* Opens the settings dialog when the settings icon is clicked */}
+        <Box sx={{display:'flex', justifyContent:'flex-end'}}>
+            <Tooltip title="Open settings">
+              <IconButton onClick={handleOpenSettingsDialog} sx={{p:0}}>
+                  <SettingsIcon sx={{color: 'white'}}/>
+              </IconButton>
+            </Tooltip>
+            <Dialog open={openSettingsDialog} onClose={handleCloseSettingsDialog}>
+              <DialogTitle>Settings</DialogTitle>
+              <DialogContent sx={{
+                  width: '300px',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+              }}>
+                {settings.map((setting) => (
+                  <Typography key={setting} textAlign="left" sx={{my:1}}>
+                    {setting}
+                  </Typography>
+                ))}
+              </DialogContent>
+            </Dialog>
+          </Box>
       </Toolbar>
     </AppBar>
   );

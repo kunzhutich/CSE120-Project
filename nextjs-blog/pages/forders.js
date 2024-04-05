@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from "../components/navBar";
-import FTable from "../components/fTable";
-
+import BasicTable from "../components/test_Table";
 
 export default function forders() {
     const [orders, setOrders] = useState([]); // Initialize orders state as an empty array
@@ -10,19 +9,8 @@ export default function forders() {
         // Function to fetch orders data from Flask API
         const fetchOrders = async () => {
             try {
-                const sa = sessionStorage.getItem('sa'); // Retrieve the SA value from sessionStorage
-
-                const response = await fetch('http://127.0.0.1:5000/forders', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'SA': sa,
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                const response = await fetch('http://localhost:5000/forders'); // for windows
+                // const response = await fetch('http://127.0.0.1:5000/forders'); // for mac
                 const data = await response.json();
                 setOrders(data); // Update the orders state with the fetched data
             } catch (error) {
@@ -36,8 +24,9 @@ export default function forders() {
     return (
         <div>
             <NavBar/>
-            <FTable/>
+            <h1>F Orders</h1>
             <div>
+            <BasicTable />
                 {orders.length > 0 ? (
                     orders.map((order, index) => (
                         <div key={index}>

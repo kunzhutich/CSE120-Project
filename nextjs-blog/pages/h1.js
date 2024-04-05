@@ -1,11 +1,11 @@
 import NavBar from "../components/navBar";
-import HeadTable from "../components/headTable";
+import Tables from "../components/tables";
 
 export default function h1() {
     return (
         <div>
             <NavBar/>
-            <HeadTable/>
+            <Tables/>
         </div>
     );
 }
