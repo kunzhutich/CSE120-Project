@@ -226,28 +226,28 @@ class Orders(db.Model):
 #     abnormal = db.Column(db.String(1))
 
 # class M(db.Model):
-    __bind_key__ = 'rhdb'
+    # __bind_key__ = 'rhdb'
  
-    combo = db.Column(db.String(17), primary_key=True)
-    lat = db.Column(db.String(10))
-    sg = db.Column(db.String(10))
-    name = db.Column(db.String(100))
-    phone = db.Column(db.String(10))
-    flow = db.Column(db.Float())
-    hours = db.Column(db.Float())
-    est_start = db.Column(db.DateTime())
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
-    prime_total = db.Column(db.Integer())
-    total_hours = db.Column(db.Integer())
-    called = db.Column(db.String(1))
-    wdo_notes = db.Column(db.String(255))
-    comment = db.Column(db.String(255))
-    abnormal = db.Column(db.String(1))
+    # combo = db.Column(db.String(17), primary_key=True)
+    # lat = db.Column(db.String(10))
+    # sg = db.Column(db.String(10))
+    # name = db.Column(db.String(100))
+    # phone = db.Column(db.String(10))
+    # flow = db.Column(db.Float())
+    # hours = db.Column(db.Float())
+    # est_start = db.Column(db.DateTime())
+    # prime_date = db.Column(db.Date())
+    # prime_time = db.Column(db.Integer())
+    # start_date = db.Column(db.Date())
+    # start_time = db.Column(db.Integer())
+    # finish_date = db.Column(db.Date())
+    # finish_time = db.Column(db.Integer())
+    # prime_total = db.Column(db.Integer())
+    # total_hours = db.Column(db.Integer())
+    # called = db.Column(db.String(1))
+    # wdo_notes = db.Column(db.String(255))
+    # comment = db.Column(db.String(255))
+    # abnormal = db.Column(db.String(1))
 
 class WDO(db.Model):
     __bind_key__ = 'rhdb'
@@ -368,6 +368,7 @@ def forders():
                 "lat": order.lat, 
                 "sg": order.sg,
                 "name": order.name,
+                "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
                 "acre": order.acre,
@@ -392,7 +393,7 @@ def forders():
 
 
 @app.route('/morders', methods=['GET'])
-def forders():
+def morders():
     try:
         sa = request.headers.get('SA')
 
