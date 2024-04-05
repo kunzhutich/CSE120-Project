@@ -70,6 +70,7 @@ function CustomToolbar() {
   );
 }
 export default function HeadTable() {
+  // Hides row ids
   const [columnVisibilityModel, setColumnVisibilityModel] = React.useState({
     id: false
   })

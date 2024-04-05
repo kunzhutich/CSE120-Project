@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+  GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 // Creates column definitions for the DataGrid
 const columns = [
@@ -50,7 +50,7 @@ function CustomToolbar() {
   );
 }
 
-export default function FTable() {
+export default function FSTables() {
   const [columnVisibilityModel, setColumnVisibilityModel] = React.useState({
     id: false
   })
