@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import {DataGrid} from '@mui/x-data-grid';
+import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+  GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 // Creates column definitions for the DataGrid
 const columns = [
@@ -31,13 +32,35 @@ const rows = [
   },
 ];
 
-export default function FTable() {
+function CustomToolbar() {
   return (
-    <Box sx = {{height: 'auto', width: '100%'}}>
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector
+        slotProps={{ tooltip: { title: 'Change density' } }}
+      />
+    </GridToolbarContainer>
+  );
+}
+
+export default function FTable() {
+  const [columnVisibilityModel, setColumnVisibilityModel] = React.useState({
+    id: false
+  })
+
+  return (
+    <Box sx = {{height: 'auto', width: '100%', paddingLeft: 4, paddingRight: 4}}>
       <DataGrid
       rows={rows}
       columns={columns}
       hideFooter
+
+      slots={{
+        toolbar: CustomToolbar
+      }}
+
+      columnVisibilityModel={columnVisibilityModel}
       />
     </Box>
   );
