@@ -15,11 +15,11 @@ const columns = [
   { field: 'acre', headerName: 'Acre', flex: 1 },
   { field: 'crop', headerName: 'Crop', flex: 1 },
   { field: 'type', headerName: 'Type', flex: 1 },
-  { field: 'date', headerName: 'Date', flex: 1 },
+  { field: 'date', headerName: 'Date', editable: true, flex: 1 },
   { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
-  { field: 'head', headerName: 'Head', flex: 1 },
-  { field: 'estStart', headerName: 'Est Start', flex: 1 },
-  { field: 'estStop', headerName: 'Est Stop', flex: 1 },
+  { field: 'head', headerName: 'Head', editable: true, flex: 1 },
+  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
+  { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
 ];
 
 // Creates row data for the DataGrid
@@ -37,16 +37,7 @@ export default function FTable() {
       <DataGrid
       rows={rows}
       columns={columns}
-      initialState={{
-        pagination: {
-          paginationModel: {
-            pageSize: 5
-          },
-        },
-      }}
-      pageSizeOptions={[5]}
-      checkBoxSelection
-      disableRowSelectionOnClick
+      hideFooter
       />
     </Box>
   );
