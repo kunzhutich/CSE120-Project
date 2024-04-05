@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-  GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
-  const columns = [
+const columns = [
     { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
     { field: 'lat', headerName: 'Lat', flex: 1 },
     { field: 'sg', headerName: 'SG', flex: 1 },
@@ -66,11 +66,10 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: 847, width: '100%', paddingLeft: 4, paddingRight: 4}}>
+        <Box sx={{height: 'auto', width: '100%', position: 'static', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
             <DataGrid
                 rows={orders}
                 columns={columns}
-                pageSize={5}
                 hideFooter
                 
                 slots={{

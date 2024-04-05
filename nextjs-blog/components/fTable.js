@@ -67,11 +67,13 @@ export default function FTable() {
     }, []);
 
     return (
-        <Box sx={{height: '100%', width: '100%', paddingLeft: 4, paddingRight: 4}}>
-        <Box sx={{ height: '100%', width: '100%' }}>
+        <Box sx={{height: '100%', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
             <DataGrid
                 rows={orders}
                 columns={columns}
+                containerProps={{
+                  sx: {overflowY: '100px'}
+                }}
                 pageSize={5}
                 hideFooter
                 
