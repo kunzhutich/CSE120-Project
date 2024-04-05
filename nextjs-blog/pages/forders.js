@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from "../components/navBar";
+import FTable from "../components/fTable";
 
 export default function forders() {
     const [orders, setOrders] = useState([]); // Initialize orders state as an empty array
@@ -21,7 +22,6 @@ export default function forders() {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
                 }
-
                 const data = await response.json();
                 setOrders(data); // Update the orders state with the fetched data
             } catch (error) {
@@ -35,7 +35,7 @@ export default function forders() {
     return (
         <div>
             <NavBar/>
-            <h1>F Orders</h1>
+            <FTable/>
             <div>
                 {orders.length > 0 ? (
                     orders.map((order, index) => (

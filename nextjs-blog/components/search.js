@@ -3,6 +3,7 @@ import { alpha, styled } from '@mui/material/styles';
 import React, { } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 
+// Create a styled component for the search bar
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -13,7 +14,7 @@ const Search = styled('div')(({ theme }) => ({
     marginRight: theme.spacing(2),
     marginLeft: 4,
 }));
-
+// Create a styled component for the search icon
 const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
@@ -23,7 +24,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'center',
 }));
-
+// Create a styled component for the search input
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
     '& .MuiInputBase-input': {
@@ -34,7 +35,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const SearchInput = () => {
-
+// Creates the search bar componenet
     return (
         <Search>
             <SearchIconWrapper>
