@@ -5,10 +5,10 @@ import { DataGrid } from '@mui/x-data-grid';
 // Define the columns for the DataGrid
 const columns = [
     { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
-    { field: 'lateral', headerName: 'Lat', flex: 1 },
+    { field: 'lat', headerName: 'Lat', flex: 1 },
     { field: 'sg', headerName: 'SG', flex: 1 },
     { field: 'name', headerName: 'Name', flex: 2 },
-    { field: 'phoneNumber', headerName: 'Phone', flex: 1 },
+    { field: 'phone', headerName: 'Phone', flex: 1 },
     { field: 'flow', headerName: 'Flow', flex: 1 },
     { field: 'hours', headerName: 'Hours', flex: 1 },
     { field: 'acre', headerName: 'Acre', flex: 1 },

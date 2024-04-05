@@ -368,6 +368,7 @@ def forders():
                 "lat": order.lat, 
                 "sg": order.sg,
                 "name": order.name,
+                "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
                 "acre": order.acre,
