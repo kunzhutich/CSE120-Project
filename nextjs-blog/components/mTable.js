@@ -35,14 +35,14 @@ function CustomToolbar() {
   );
 }
 
-export default function FTable() {
+export default function MTable() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:5000/forders', {
+                const response = await fetch('http://127.0.0.1:5000/morders', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

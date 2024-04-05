@@ -1,20 +1,10 @@
-import React, {useState} from 'react';
-import {Typography, Box, Toolbar, AppBar, IconButton, Tooltip, Dialog, DialogTitle,
-        DialogContent, Button} from '@mui/material';
+import React from 'react';
+import {Box, Toolbar, AppBar, Button} from '@mui/material';
 import Link from 'next/link';
-import Router, {useRouter} from 'next/router';
+import {useRouter} from 'next/router';
 
 export default function NavBar() {
   const router = useRouter();
-  const [openSettingsDialog, setOpenSettingsDialog] = React.useState(false);
-
-  const handleOpenSettingsDialog = () => {
-    setOpenSettingsDialog(true); // Opens the settings dialog
-  };
-
-  const handleCloseSettingsDialog = () => {
-    setOpenSettingsDialog(false); // Closes the settings dialog
-  };
 
   return (
     <AppBar position="static" sx={{backgroundColor: '#00587c'}}>
@@ -72,7 +62,7 @@ export default function NavBar() {
             </Button>
           </Link>
         </Box>
-        
+
       </Toolbar>
     </AppBar>
   );
