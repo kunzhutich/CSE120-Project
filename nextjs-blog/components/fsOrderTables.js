@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+  GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
-// Define the columns for the DataGrid
-const columns = [
+  const columns = [
     { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
     { field: 'lat', headerName: 'Lat', flex: 1 },
     { field: 'sg', headerName: 'SG', flex: 1 },
@@ -34,7 +33,7 @@ function CustomToolbar() {
   );
 }
 
-export default function FTable() {
+export default function FSTable() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
@@ -67,7 +66,7 @@ export default function FTable() {
     }, []);
 
     return (
-        <Box sx={{height: '100%', width: '100%', paddingLeft: 4, paddingRight: 4}}>
+        <Box sx={{height: 847, width: '100%', paddingLeft: 4, paddingRight: 4}}>
             <DataGrid
                 rows={orders}
                 columns={columns}

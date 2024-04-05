@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbar, DataGrid} from '@mui/x-data-grid';
+import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+  GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 // Creates column definitions for the DataGrid
 const columns = [
-  { field: 'id', headerName: '', width: 30 },
+  { field: 'id', headerName: '', width: 30, hide: true },
   { field: 'head', headerName: 'Head', flex: 2 },
   { field: 'lateral', headerName: 'Lateral', flex: 1 },
   { field: 'contact', headerName: 'Contact', flex: 2 },
@@ -48,6 +49,12 @@ const rows = [
     hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
     startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
     primeTotal: '7:55', totalHour: '3:05', called: 'o'
+  },
+  { id: 5, head: ' ', lateral: ' ', sg: ' ',
+    contact: ' ', phoneNumber: ' ', rqstFlo: ' ',
+    hours: ' ', estStart: ' ', primeDate: ' ', primeTime: ' ',
+    startDate: ' ', startTime: ' ', finishDate: ' ', finishTime: ' ',
+    primeTotal: ' ', totalHour: '', called: ' '
   }
 ];
 
@@ -59,26 +66,19 @@ function CustomToolbar() {
       <GridToolbarDensitySelector
         slotProps={{ tooltip: { title: 'Change density' } }}
       />
-      <Box sx={{ flexGrow: 1 }} />
-      <GridToolbarExport
-        slotProps={{
-          tooltip: { title: 'Export data' },
-          button: { variant: 'outlined' },
-        }}
-      />
     </GridToolbarContainer>
   );
 }
 export default function HeadTable() {
   return (
-    <Box sx = {{height: 847, width: '100%'}}>
+    <Box sx = {{height: 'auto', width: '100%', paddingLeft: 4, paddingRight: 4}}>
       <DataGrid
       rows={rows}
       columns={columns}
       hideFooter
 
       slots={{
-        toolbar: GridToolbar,
+        toolbar: CustomToolbar
       }}
       />
     </Box>
