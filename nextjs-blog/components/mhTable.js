@@ -5,26 +5,9 @@ import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 
+
 // Define the columns for the DataGrid
 // Creates column definitions for the DataGrid
-const columns = [
-  { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
-  { field: 'lat', headerName: 'Lat', flex: 1 },
-  { field: 'sg', headerName: 'SG', flex: 1 },
-  { field: 'name', headerName: 'Name', flex: 2 },
-  { field: 'phone', headerName: 'Phone', flex: 1 },
-  { field: 'flow', headerName: 'Flow', flex: 1 },
-  { field: 'hours', headerName: 'Hours', flex: 1 },
-  { field: 'acre', headerName: 'Acre', flex: 1 },
-  { field: 'crop', headerName: 'Crop', flex: 1 },
-  { field: 'type', headerName: 'Type', flex: 1 },
-  { field: 'date', headerName: 'Date', editable: true, flex: 1 },
-  { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
-  { field: 'head', headerName: 'Head', editable: true, flex: 1 },
-  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
-  { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
-];
-
 const mhcolumns = [
     { field: 'id', headerName: '', width: 30 },
     { field: 'lateral', headerName: 'Lat', flex: 2 },
@@ -62,50 +45,8 @@ function CustomToolbar() {
   );
 }
 
-export default function MTable() {
-    const [orders, setOrders] = useState([]);
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:5000/morders', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'SA': sa,
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                // Map the fetched data to include a unique 'id' for each row using 'combo'
-                const formattedData = data.map((item) => ({
-                    ...item,
-                    id: item.combo, // Use `combo` as the `id`
-                }));
-                setOrders(formattedData);
-            } catch (error) {
-                console.error("Failed to fetch orders:", error);
-            }
-        };
-
-        fetchOrders();
-    }, []);
-
-    return (
-        <Box sx={{ height: '100%', width: '100%' }}>
-            <DataGrid
-                rows={orders}
-                columns={columns}
-                pageSize={5}
-            />
-        </Box>
-    );
-}
-
-export function MHTable() {
+export default function MHTable() {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -137,12 +78,27 @@ export function MHTable() {
       fetchOrders();
   }, []);
 
+      // Function to apply row striping
+    const getRowStyle = (params) => {
+        // Define styles for even and odd rows
+        const evenRowStyle = {
+            backgroundColor: '#f0f0f0', // Light gray
+        };
+        const oddRowStyle = {
+            backgroundColor: '#ffffff', // White
+        };
+
+        // Return the appropriate style based on the row index
+        return params.rowIndex % 2 === 0 ? evenRowStyle : oddRowStyle;
+    };
+
   return (
-      <Box sx={{ height: '100%', width: '100%' }}>
+      <Box sx={{ height: '100 vh', width: '100 vh' }}>
           <DataGrid
               rows={orders}
               columns={mhcolumns}
               pageSize={5}
+              getRowStyle={getRowStyle}
           />
       </Box>
   );
