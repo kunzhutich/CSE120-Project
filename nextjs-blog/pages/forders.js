@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import NavBar from "../components/navBar";
 import FTable from "../components/fTable";
 
+
 export default function forders() {
     const [orders, setOrders] = useState([]); // Initialize orders state as an empty array
 
