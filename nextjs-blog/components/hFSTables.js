@@ -70,6 +70,7 @@ return (
         <DataGrid
             rows={orders}
             columns={columns}
+            hideFooter
 
             slots={{
                 toolbar: CustomToolbar
