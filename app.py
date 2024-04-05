@@ -368,7 +368,7 @@ def forders():
 
 
 @app.route('/h1', methods=['GET'])
-def forders():
+def h1():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
@@ -417,7 +417,7 @@ def forders():
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
 @app.route('/h2', methods=['GET'])
-def forders():
+def h2():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
@@ -466,7 +466,7 @@ def forders():
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
 @app.route('/h3', methods=['GET'])
-def forders():
+def h3():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
@@ -510,7 +510,7 @@ def forders():
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
 @app.route('/h4', methods=['GET'])
-def forders():
+def h4():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
@@ -559,7 +559,7 @@ def forders():
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
 @app.route('/h5', methods=['GET'])
-def forders():
+def h5():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
