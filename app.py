@@ -428,6 +428,245 @@ def forders():
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
 
+@app.route('/h1', methods=['GET'])
+def forders():
+    try:
+        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+        transfer_query = text("""
+            INSERT IGNORE INTO rhdb.head1
+                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
+                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
+                orders.COMBO AS 'COMBO', 
+                orders.LATERAL AS 'LAT', 
+                orders.SIDEGATE AS 'SG', 
+                orders.NAME1 AS 'NAME', 
+                orders.COMMENT AS 'COMMENT'
+            FROM 
+                rhdb.orders orders
+            WHERE 
+                 (
+                   orders.heads='h1'             
+                  );
+        """)
+        
+        # with db.engine.connect() as connection:
+        #     result = connection.execute(transfer_query)
+        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
+
+        with db.engine.begin() as connection:
+            connection.execute(transfer_query)
+            print("Data transfer successful.")
+        
+        # Now, query the RHDB.Orders to fetch the transferred data
+        orders_query = Orders.query.all()
+        
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat, 
+                "sg": order.sg,
+                "name": order.name,
+                "comment": order.comment
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+
+@app.route('/h2', methods=['GET'])
+def forders():
+    try:
+        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+        transfer_query = text("""
+            INSERT IGNORE INTO rhdb.head2
+                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
+                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
+                orders.COMBO AS 'COMBO', 
+                orders.LATERAL AS 'LAT', 
+                orders.SIDEGATE AS 'SG', 
+                orders.NAME1 AS 'NAME', 
+                orders.COMMENT AS 'COMMENT'
+            FROM 
+                rhdb.orders orders
+            WHERE 
+                 (
+                   orders.heads='h2'             
+                  );
+        """)
+        
+        # with db.engine.connect() as connection:
+        #     result = connection.execute(transfer_query)
+        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
+
+        with db.engine.begin() as connection:
+            connection.execute(transfer_query)
+            print("Data transfer successful.")
+        
+        # Now, query the RHDB.Orders to fetch the transferred data
+        orders_query = Orders.query.all()
+        
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat, 
+                "sg": order.sg,
+                "name": order.name,
+                "comment": order.comment
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+    
+@app.route('/h3', methods=['GET'])
+def forders():
+    try:
+        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+        transfer_query = text("""
+            INSERT IGNORE INTO rhdb.head3
+                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
+                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
+                orders.COMBO AS 'COMBO', 
+                orders.LATERAL AS 'LAT', 
+                orders.SIDEGATE AS 'SG', 
+                orders.NAME1 AS 'NAME', 
+                orders.COMMENT AS 'COMMENT'
+            FROM 
+                rhdb.orders orders
+            WHERE 
+                 (
+                   orders.heads='h3'             
+                  );
+        """)
+
+        with db.engine.begin() as connection:
+            connection.execute(transfer_query)
+            print("Data transfer successful.")
+
+        orders_query = Orders.query.all()
+        
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat, 
+                "sg": order.sg,
+                "name": order.name,
+                "comment": order.comment
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+    
+@app.route('/h4', methods=['GET'])
+def forders():
+    try:
+        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+        transfer_query = text("""
+            INSERT IGNORE INTO rhdb.head4
+                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
+                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
+                orders.COMBO AS 'COMBO', 
+                orders.LATERAL AS 'LAT', 
+                orders.SIDEGATE AS 'SG', 
+                orders.NAME1 AS 'NAME', 
+                orders.COMMENT AS 'COMMENT'
+            FROM 
+                rhdb.orders orders
+            WHERE 
+                 (
+                   orders.heads='h4'             
+                  );
+        """)
+        
+        # with db.engine.connect() as connection:
+        #     result = connection.execute(transfer_query)
+        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
+
+        with db.engine.begin() as connection:
+            connection.execute(transfer_query)
+            print("Data transfer successful.")
+        
+        # Now, query the RHDB.Orders to fetch the transferred data
+        orders_query = Orders.query.all()
+        
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat, 
+                "sg": order.sg,
+                "name": order.name,
+                "comment": order.comment
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+    
+@app.route('/h5', methods=['GET'])
+def forders():
+    try:
+        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
+        transfer_query = text("""
+            INSERT IGNORE INTO rhdb.head5
+                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
+                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
+                orders.COMBO AS 'COMBO', 
+                orders.LATERAL AS 'LAT', 
+                orders.SIDEGATE AS 'SG', 
+                orders.NAME1 AS 'NAME', 
+                orders.COMMENT AS 'COMMENT'
+            FROM 
+                rhdb.orders orders
+            WHERE 
+                 (
+                   orders.heads='h5'             
+                  );
+        """)
+        
+        # with db.engine.connect() as connection:
+        #     result = connection.execute(transfer_query)
+        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
+
+        with db.engine.begin() as connection:
+            connection.execute(transfer_query)
+            print("Data transfer successful.")
+        
+        # Now, query the RHDB.Orders to fetch the transferred data
+        orders_query = Orders.query.all()
+        
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat, 
+                "sg": order.sg,
+                "name": order.name,
+                "comment": order.comment
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
 
 
 

@@ -8,8 +8,8 @@ export default function forders() {
         // Function to fetch orders data from Flask API
         const fetchOrders = async () => {
             try {
-                // const response = await fetch('http://localhost:5000/forders'); // for windows
-                const response = await fetch('http://127.0.0.1:5000/forders'); // for mac
+                const response = await fetch('http://localhost:5000/forders'); // for windows
+                // const response = await fetch('http://127.0.0.1:5000/forders'); // for mac
                 const data = await response.json();
                 setOrders(data); // Update the orders state with the fetched data
             } catch (error) {
