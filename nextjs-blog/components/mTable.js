@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
+
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
@@ -34,14 +35,14 @@ function CustomToolbar() {
   );
 }
 
-export default function FTable() {
+export default function MTable() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:5000/forders', {
+                const response = await fetch('http://127.0.0.1:5000/morders', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,17 +68,11 @@ export default function FTable() {
     }, []);
 
     return (
-        <Box sx={{height: '100%', width: '100%', paddingLeft: 4, paddingRight: 4}}>
         <Box sx={{ height: '100%', width: '100%' }}>
             <DataGrid
                 rows={orders}
                 columns={columns}
                 pageSize={5}
-                hideFooter
-                
-                slots={{
-                  toolbar: CustomToolbar
-                }}
             />
         </Box>
     );
