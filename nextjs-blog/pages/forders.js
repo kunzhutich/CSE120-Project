@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from "../components/navBar";
+import FTable from "../components/fTable";
 
 export default function forders() {
     const [orders, setOrders] = useState([]); // Initialize orders state as an empty array
@@ -23,7 +24,7 @@ export default function forders() {
     return (
         <div>
             <NavBar/>
-            <h1>F Orders</h1>
+            <FTable/>
             <div>
                 {orders.length > 0 ? (
                     orders.map((order, index) => (
@@ -47,7 +48,7 @@ export default function forders() {
                             <p>SA: {order.sa}</p>
                         </div>
                     ))
-                ) : (
+                    ) : (
                     <p>No orders found.</p>
                 )}
             </div>
