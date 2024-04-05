@@ -68,13 +68,11 @@ export default function FTable() {
     }, []);
 
     return (
-        <Box sx={{ height: 400, width: '100%' }}>
+        <Box sx={{ height: '100%', width: '100%' }}>
             <DataGrid
                 rows={orders}
                 columns={columns}
                 pageSize={5}
-                rowsPerPageOptions={[5, 10, 20]}
-                checkboxSelection
             />
         </Box>
     );
