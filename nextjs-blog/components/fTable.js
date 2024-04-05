@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
+
+import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 // Define the columns for the DataGrid
 const columns = [
@@ -20,6 +22,18 @@ const columns = [
     { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
 ];
+
+function CustomToolbar() {
+  return (
+    <GridToolbarContainer>
+      <GridToolbarColumnsButton />
+      <GridToolbarFilterButton />
+      <GridToolbarDensitySelector
+        slotProps={{ tooltip: { title: 'Change density' } }}
+      />
+    </GridToolbarContainer>
+  );
+}
 
 export default function FTable() {
     const [orders, setOrders] = useState([]);
