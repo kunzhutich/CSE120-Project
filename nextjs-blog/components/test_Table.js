@@ -1,8 +1,8 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 const BasicTable = ({ orders }) => {
+  // Define custom styles
   const tableStyle = {
     minWidth: 650,
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
