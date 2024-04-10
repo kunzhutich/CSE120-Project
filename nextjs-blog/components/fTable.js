@@ -42,7 +42,7 @@ export default function FTable() {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:8000/forders', {
+                const response = await fetch('http://127.0.0.1:5000/forders', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

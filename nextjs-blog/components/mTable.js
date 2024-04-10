@@ -42,7 +42,7 @@ export default function MTable() {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:8000/morders', {
+                const response = await fetch('http://127.0.0.1:5000/morders', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
