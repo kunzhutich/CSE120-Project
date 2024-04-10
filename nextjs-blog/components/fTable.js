@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
@@ -67,38 +66,52 @@ export default function FTable() {
         fetchOrders();
     }, []);
 
-    const handleCellEditCommit = async ({ id, field, value }) => {
+    
+    const handleCellEditCommit = async (updatedRow) => {
         try {
-            // Find the order object in the orders array based on its id (combo)
+            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
             const updatedOrders = orders.map(order =>
-                order.id === id ? { ...order, [field]: value } : order
+                order.id === id ? { ...order, ...updatedOrder } : order
             );
             setOrders(updatedOrders);
 
             // Send the updated data to your backend API for saving
-            await fetch(`http://127.0.0.1:5000/updateOrder/${id}`, {  // Updated endpoint with id
-                method: 'PUT',  // Changed from POST to PUT
+            const sa = sessionStorage.getItem('sa');
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${id}`, {
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'SA': sessionStorage.getItem('sa'),
+                    'SA': sa,
                 },
-                body: JSON.stringify({ [field]: value }),  // Sending only the updated field and value
+                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
             });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
         } catch (error) {
-            console.error('Failed to update order:', error);
-    }
-};
+          console.error('Failed to update order:', error);
+          };
+    };
 
+    const handleProcessRowUpdateError = React.useCallback((error) => {
+        console.log(error);
+    }, []);
+
+    
 
     return (
         <Box sx={{ height: '100%', width: '100%' }}>
             <DataGrid
+                editMode = "cell"
                 rows={orders}
                 columns={columns}
                 pageSize={5}
                 rowsPerPageOptions={[5, 10, 20]}
                 checkboxSelection
-                onCellEditCommit={handleCellEditCommit}
+                processRowUpdate={(updatedRow, originalRow) =>
+                    handleCellEditCommit(updatedRow)
+                }
+                onProcessRowUpdateError={handleProcessRowUpdateError}
             />
         </Box>
     );

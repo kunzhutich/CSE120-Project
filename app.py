@@ -404,6 +404,7 @@ def updateOrder(combo):
 
         # Get the updated data from the request
         data = request.json
+        print(data)
 
         # Update the order object
         order.lat = data.get('lat', order.lat)
