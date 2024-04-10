@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import NavBar from "../components/navBar";
-import MTable from "../components/mTable";
+import MordersTable from "../components/mordersTable";
 
-export default function morders() {
+export default function morders(){
     return (
         <div>
             <NavBar/>
-            <MTable/>
+            <MordersTable/>
         </div>
     );
 }
