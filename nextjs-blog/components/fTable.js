@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid, gridClasses, GridToolbar} from '@mui/x-data-grid';
+        GridToolbarDensitySelector, DataGrid, gridClasses} from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
 
 const ODD_OPACITY = 0.2;
 
+// Adds alternating grey and white backgrounds to rows for visibility
 const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
   [`& .${gridClasses.row}.even`]: {
     backgroundColor: theme.palette.grey[200],
@@ -59,6 +60,7 @@ const columns = [
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
 ];
 
+// Custom toolbar for datagrid settings
 function CustomToolbar() {
   return (
     <GridToolbarContainer>

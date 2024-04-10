@@ -59,7 +59,7 @@ function CustomToolbar() {
 }
 export default function UNorderstable() {
   return (
-    <Box sx = {{height: '100vh', width: '100%'}}>
+    <Box sx = {{height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
       <DataGrid
       rows={rows}
       columns={columns}

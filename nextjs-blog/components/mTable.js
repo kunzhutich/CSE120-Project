@@ -22,6 +22,7 @@ const columns = [
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
 ];
 
+// Custom toolbar for datagrid settings
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -72,6 +73,8 @@ export default function MTable() {
                 rows={orders}
                 columns={columns}
                 pageSize={5}
+
+                hideFooter
 
                 slots={{
                     toolbar: CustomToolbar

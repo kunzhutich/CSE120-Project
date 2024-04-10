@@ -11,16 +11,12 @@ const columns = [
     { field: 'phone', headerName: 'Phone', flex: 1 },
     { field: 'flow', headerName: 'Flow', flex: 1 },
     { field: 'hours', headerName: 'Hours', flex: 1 },
-    { field: 'acre', headerName: 'Acre', flex: 1 },
     { field: 'crop', headerName: 'Crop', flex: 1 },
-    { field: 'type', headerName: 'Type', flex: 1 },
     { field: 'date', headerName: 'Date', editable: true, flex: 1 },
-    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
     { field: 'head', headerName: 'Head', editable: true, flex: 1 },
-    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
-    { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
 ];
 
+// Custom toolbar for datagrid settings
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -66,7 +62,7 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
+        <Box sx={{height: '100vh', width: '75vw', paddingTop: 9, paddingLeft: 4}}>
             <DataGrid
                 rows={orders}
                 columns={columns}
