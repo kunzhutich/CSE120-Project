@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
@@ -50,6 +49,7 @@ const mhcolumns = [
   ];
 
 
+// Custom toolbar for datagrid settings
 function CustomToolbar() {
   return (
     <GridToolbarContainer>
@@ -95,11 +95,17 @@ export default function MTable() {
     }, []);
 
     return (
-        <Box sx={{ height: '100%', width: '100%' }}>
+        <Box sx={{ height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4 }}>
             <DataGrid
                 rows={orders}
                 columns={columns}
                 pageSize={5}
+
+                hideFooter
+
+                slots={{
+                    toolbar: CustomToolbar
+                }}
             />
         </Box>
     );

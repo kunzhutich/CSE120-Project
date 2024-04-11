@@ -71,7 +71,7 @@ function CustomToolbar() {
 }
 export default function HeadTable() {
   return (
-    <Box sx = {{height: 'auto', width: '100%', paddingLeft: 4, paddingRight: 4}}>
+    <Box sx = {{height: 'auto', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
       <DataGrid
       rows={rows}
       columns={columns}
