@@ -58,7 +58,7 @@ export default function HFSTable() {
     }, []);
 
 return (
-    <Box sx = {{height: 420, width: '40vw', paddingLeft: 4, paddingRight: 4}}>
+    <Box sx = {{height: 420, width: '40vw', paddingLeft: 1, paddingRight: 4}}>
         <DataGrid
             rows={orders}
             columns={columns}
