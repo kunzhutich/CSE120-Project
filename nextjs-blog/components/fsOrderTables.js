@@ -50,8 +50,8 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: 800, width: '60vw', paddingLeft: 4, paddingTop: 2}}>
-            <StripedDataGrid
+        <Box sx={{height: 800, width: '60vw', paddingLeft: 4}}>
+            <DataGrid
                 rows={orders}
                 columns={columns}
                 hideFooter
