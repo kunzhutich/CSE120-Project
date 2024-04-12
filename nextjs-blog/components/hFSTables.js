@@ -47,7 +47,7 @@ export default function HFSTable() {
 
 return (
     <Box sx = {{height: 420, width: '40vw', paddingLeft: 4, paddingRight: 4}}>
-        <DataGrid
+        <StripedDataGrid
             rows={orders}
             columns={columns}
             hideFooter

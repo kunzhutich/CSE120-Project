@@ -51,7 +51,7 @@ export default function FSTable() {
 
     return (
         <Box sx={{height: 800, width: '60vw', paddingLeft: 4}}>
-            <DataGrid
+            <StripedDataGrid
                 rows={orders}
                 columns={columns}
                 hideFooter

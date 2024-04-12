@@ -95,13 +95,19 @@ export default function FTable() {
 
     return (
         <Box sx={{height: '100vh', width: '100%', paddingLeft: 4, paddingRight: 4}}>
-            <DataGrid
+            <StripedDataGrid
                 rows={orders}
                 columns={columns}
                 containerProps={{
                   sx: {overflowY: '100px'}
                 }}
                 pageSize={5}
+                slots={{
+                    toolbar: CustomToolbar
+                  }}
+                getRowClassName={(params) =>
+                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                  }
             />
         </Box>
     );
