@@ -1,45 +1,8 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid, gridClasses} from '@mui/x-data-grid';
-import { alpha, styled } from '@mui/material/styles';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
-const ODD_OPACITY = 0.2;
-
-// Adds alternating grey and white backgrounds to rows for visibility
-const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
-  [`& .${gridClasses.row}.even`]: {
-    backgroundColor: theme.palette.grey[200],
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
-      '@media (hover: none)': {
-        backgroundColor: 'transparent',
-      },
-    },
-    '&.Mui-selected': {
-      backgroundColor: alpha(
-        theme.palette.primary.main,
-        ODD_OPACITY + theme.palette.action.selectedOpacity,
-      ),
-      '&:hover': {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          ODD_OPACITY +
-            theme.palette.action.selectedOpacity +
-            theme.palette.action.hoverOpacity,
-        ),
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            ODD_OPACITY + theme.palette.action.selectedOpacity,
-          ),
-        },
-      },
-    },
-  },
-}));
 
 // Creates column definitions for the DataGrid
 const columns = [
@@ -62,19 +25,6 @@ const columns = [
   { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25 },
   { field: 'attention', headerName: 'Attention', editable: true, flex: 1 },
 ];
-
-// Custom toolbar for datagrid settings
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
 
 export default function MordersTable() {
   const [orders, setOrders] = useState([]);

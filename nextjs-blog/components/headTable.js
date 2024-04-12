@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-  GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
 // Creates column definitions for the DataGrid
 const columns = [
@@ -58,21 +58,10 @@ const rows = [
   }
 ];
 
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
 export default function HeadTable() {
   return (
     <Box sx = {{height: 'auto', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
-      <DataGrid
+      <StripedDataGrid
       rows={rows}
       columns={columns}
       hideFooter
@@ -80,6 +69,9 @@ export default function HeadTable() {
       slots={{
         toolbar: CustomToolbar
       }}
+      getRowClassName={(params) =>
+        params.rowIndex % 2 === 0 ? 'even' : 'odd'
+      }      
       />
     </Box>
   );

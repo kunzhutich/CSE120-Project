@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
 const columns = [
     { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
@@ -16,18 +16,6 @@ const columns = [
     { field: 'head', headerName: 'Head', editable: true, flex: 1 },
 ];
 
-// Custom toolbar for datagrid settings
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
 
 export default function FSTable() {
     const [orders, setOrders] = useState([]);
@@ -63,7 +51,7 @@ export default function FSTable() {
 
     return (
         <Box sx={{height: '100vh', width: '75vw', paddingTop: 9, paddingLeft: 4}}>
-            <DataGrid
+            <StripedDataGrid
                 rows={orders}
                 columns={columns}
                 hideFooter
@@ -71,6 +59,9 @@ export default function FSTable() {
                 slots={{
                   toolbar: CustomToolbar
                 }}
+                getRowClassName={(params) =>
+                    params.rowIndex % 2 === 0 ? 'even' : 'odd'
+                }
             />
         </Box>
     );

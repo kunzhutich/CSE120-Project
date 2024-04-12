@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+
 
 // Creates column definitions for the DataGrid
 const columns = [
@@ -11,19 +12,6 @@ const columns = [
     { field: 'hours', headerName: 'Hours', width: 75},
     { field: 'estStart', headerName: 'Est Start', editable: true},
 ];
-
-// Custom toolbar for datagrid settings
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
 
 export default function HFSTable() {
     const [orders, setOrders] = useState([]);
@@ -59,7 +47,7 @@ export default function HFSTable() {
 
 return (
     <Box sx = {{height: 400, width: '25vw', paddingTop: 8, paddingLeft: 4, paddingRight: 4}}>
-        <DataGrid
+        <StripedDataGrid
             rows={orders}
             columns={columns}
             hideFooter
@@ -67,6 +55,9 @@ return (
             slots={{
                 toolbar: CustomToolbar
             }}
+            getRowClassName={(params) =>
+                params.rowIndex % 2 === 0 ? 'even' : 'odd'
+              }
         />
     </Box>
     );

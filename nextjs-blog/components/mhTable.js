@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+// import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+// GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 
 
 // Define the columns for the DataGrid
 // Creates column definitions for the DataGrid
 const mhcolumns = [
-    { field: 'id', headerName: '', width: 30 },
+    { field: 'id', headerName: 'ID', width: 30 },
     { field: 'lateral', headerName: 'Lat', flex: 2 },
     { field: 'sg', headerName: 'SG', flex: 1 },
     { field: 'contact', headerName: 'Contact', flex: 1 },
@@ -33,17 +34,17 @@ const mhcolumns = [
   ];
 
 
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
+// function CustomToolbar() {
+//   return (
+//     <GridToolbarContainer>
+//       <GridToolbarColumnsButton />
+//       <GridToolbarFilterButton />
+//       <GridToolbarDensitySelector
+//         slotProps={{ tooltip: { title: 'Change density' } }}
+//       />
+//     </GridToolbarContainer>
+//   );
+// }
 
 
 export default function MHTable() {
@@ -78,27 +79,18 @@ export default function MHTable() {
       fetchOrders();
   }, []);
 
-      // Function to apply row striping
-    const getRowStyle = (params) => {
-        // Define styles for even and odd rows
-        const evenRowStyle = {
-            backgroundColor: '#f0f0f0', // Light gray
-        };
-        const oddRowStyle = {
-            backgroundColor: '#ffffff', // White
-        };
-
-        // Return the appropriate style based on the row index
-        return params.rowIndex % 2 === 0 ? evenRowStyle : oddRowStyle;
-    };
-
   return (
-      <Box sx={{ height: '100 vh', width: '100 vh' }}>
-          <DataGrid
+    <Box sx={{ height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 2, paddingRight: 2, paddingBottom: 2}}>
+          <StripedDataGrid
               rows={orders}
               columns={mhcolumns}
-              pageSize={5}
-              getRowStyle={getRowStyle}
+              pageSizeOptions={5}
+        slots={{
+          toolbar: CustomToolbar
+        }}
+        getRowClassName={(params) =>
+          params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+        }
           />
       </Box>
   );
