@@ -60,8 +60,8 @@ export default function FSTable() {
                   toolbar: CustomToolbar
                 }}
                 getRowClassName={(params) =>
-                    params.rowIndex % 2 === 0 ? 'even' : 'odd'
-                }
+                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                  }
             />
         </Box>
     );
