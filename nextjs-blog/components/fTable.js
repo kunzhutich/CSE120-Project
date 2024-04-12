@@ -94,8 +94,8 @@ export default function FTable() {
     
 
     return (
-        <Box sx={{height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
-            <StripedDataGrid
+        <Box sx={{height: '100vh', width: '100%', paddingLeft: 4, paddingRight: 4}}>
+            <DataGrid
                 rows={orders}
                 columns={columns}
                 containerProps={{
