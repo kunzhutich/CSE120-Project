@@ -47,17 +47,17 @@ export default function HFSTable() {
 
 return (
     <Box sx = {{height: 400, width: '25vw', paddingTop: 8, paddingLeft: 4, paddingRight: 4}}>
-        <StripedDataGrid
-            rows={orders}
-            columns={columns}
-            hideFooter
+      <StripedDataGrid
+      rows={orders}
+      columns={columns}
+      hideFooter
 
-            slots={{
-                toolbar: CustomToolbar
-            }}
-            getRowClassName={(params) =>
-                params.rowIndex % 2 === 0 ? 'even' : 'odd'
-              }
+      slots={{
+        toolbar: CustomToolbar
+      }}
+      getRowClassName={(params) =>
+        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+      }
         />
     </Box>
     );

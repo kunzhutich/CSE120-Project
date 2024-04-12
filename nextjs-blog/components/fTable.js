@@ -1,44 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid, gridClasses} from '@mui/x-data-grid';
-import { alpha, styled } from '@mui/material/styles';
-
-const ODD_OPACITY = 0.2;
-
-// Adds alternating grey and white backgrounds to rows for visibility
-const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
-  [`& .${gridClasses.row}.even`]: {
-    backgroundColor: theme.palette.grey[200],
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
-      '@media (hover: none)': {
-        backgroundColor: 'transparent',
-      },
-    },
-    '&.Mui-selected': {
-      backgroundColor: alpha(
-        theme.palette.primary.main,
-        ODD_OPACITY + theme.palette.action.selectedOpacity,
-      ),
-      '&:hover': {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          ODD_OPACITY +
-            theme.palette.action.selectedOpacity +
-            theme.palette.action.hoverOpacity,
-        ),
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            ODD_OPACITY + theme.palette.action.selectedOpacity,
-          ),
-        },
-      },
-    },
-  },
-}));
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
 
 // Define the columns for the DataGrid
@@ -59,19 +22,6 @@ const columns = [
     { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
 ];
-
-// Custom toolbar for datagrid settings
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
 
 export default function FTable() {
     const [orders, setOrders] = useState([]);
@@ -107,7 +57,7 @@ export default function FTable() {
 
     return (
         <Box sx={{height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
-            <DataGrid
+            <StripedDataGrid
                 rows={orders}
                 columns={columns}
                 containerProps={{
@@ -119,6 +69,10 @@ export default function FTable() {
                 slots={{
                   toolbar: CustomToolbar
                 }}
+                
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                }
             />
         </Box>
     );
