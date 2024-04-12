@@ -5,12 +5,12 @@ import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar compone
 // import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
 // GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
-
+//hihihihihihi
 
 // Define the columns for the DataGrid
 // Creates column definitions for the DataGrid
 const mhcolumns = [
-    { field: 'id', headerName: 'ID', width: 30 },
+    { field: 'id', headerName: 'id', width: 30 },
     { field: 'lateral', headerName: 'Lat', flex: 2 },
     { field: 'sg', headerName: 'SG', flex: 1 },
     { field: 'contact', headerName: 'Contact', flex: 1 },
