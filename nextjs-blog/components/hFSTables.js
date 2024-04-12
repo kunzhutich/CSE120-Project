@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
-import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 
 // Creates column definitions for the DataGrid
@@ -12,6 +12,19 @@ const columns = [
     { field: 'hours', headerName: 'Hours', width: 75},
     { field: 'estStart', headerName: 'Est Start', editable: true},
 ];
+
+// Custom toolbar for datagrid settings
+function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector
+          slotProps={{ tooltip: { title: 'Change density' } }}
+        />
+      </GridToolbarContainer>
+    );
+  }
 
 export default function HFSTable() {
     const [orders, setOrders] = useState([]);
