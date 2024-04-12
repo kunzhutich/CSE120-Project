@@ -414,6 +414,7 @@ def updateOrder(combo):
         print(order.head)
         print(data.get('head'))
         
+        
         # transferQuery = text("""
         # UPDATE rhdb.orders
         # SET 
@@ -447,6 +448,7 @@ def updateOrder(combo):
         #     print("Data update successful.")
 
         # Update the order object
+        
         order.lat = data.get('lat', order.lat)
         order.sg = data.get('sg', order.sg)
         order.name = data.get('name', order.name)
@@ -456,7 +458,7 @@ def updateOrder(combo):
         order.acre = data.get('acre', order.acre)
         order.crop = data.get('crop', order.crop)
         order.type = data.get('type', order.type)
-        order.date = datetime.strptime(data.get('date'), '%Y-%m-%d') if data.get('date') else order.date
+        # order.date = datetime.strptime(data.get('date'), '%Y-%m-%d %H:%M:%S') if data.get('date') else order.date
         order.trantime = data.get('trantime', order.trantime)
         order.ex = data.get('ex', order.ex)
         order.final = data.get('final', order.final)
@@ -464,11 +466,12 @@ def updateOrder(combo):
         order.sbxcfs = data.get('sbxcfs', order.sbxcfs)
         order.deleted = data.get('deleted', order.deleted)
         order.sa = data.get('sa', order.sa)
-        order.head = data.get('head', order.head)
-        print(order.head)
-        order.est_start = datetime.strptime(data.get('estStart'), '%Y-%m-%d %H:%M:%S') if data.get('estStart') else order.est_start
-        order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
-        order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
+        print(order.head == data.get('head'))
+        order.head = data.get('head')
+        print(order.head == data.get('head'))
+        order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
+        # order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
+        # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
 
         # Commit the changes to the database
         db.session.commit()
