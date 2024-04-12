@@ -11,7 +11,7 @@ const columns = [
     { field: 'phone', headerName: 'Phone', flex: 1 },
     { field: 'flow', headerName: 'Flow', flex: 1 },
     { field: 'hours', headerName: 'Hours', flex: 1 },
-    { field: 'crop', headerName: 'Crop', flex: 1 },
+    { field: 'crop', headerName: 'Crop', flex: 1},
     { field: 'date', headerName: 'Date', editable: true, flex: 1 },
     { field: 'head', headerName: 'Head', editable: true, flex: 1 },
 ];
@@ -62,7 +62,7 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: 800, width: '60vw', paddingTop: 9, paddingLeft: 4, position: 'sticky'}}>
+        <Box sx={{height: 800, width: '60vw', paddingLeft: 4}}>
             <DataGrid
                 rows={orders}
                 columns={columns}

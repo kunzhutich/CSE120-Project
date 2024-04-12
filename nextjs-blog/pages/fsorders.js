@@ -4,17 +4,19 @@ import HFSTable from "../components/hFSTables";
 
 export default function fsorders() {
     return (
-        <div style={{display: 'grid', gridTemplateColumns: 'auto 2fr'}}>
+        <div>
             <NavBar/>
-            <div style={{position: 'sticky'}}>
-                <FSTable/>
-            </div>
-            <div style={{paddingTop: 9}}>
-                <HFSTable/>
-                <HFSTable/>
-                <HFSTable/>
-                <HFSTable/>
-                <HFSTable/>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+                <div style={{position: 'sticky', top: 65, float: 'left'}}>
+                    <FSTable/>
+                </div>
+                <div>
+                    <HFSTable/>
+                    <HFSTable/>
+                    <HFSTable/>
+                    <HFSTable/>
+                    <HFSTable/>
+                </div>
             </div>
         </div>
     );
