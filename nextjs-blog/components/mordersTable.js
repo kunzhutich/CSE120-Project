@@ -6,24 +6,24 @@ import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar compone
 
 // Creates column definitions for the DataGrid
 const columns = [
-  { field: 'combo', headerName: 'Combo', flex: 2.5 },
-  { field: 'lat', headerName: 'Lat', flex: 1 },
-  { field: 'sg', headerName: 'SG', flex: 1 },
-  { field: 'name', headerName: 'Name1', flex: 1.5 },
-  { field: 'phone', headerName: 'Phone', flex: 1.5 },
-  { field: 'flow', headerName: 'Flow', flex: 1 },
-  { field: 'hours', headerName: 'Hours', flex: 1 },
-  // { field: 'type', headerName: 'Type', flex: 1 },
-  { field: 'date', headerName: 'Date', flex: 1 },
-  { field: 'tranTime', headerName: 'Trantime', flex: 1.5 },
-  { field: 'ex', headerName: 'EX', flex: 1 },
-  { field: 'final', headerName: 'Final', flex: 0.25 },
-  { field: 'comment', headerName: 'Comment', editable: true,  flex: 2 },
-  { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
-  { field: 'head', headerName: 'Head', editable: true, flex: 0.25 },
-  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1.25 },
-  { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25 },
-  { field: 'attention', headerName: 'Attention', editable: true, flex: 1 },
+  { field: 'combo', headerName: 'Combo', flex: 2.5, headerClassName: 'super-app-theme--header'},
+  { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'name', headerName: 'Name1', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'phone', headerName: 'Phone', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+  // { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'date', headerName: 'Date', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'tranTime', headerName: 'Trantime', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'ex', headerName: 'EX', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'final', headerName: 'Final', flex: 0.25, headerClassName: 'super-app-theme--header' },
+  { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, headerClassName: 'super-app-theme--header' },
+  { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'head', headerName: 'Head', editable: true, flex: 0.25, headerClassName: 'super-app-theme--header' },
+  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
+  { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
+  { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
 
 export default function MordersTable() {
@@ -59,7 +59,9 @@ export default function MordersTable() {
   }, []);
 
   return (
-    <Box sx = {{height: '100vh', width: '100%', paddingLeft: 4, paddingRight: 4}}>
+    <Box sx = {{height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
+      backgroundColor: 'rgba(101, 176, 193, 0.5)',
+    },}}>
       <StripedDataGrid
       rows={orders}
       columns={columns}
