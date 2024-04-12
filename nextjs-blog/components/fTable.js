@@ -18,8 +18,8 @@ const columns = [
     { field: 'date', headerName: 'Date', editable: true, flex: 1 },
     { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
     { field: 'head', headerName: 'Head', editable: true, flex: 1 },
-    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
-    { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1 },
+    { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1 },
+    { field: 'est_finish', headerName: 'Est Stop', editable: true, flex: 1 },
 ];
 
 function CustomToolbar() {
@@ -75,9 +75,11 @@ export default function FTable() {
             );
             setOrders(updatedOrders);
 
+            const encodedId = encodeURIComponent(id);
+
             // Send the updated data to your backend API for saving
             const sa = sessionStorage.getItem('sa');
-            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${id}`, {
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,6 +89,9 @@ export default function FTable() {
             });
             if (!response.ok) {
                 throw new Error('Network response was not ok');
+            }
+            if (response.ok) {
+                console.log(message);
             }
         } catch (error) {
           console.error('Failed to update order:', error);
