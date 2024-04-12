@@ -5,7 +5,7 @@ import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar compone
 
 // Creates column definitions for the DataGrid
 const columns = [
-  { field: 'id', headerName: '', width: 30, hide: true },
+  { field: 'id', headerName: 'ID', width: 30, hide: true },
   { field: 'head', headerName: 'Head', flex: 2 },
   { field: 'lateral', headerName: 'Lateral', flex: 1 },
   { field: 'contact', headerName: 'Contact', flex: 2 },
