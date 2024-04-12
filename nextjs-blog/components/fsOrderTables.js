@@ -12,7 +12,7 @@ const columns = [
     { field: 'flow', headerName: 'Flow', flex: 1 },
     { field: 'hours', headerName: 'Hours', flex: 1 },
     { field: 'crop', headerName: 'Crop', flex: 1},
-    { field: 'date', headerName: 'Date', editable: true, flex: 1 },
+    { field: 'date', headerName: 'Date', witdh: 50, editable: true, flex: 3 },
     { field: 'head', headerName: 'Head', editable: true, flex: 1 },
 ];
 
