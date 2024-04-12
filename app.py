@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+from sqlalchemy.exc import SQLAlchemyError
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy.sql import text, or_
@@ -382,7 +383,10 @@ def forders():
                 "comment": order.comment,
                 "sbxcfs": order.sbxcfs,
                 "deleted": order.deleted,
-                "sa": order.sa
+                "sa": order.sa,
+                "head": order.head,
+                "est_start": order.est_start,
+                "est_finish":order.est_finish
             }
             for order in orders_query
         ]
@@ -404,6 +408,43 @@ def updateOrder(combo):
 
         # Get the updated data from the request
         data = request.json
+        print(data)
+        print(order)
+        print(order.name)
+        print(order.head)
+        print(data.get('head'))
+        
+        # transferQuery = text("""
+        # UPDATE rhdb.orders
+        # SET 
+        #     lat = :lat,
+        #     sg = :sg,
+        #     name = :name,
+        #     phone = :phone,
+        #     flow = :flow,
+        #     hours = :hours,
+        #     acre = :acre,
+        #     crop = :crop,
+        #     type = :type,
+        #     date = :date,
+        #     trantime = :trantime,
+        #     ex = :ex,
+        #     final = :final,
+        #     comment = :comment,
+        #     sbxcfs = :sbxcfs,
+        #     deleted = :deleted,
+        #     sa = :sa,
+        #     head = :head,
+        #     est_start = :est_start,
+        #     est_finish = :est_finish,
+        #     wdo_notes = :wdo_notes
+        # WHERE combo = :combo;
+ 
+        #                      """)
+        
+        # with db.engine.begin() as connection:
+        #     connection.execute(transferQuery)
+        #     print("Data update successful.")
 
         # Update the order object
         order.lat = data.get('lat', order.lat)
@@ -424,8 +465,9 @@ def updateOrder(combo):
         order.deleted = data.get('deleted', order.deleted)
         order.sa = data.get('sa', order.sa)
         order.head = data.get('head', order.head)
-        order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
-        order.est_finish = datetime.strptime(data.get('est_finish'), '%Y-%m-%d %H:%M:%S') if data.get('est_finish') else order.est_finish
+        print(order.head)
+        order.est_start = datetime.strptime(data.get('estStart'), '%Y-%m-%d %H:%M:%S') if data.get('estStart') else order.est_start
+        order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
         order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
 
         # Commit the changes to the database
@@ -435,6 +477,51 @@ def updateOrder(combo):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+# @app.route('/updateOrder/<string:combo>', methods=['PUT'])
+# def updateOrder(combo):
+#     try:
+#         print('Received update request for combo:', combo)
+#         print('Received update request')
+#         print('Combo:', combo)
+#         print('Request data:', request.json)
+        
+#         # Get the order object to update
+#         order = Orders.query.filter_by(combo=combo).first()
+        
+#         # Check if the order exists
+#         if not order:
+#             print('Order not found')
+#             return jsonify({"error": "Order not found"}), 404
+        
+#         # Get the updated data from the request
+#         data = request.json
+#         print('Received data from frontend:', data)
+        
+#         # Update the specific field of the order
+#         field = data.get('field')
+#         value = data.get('value')
+        
+#         print('Updating field:', field)
+#         print('Updating value:', value)
+        
+#         if field == 'date':
+#             order.date = datetime.strptime(value, '%Y-%m-%d') if value else order.date
+#         elif field == 'est_start':
+#             order.est_start = datetime.strptime(value, '%Y-%m-%d %H:%M:%S') if value else order.est_start
+#         elif field == 'est_finish':
+#             order.est_finish = datetime.strptime(value, '%Y-%m-%d %H:%M:%S') if value else order.est_finish
+#         else:
+#             setattr(order, field, value)
+        
+#         # Commit the changes to the database
+#         db.session.commit()
+#         print('Order updated successfully')
+        
+#         return jsonify({"message": "Order updated successfully"}), 200
+#     except Exception as e:
+#         print('Error occurred:', str(e))
+#         return jsonify({"error": str(e)}), 500
 
 
 
@@ -551,7 +638,7 @@ def h1():
                 orders.COMBO AS 'COMBO', 
                 orders.LATERAL AS 'LAT', 
                 orders.SIDEGATE AS 'SG', 
-                orders.NAME1 AS 'NAME', 
+                orders.NAME AS 'NAME', 
                 orders.COMMENT AS 'COMMENT'
             FROM 
                 rhdb.orders orders
@@ -600,7 +687,7 @@ def h2():
                 orders.COMBO AS 'COMBO', 
                 orders.LATERAL AS 'LAT', 
                 orders.SIDEGATE AS 'SG', 
-                orders.NAME1 AS 'NAME', 
+                orders.NAME AS 'NAME', 
                 orders.COMMENT AS 'COMMENT'
             FROM 
                 rhdb.orders orders
@@ -649,7 +736,7 @@ def h3():
                 orders.COMBO AS 'COMBO', 
                 orders.LATERAL AS 'LAT', 
                 orders.SIDEGATE AS 'SG', 
-                orders.NAME1 AS 'NAME', 
+                orders.NAME AS 'NAME', 
                 orders.COMMENT AS 'COMMENT'
             FROM 
                 rhdb.orders orders
@@ -693,7 +780,7 @@ def h4():
                 orders.COMBO AS 'COMBO', 
                 orders.LATERAL AS 'LAT', 
                 orders.SIDEGATE AS 'SG', 
-                orders.NAME1 AS 'NAME', 
+                orders.NAME AS 'NAME', 
                 orders.COMMENT AS 'COMMENT'
             FROM 
                 rhdb.orders orders
@@ -742,7 +829,7 @@ def h5():
                 orders.COMBO AS 'COMBO', 
                 orders.LATERAL AS 'LAT', 
                 orders.SIDEGATE AS 'SG', 
-                orders.NAME1 AS 'NAME', 
+                orders.NAME AS 'NAME', 
                 orders.COMMENT AS 'COMMENT'
             FROM 
                 rhdb.orders orders
