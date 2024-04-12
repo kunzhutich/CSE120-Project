@@ -43,9 +43,9 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
 
 // Creates column definitions for the DataGrid
 const columns = [
-  { field: 'combo', headerName: 'Combo', flex: 2.5 },
-  { field: 'lat', headerName: 'Lat', flex: 1 },
-  { field: 'sg', headerName: 'SG', flex: 1 },
+  { field: 'combo', headerName: 'Combo', flex: 2.5, headerClassName: 'super-app-theme--header'},
+  { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
   { field: 'name', headerName: 'Name1', flex: 1.5 },
   { field: 'phone', headerName: 'Phone', flex: 1.5 },
   { field: 'flow', headerName: 'Flow', flex: 1 },
