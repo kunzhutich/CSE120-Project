@@ -7,7 +7,7 @@ export default function NavBar() {
   const router = useRouter();
 
   return (
-    <AppBar sx={{backgroundColor: '#00587c'}}>
+    <AppBar sx={{position: 'sticky', backgroundColor: '#00587c'}}>
       <Toolbar display= 'flex' justifyContent="space-between">
         {/* Creates all the buttons for the navigation */}
         <Box sx={{flexGrow: 1}}>
@@ -62,7 +62,6 @@ export default function NavBar() {
             </Button>
           </Link>
         </Box>
-
       </Toolbar>
     </AppBar>
   );
