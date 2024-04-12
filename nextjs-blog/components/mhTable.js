@@ -80,7 +80,7 @@ export default function MHTable() {
   }, []);
 
   return (
-    <Box sx={{ height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 2, paddingRight: 2, paddingBottom: 2}}>
+    <Box sx={{ height: '100vh', width: '100%', paddingTop: 2, paddingLeft: 2, paddingRight: 2, paddingBottom: 2}}>
           <StripedDataGrid
               rows={orders}
               columns={mhcolumns}

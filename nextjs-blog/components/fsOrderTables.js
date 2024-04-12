@@ -50,7 +50,7 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: 800, width: '60vw', paddingLeft: 4}}>
+        <Box sx={{height: 800, width: '60vw', paddingLeft: 4, paddingTop: 2}}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}
@@ -59,9 +59,6 @@ export default function FSTable() {
                 slots={{
                   toolbar: CustomToolbar
                 }}
-                getRowClassName={(params) =>
-                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                  }
                 getRowClassName={(params) =>
                     params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                   }

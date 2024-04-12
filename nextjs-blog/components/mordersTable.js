@@ -9,7 +9,7 @@ const columns = [
   { field: 'combo', headerName: 'Combo', flex: 2.5, headerClassName: 'super-app-theme--header'},
   { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
   { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
-  { field: 'name', headerName: 'Name1', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'name', headerName: 'Name', flex: 1.5, headerClassName: 'super-app-theme--header' },
   { field: 'phone', headerName: 'Phone', flex: 1.5, headerClassName: 'super-app-theme--header' },
   { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
   { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
@@ -59,7 +59,7 @@ export default function MordersTable() {
   }, []);
 
   return (
-    <Box sx = {{height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
+    <Box sx = {{height: '100vh', width: '100%', paddingTop: 2, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: 'rgba(101, 176, 193, 0.5)',
     },}}>
       <StripedDataGrid
