@@ -55,6 +55,29 @@ export default function FTable() {
         fetchOrders();
     }, []);
 
+    const handleCellEditCommit = async ({ id, field, value }) => {
+        try {
+            // Find the order object in the orders array based on its id (combo)
+            const updatedOrders = orders.map(order =>
+                order.id === id ? { ...order, [field]: value } : order
+            );
+            setOrders(updatedOrders);
+
+            // Send the updated data to your backend API for saving
+            await fetch(`http://127.0.0.1:5000/updateOrder/${id}`, {  // Updated endpoint with id
+                method: 'PUT',  // Changed from POST to PUT
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sessionStorage.getItem('sa'),
+                },
+                body: JSON.stringify({ [field]: value }),  // Sending only the updated field and value
+            });
+        } catch (error) {
+            console.error('Failed to update order:', error);
+    }
+};
+
+
     return (
         <Box sx={{height: '100vh', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4}}>
             <StripedDataGrid
@@ -64,15 +87,6 @@ export default function FTable() {
                   sx: {overflowY: '100px'}
                 }}
                 pageSize={5}
-                hideFooter
-                
-                slots={{
-                  toolbar: CustomToolbar
-                }}
-                
-                getRowClassName={(params) =>
-                  params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
             />
         </Box>
     );
