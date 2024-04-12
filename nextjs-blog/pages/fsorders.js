@@ -1,21 +1,20 @@
 import NavBar from "../components/navBar";
-import FSTables from "../components/fsOrderTables";
-import HeadTable from "../components/headTable";
+import FSTable from "../components/fsOrderTables";
+import HFSTable from "../components/hFSTables";
 
 export default function fsorders() {
     return (
-        <div>
+        <div style={{display: 'grid', gridTemplateColumns: 'auto 2fr'}}>
             <NavBar/>
-            <div syle={{display: 'grid'}}>
-                <div style={{float: 'left'}}>
-                    <FSTables/>
-                </div>
-                <div>
-                    <HeadTable/>
-                </div>
-                <div>
-                    <HeadTable/>
-                </div>
+            <div style={{position: 'sticky'}}>
+                <FSTable/>
+            </div>
+            <div style={{paddingTop: 9}}>
+                <HFSTable/>
+                <HFSTable/>
+                <HFSTable/>
+                <HFSTable/>
+                <HFSTable/>
             </div>
         </div>
     );

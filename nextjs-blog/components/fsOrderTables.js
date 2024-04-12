@@ -62,7 +62,7 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: '100vh', width: '75vw', paddingTop: 9, paddingLeft: 4}}>
+        <Box sx={{height: 800, width: '60vw', paddingTop: 9, paddingLeft: 4, position: 'sticky'}}>
             <DataGrid
                 rows={orders}
                 columns={columns}
