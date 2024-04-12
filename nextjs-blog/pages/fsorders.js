@@ -6,7 +6,7 @@ export default function fsorders() {
     return (
         <div>
             <NavBar/>
-            <div style={{display: 'flex', flexDirection: 'column'}}>
+            <div style={{display: 'flex', flexDirection: 'row'}}>
                 <div style={{position: 'sticky', top: 65, float: 'left'}}>
                     <FSTable/>
                 </div>
