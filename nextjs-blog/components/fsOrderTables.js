@@ -40,16 +40,16 @@ const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
 }));       
 
 const columns = [
-    { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
-    { field: 'lat', headerName: 'Lat', flex: 1 },
-    { field: 'sg', headerName: 'SG', flex: 1 },
-    { field: 'name', headerName: 'Name', flex: 2 },
-    { field: 'phone', headerName: 'Phone', flex: 1 },
-    { field: 'flow', headerName: 'Flow', flex: 1 },
-    { field: 'hours', headerName: 'Hours', flex: 1 },
-    { field: 'crop', headerName: 'Crop', flex: 1 },
-    { field: 'date', headerName: 'Date', editable: true, flex: 1 },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1 },
+    { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
 
 // Custom toolbar for datagrid settings
@@ -98,7 +98,9 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: '100vh', width: '75vw', paddingTop: 9, paddingLeft: 4}}>
+        <Box sx={{height: '100vh', width: '75vw', paddingTop: 9, paddingLeft: 4, '& .super-app-theme--header': {
+          backgroundColor: 'rgba(101, 176, 193, 0.5)',
+        }}}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}
