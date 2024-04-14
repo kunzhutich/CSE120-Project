@@ -4,6 +4,10 @@ import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid, gridClasses} from '@mui/x-data-grid';
 import { alpha, styled } from '@mui/material/styles';
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 const ODD_OPACITY = 0.2;
 
@@ -58,7 +62,7 @@ const columns = [
   { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, headerClassName: 'super-app-theme--header' },
   { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
   { field: 'head', headerName: 'Head', editable: true, flex: 0.25, headerClassName: 'super-app-theme--header' },
-  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
+  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell />, },
   { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
   { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
@@ -75,6 +79,29 @@ function CustomToolbar() {
     </GridToolbarContainer>
   );
 }
+
+const DatePickerCell = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        label=""
+        value={selectedDate}
+        onChange={(date) => setSelectedDate(date)}
+        renderInput={(props) => <input {...props} readOnly />}
+        renderOpenPicker={(openPicker) => (
+          <input
+            type="text"
+            value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
+            onFocus={openPicker}
+            readOnly
+          />
+        )}
+      />
+    </LocalizationProvider>
+  );
+};
 
 export default function MordersTable() {
   const [orders, setOrders] = useState([]);
