@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
+
 // Creates column definitions for the DataGrid
 const columns = [
     { field: 'id', headerName: 'Head', width: 150 },
@@ -14,16 +15,16 @@ const columns = [
 
 // Custom toolbar for datagrid settings
 function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector
+          slotProps={{ tooltip: { title: 'Change density' } }}
+        />
+      </GridToolbarContainer>
+    );
+  }
 
 export default function HFSTable() {
     const [orders, setOrders] = useState([]);
@@ -58,15 +59,18 @@ export default function HFSTable() {
     }, []);
 
 return (
-    <Box sx = {{height: 400, width: '25vw', paddingTop: 8, paddingLeft: 4, paddingRight: 4}}>
+    <Box sx = {{height: 420, width: '40vw', paddingLeft: 4, paddingRight: 4}}>
         <DataGrid
             rows={orders}
             columns={columns}
             hideFooter
 
-            slots={{
-                toolbar: CustomToolbar
-            }}
+      slots={{
+        toolbar: CustomToolbar
+      }}
+      getRowClassName={(params) =>
+        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+      }
         />
     </Box>
     );

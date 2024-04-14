@@ -1,69 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid, gridClasses} from '@mui/x-data-grid';
-import { alpha, styled } from '@mui/material/styles';
-
-const ODD_OPACITY = 0.2;
-
-const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
-  [`& .${gridClasses.row}.even`]: {
-    backgroundColor: theme.palette.grey[200],
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.primary.main, ODD_OPACITY),
-      '@media (hover: none)': {
-        backgroundColor: 'transparent',
-      },
-    },
-    '&.Mui-selected': {
-      backgroundColor: alpha(
-        theme.palette.primary.main,
-        ODD_OPACITY + theme.palette.action.selectedOpacity,
-      ),
-      '&:hover': {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          ODD_OPACITY +
-            theme.palette.action.selectedOpacity +
-            theme.palette.action.hoverOpacity,
-        ),
-        // Reset on touch devices, it doesn't add specificity
-        '@media (hover: none)': {
-          backgroundColor: alpha(
-            theme.palette.primary.main,
-            ODD_OPACITY + theme.palette.action.selectedOpacity,
-          ),
-        },
-      },
-    },
-  },
-}));       
+        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 const columns = [
-    { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
-    { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
-    { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
+    { field: 'lat', headerName: 'Lat', flex: 1 },
+    { field: 'sg', headerName: 'SG', flex: 1 },
+    { field: 'name', headerName: 'Name', flex: 2 },
+    { field: 'phone', headerName: 'Phone', flex: 1 },
+    { field: 'flow', headerName: 'Flow', flex: 1 },
+    { field: 'hours', headerName: 'Hours', flex: 1 },
+    { field: 'crop', headerName: 'Crop', flex: 1},
+    { field: 'date', headerName: 'Date', witdh: 50, editable: true, flex: 3 },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1 },
 ];
 
 // Custom toolbar for datagrid settings
 function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector
+          slotProps={{ tooltip: { title: 'Change density' } }}
+        />
+      </GridToolbarContainer>
+    );
+  }
 
 export default function FSTable() {
     const [orders, setOrders] = useState([]);
@@ -98,10 +62,8 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: '100vh', width: '75vw', paddingTop: 9, paddingLeft: 4, '& .super-app-theme--header': {
-          backgroundColor: 'rgba(101, 176, 193, 0.5)',
-        }}}>
-            <StripedDataGrid
+        <Box sx={{height: 800, width: '60vw', paddingLeft: 4}}>
+            <DataGrid
                 rows={orders}
                 columns={columns}
                 hideFooter
