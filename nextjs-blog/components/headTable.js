@@ -62,7 +62,7 @@ export default function HeadTable() {
   return (
     <Box sx = {{height: 'auto', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: 'rgba(108, 193, 101)',
-    }, headerClassName: 'super-app-theme--header'}}>
+    },}}>
       <StripedDataGrid
       rows={rows}
       columns={columns}

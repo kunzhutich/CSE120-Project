@@ -6,11 +6,11 @@ import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
 
 // Creates column definitions for the DataGrid
 const columns = [
-    { field: 'id', headerName: 'Head', width: 150 },
-    { field: 'sg', headerName: 'SG', width: 75},
-    { field: 'name', headerName: 'Contact', width: 250},
-    { field: 'hours', headerName: 'Hours', width: 75},
-    { field: 'estStart', headerName: 'Est Start', editable: true},
+    { field: 'id', headerName: 'Head', width: 150, headerClassName: 'super-app-theme--header' },
+    { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
+    { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
+    { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
+    { field: 'estStart', headerName: 'Est Start', editable: true, headerClassName: 'super-app-theme--header'},
 ];
 
 // Custom toolbar for datagrid settings
@@ -59,7 +59,9 @@ export default function HFSTable() {
     }, []);
 
 return (
-    <Box sx = {{height: 420, width: '40vw', paddingLeft: 4, paddingRight: 4}}>
+    <Box sx = {{height: 420, width: '40vw', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
+      backgroundColor: 'rgba(108, 193, 101)',
+    }}}>
         <DataGrid
             rows={orders}
             columns={columns}

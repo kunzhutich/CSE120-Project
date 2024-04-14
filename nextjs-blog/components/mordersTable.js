@@ -2,7 +2,33 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+const DatePickerCell = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        label=""
+        value={selectedDate}
+        onChange={(date) => setSelectedDate(date)}
+        renderInput={(props) => <input {...props} readOnly />}
+        renderOpenPicker={(openPicker) => (
+          <input
+            type="text"
+            value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
+            onFocus={openPicker}
+            readOnly
+          />
+        )}
+      />
+    </LocalizationProvider>
+  );
+};
 
 // Creates column definitions for the DataGrid
 const columns = [
