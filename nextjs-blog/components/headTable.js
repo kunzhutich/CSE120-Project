@@ -1,27 +1,27 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbarContainer,GridToolbarColumnsButton, GridToolbarFilterButton,
-  GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
 // Creates column definitions for the DataGrid
 const columns = [
-  { field: 'id', headerName: '', width: 30, hide: true },
-  { field: 'head', headerName: 'Head', flex: 2 },
-  { field: 'lateral', headerName: 'Lateral', flex: 1 },
-  { field: 'contact', headerName: 'Contact', flex: 2 },
-  { field: 'phoneNumber', headerName: 'Phone', flex: 1 },
-  { field: 'rqstFlo', headerName: 'Rqst Flo', flex: 1 },
-  { field: 'hours', headerName: 'Hours', flex: 1 },
-  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1 },
-  { field: 'primeDate', headerName: 'Prime Date', editable: true, flex: 1 },
-  { field: 'primeTime', headerName: 'Prime Time', editable: true, flex: 1 },
-  { field: 'startDate', headerName: 'Start Date', editable: true, flex: 1 },
-  { field: 'startTime', headerName: 'Start Time', editable: true, flex: 1 },
-  { field: 'finishDate', headerName: 'Finish Date', editable: true, flex: 1 },
-  { field: 'finishTime', headerName: 'Finish Time', editable: true,  flex: 1 },
-  { field: 'primeTotal', headerName: 'Prime Total', flex: 1 },
-  { field: 'totalHour', headerName: 'Total Hour', flex: 1 },
-  { field: 'called', headerName: 'Called', editable: true, flex: 1 },
+  { field: 'id', headerName: '', width: 30, hide: true, headerClassName: 'super-app-theme--header' },
+  { field: 'head', headerName: 'Head', flex: 2, headerClassName: 'super-app-theme--header' },
+  { field: 'lateral', headerName: 'Lateral', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'contact', headerName: 'Contact', flex: 2, headerClassName: 'super-app-theme--header' },
+  { field: 'phoneNumber', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'rqstFlo', headerName: 'Rqst Flo', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'primeDate', headerName: 'Prime Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'primeTime', headerName: 'Prime Time', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'startDate', headerName: 'Start Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'startTime', headerName: 'Start Time', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'finishDate', headerName: 'Finish Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'finishTime', headerName: 'Finish Time', editable: true,  flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'primeTotal', headerName: 'Prime Total', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'totalHour', headerName: 'Total Hour', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'called', headerName: 'Called', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
 
 // Creates row data for the DataGrid
@@ -58,26 +58,12 @@ const rows = [
   }
 ];
 
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
 export default function HeadTable() {
-  // Hides row ids
-  const [columnVisibilityModel, setColumnVisibilityModel] = React.useState({
-    id: false
-  })
-  
   return (
-    <Box sx = {{height: 847, width: '100%', paddingLeft: 4, paddingRight: 4}}>
-      <DataGrid
+    <Box sx = {{height: 'auto', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
+      backgroundColor: 'rgba(108, 193, 101)',
+    }, headerClassName: 'super-app-theme--header'}}>
+      <StripedDataGrid
       rows={rows}
       columns={columns}
       hideFooter
@@ -86,7 +72,9 @@ export default function HeadTable() {
         toolbar: CustomToolbar
       }}
 
-      columnVisibilityModel={columnVisibilityModel}
+      getRowClassName={(params) =>
+        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+      }
       />
     </Box>
   );
