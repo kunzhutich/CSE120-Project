@@ -85,7 +85,7 @@ export default function MordersTable() {
   }, []);
 
   return (
-    <Box sx = {{height: '100vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
+    <Box sx = {{height: '90vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: 'rgba(101, 176, 193, 0.5)',
     },}}>
       <StripedDataGrid
