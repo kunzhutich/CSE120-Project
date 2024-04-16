@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
+
+// Creates column definitions for the DataGrid
 const columns = [
-    { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
-    { field: 'lat', headerName: 'Lat', flex: 1 },
-    { field: 'sg', headerName: 'SG', flex: 1 },
-    { field: 'name', headerName: 'Name', flex: 2 },
-    { field: 'phone', headerName: 'Phone', flex: 1 },
-    { field: 'flow', headerName: 'Flow', flex: 1 },
-    { field: 'hours', headerName: 'Hours', flex: 1 },
-    { field: 'crop', headerName: 'Crop', flex: 1},
-    { field: 'date', headerName: 'Date', witdh: 50, editable: true, flex: 3 },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1 },
+    { field: 'id', headerName: 'Head', width: 150 },
+    { field: 'sg', headerName: 'SG', width: 75},
+    { field: 'name', headerName: 'Contact', width: 250},
+    { field: 'hours', headerName: 'Hours', width: 75},
+    { field: 'estStart', headerName: 'Est Start', editable: true},
 ];
 
 // Custom toolbar for datagrid settings
@@ -29,7 +26,7 @@ function CustomToolbar() {
     );
   }
 
-export default function FSTable() {
+export default function HFSTable() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
@@ -61,20 +58,20 @@ export default function FSTable() {
         fetchOrders();
     }, []);
 
-    return (
-        <Box sx={{height: 800, width: '60vw', paddingLeft: 4}}>
-            <DataGrid
-                rows={orders}
-                columns={columns}
-                hideFooter
-                
-                slots={{
-                  toolbar: CustomToolbar
-                }}
-                getRowClassName={(params) =>
-                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                  }
-            />
-        </Box>
+return (
+    <Box sx = {{height: 420, width: '40vw', paddingLeft: 4, paddingRight: 4}}>
+        <DataGrid
+            rows={orders}
+            columns={columns}
+            hideFooter
+
+      slots={{
+        toolbar: CustomToolbar
+      }}
+      getRowClassName={(params) =>
+        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+      }
+        />
+    </Box>
     );
 }

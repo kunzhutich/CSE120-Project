@@ -1,38 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+
 
 // Define the columns for the DataGrid
 const columns = [
-    { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
-    { field: 'lat', headerName: 'Lat', flex: 1 },
-    { field: 'sg', headerName: 'SG', flex: 1 },
-    { field: 'name', headerName: 'Name', flex: 2 },
-    { field: 'phone', headerName: 'Phone', flex: 1 },
-    { field: 'flow', headerName: 'Flow', flex: 1 },
-    { field: 'hours', headerName: 'Hours', flex: 1 },
-    { field: 'acre', headerName: 'Acre', flex: 1 },
-    { field: 'crop', headerName: 'Crop', flex: 1 },
-    { field: 'type', headerName: 'Type', flex: 1 },
-    { field: 'date', headerName: 'Date', editable: true, flex: 1 },
-    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1 },
-    { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1 },
-    { field: 'est_finish', headerName: 'Est Stop', editable: true, flex: 1 },
+    { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'acre', headerName: 'Acre', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
-
-function CustomToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton />
-      <GridToolbarFilterButton />
-      <GridToolbarDensitySelector
-        slotProps={{ tooltip: { title: 'Change density' } }}
-      />
-    </GridToolbarContainer>
-  );
-}
 
 export default function FTable() {
     const [orders, setOrders] = useState([]);
@@ -105,18 +94,22 @@ export default function FTable() {
     
 
     return (
-        <Box sx={{ height: '100%', width: '100%' }}>
-            <DataGrid
-                editMode = "cell"
+        <Box sx={{height: '100vh', width: '100%', paddingTop: 2, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
+          backgroundColor: 'rgba(101, 176, 193, 0.5)',}}}>
+            <StripedDataGrid
                 rows={orders}
                 columns={columns}
+                containerProps={{
+                  sx: {overflowY: '100px'}
+                }}
                 pageSize={5}
-                rowsPerPageOptions={[5, 10, 20]}
-                checkboxSelection
-                processRowUpdate={(updatedRow, originalRow) =>
-                    handleCellEditCommit(updatedRow)
+                slots={{
+                  toolbar: CustomToolbar
+                }}
+
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                 }
-                onProcessRowUpdateError={handleProcessRowUpdateError}
             />
         </Box>
     );
