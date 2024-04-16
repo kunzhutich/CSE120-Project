@@ -63,7 +63,7 @@ export default function FSTable() {
     }, []);
 
     return (
-        <Box sx={{height: 800, width: '60vw', paddingLeft: 4, '& .super-app-theme--header': {
+        <Box sx={{height: '100vh', width: '60vw', paddingLeft: 4, '& .super-app-theme--header': {
             backgroundColor: 'rgba(101, 176, 193, 0.5)',
           }}}>
             <StripedDataGrid

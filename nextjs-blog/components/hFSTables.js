@@ -59,7 +59,7 @@ export default function HFSTable() {
     }, []);
 
 return (
-    <Box sx = {{height: 420, width: '40vw', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
+    <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: 'rgba(108, 193, 101)',
     }}}>
         <DataGrid
