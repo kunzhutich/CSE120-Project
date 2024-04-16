@@ -79,7 +79,7 @@ export default function FTable() {
 
             // Send the updated data to your backend API for saving
             const sa = sessionStorage.getItem('sa');
-            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+            const response = await fetch(`http://127.0.0.1:5000/updateFtableOrder/${encodedId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -396,7 +396,7 @@ def forders():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
-@app.route('/updateOrder/<string:combo>', methods=['PUT'])
+@app.route('/updateFtableOrder/<string:combo>', methods=['PUT'])
 def updateOrder(combo):
     try:
         # Get the order object to update
@@ -409,10 +409,6 @@ def updateOrder(combo):
         # Get the updated data from the request
         data = request.json
         print(data)
-        print(order)
-        print(order.name)
-        print(order.head)
-        print(data.get('head'))
         
         
         # transferQuery = text("""
@@ -630,46 +626,41 @@ def morders():
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
 
+from sqlalchemy import text
+from flask import jsonify
+
 @app.route('/h1', methods=['GET'])
 def h1():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
             INSERT IGNORE INTO rhdb.head1
-                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
-                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
-                orders.COMBO AS 'COMBO', 
-                orders.LATERAL AS 'LAT', 
-                orders.SIDEGATE AS 'SG', 
-                orders.NAME AS 'NAME', 
-                orders.COMMENT AS 'COMMENT'
+                (`COMBO`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `PRIME_DATE`, `PRIME_TIME`, `START_DATE`, `START_TIME`,
+                              `FINISH_DATE`, `FINISH_TIME`, `PRIME_TOTAL`, `TOTAL_HOURS`, `CALLED`, `NOTES`, `COMMENT`, `ABNORMAL`)
+            SELECT 
+                `COMBO`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `PRIME_DATE`, `PRIME_TIME`, `START_DATE`, `START_TIME`,
+                              `FINISH_DATE`, `FINISH_TIME`, `PRIME_TOTAL`, `TOTAL_HOURS`, `CALLED`, `NOTES`, `COMMENT`, `ABNORMAL`
             FROM 
-                rhdb.orders orders
+                rhdb.orders
             WHERE 
-                 (
-                   orders.heads='H1'             
-                  );
+                UPPER(heads) = 'H1';
         """)
         
-        # with db.engine.connect() as connection:
-        #     result = connection.execute(transfer_query)
-        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
-
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.all()
+        orders_query = Orders.query.filter(func.upper(Orders.heads) == 'H1').all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
             {
-                "combo": order.combo, 
-                "lat": order.lat, 
-                "sg": order.sg,
-                "name": order.name,
-                "comment": order.comment
+                "combo": order.COMBO, 
+                "lat": order.LAT, 
+                "sg": order.SG,
+                "name": order.NAME,
+                "comment": order.COMMENT
             }
             for order in orders_query
         ]
@@ -678,6 +669,7 @@ def h1():
     except Exception as e:
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
+
 
 @app.route('/h2', methods=['GET'])
 def h2():

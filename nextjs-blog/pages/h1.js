@@ -1,58 +1,125 @@
-import NavBar from "../components/navBar";
 import React, { useEffect, useState } from 'react';
-import HeadTable from "../components/headTable";
+import Box from '@mui/material/Box';
+import {
+    GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+    GridToolbarDensitySelector, DataGrid
+} from '@mui/x-data-grid';
 
-export default function h1() {
-    const [orders, setOrders] = useState([]); // Initialize orders state as an empty array
+// Define the columns for the DataGrid
+const columns = [
+    { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
+    { field: 'lat', headerName: 'Lat', flex: 1 },
+    { field: 'sg', headerName: 'SG', flex: 1 },
+    { field: 'name', headerName: 'Name', flex: 2 },
+    //{ field: 'phone', headerName: 'Phone', flex: 1 },
+    { field: 'flow', headerName: 'Flow', flex: 1 },
+    { field: 'hours', headerName: 'Hours', flex: 1 },
+    { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1 },
+    { field: 'est_finish', headerName: 'Est Stop', editable: true, flex: 1 },
+    { field: 'acre', headerName: 'Acre', flex: 1 },
+    { field: 'crop', headerName: 'Crop', flex: 1 },
+    { field: 'type', headerName: 'Type', flex: 1 },
+    { field: 'date', headerName: 'Date', editable: true, flex: 1 },
+    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1 }
+];
+
+function CustomToolbar() {
+    return (
+        <GridToolbarContainer>
+            <GridToolbarColumnsButton />
+            <GridToolbarFilterButton />
+            <GridToolbarDensitySelector
+                slotProps={{ tooltip: { title: 'Change density' } }}
+            />
+        </GridToolbarContainer>
+    );
+}
+
+export default function Head1() {
+    const [orders, setOrders] = useState([]);
 
     useEffect(() => {
-        // Function to fetch orders data from Flask API
         const fetchOrders = async () => {
             try {
-                const response = await fetch('http://localhost:5000/h1'); // for windows
-                // const response = await fetch('http://127.0.0.1:5000/h1'); // for mac
+                const sa = sessionStorage.getItem('sa');
+                const response = await fetch('http://127.0.0.1:5000/h1', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'SA': sa,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
                 const data = await response.json();
-                setOrders(data); // Update the orders state with the fetched data
+                // Map the fetched data to include a unique 'id' for each row using 'combo'
+                const formattedData = data.map((item) => ({
+                    ...item,
+                    id: item.combo, // Use `combo` as the `id`
+                }));
+                setOrders(formattedData);
             } catch (error) {
-                console.error("Failed to fetch headsheet:", error);
+                console.error("Failed to fetch orders:", error);
             }
         };
 
-        fetchOrders(); // Call the fetch function
-    }, []); // The empty array ensures this effect runs only once after the initial render
+        fetchOrders();
+    }, []);
+
+
+    const handleCellEditCommit = async (updatedRow) => {
+        try {
+            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
+            const updatedOrders = orders.map(order =>
+                order.id === id ? { ...order, ...updatedOrder } : order
+            );
+            setOrders(updatedOrders);
+
+            const encodedId = encodeURIComponent(id);
+
+            // Send the updated data to your backend API for saving
+            const sa = sessionStorage.getItem('sa');
+            const response = await fetch(`http://127.0.0.1:5000/updateFtableOrder/${encodedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sa,
+                },
+                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.ok) {
+                console.log(message);
+            }
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        };
+    };
+
+    const handleProcessRowUpdateError = React.useCallback((error) => {
+        console.log(error);
+    }, []);
+
+
+
     return (
-        <div>
-            <NavBar/>
-            <h1>H1</h1>
-            <div>
-                {orders.length > 0 ? (
-                    orders.map((order, index) => (
-                        <div key={index}>
-                            <p>Combo: {order.combo}</p>
-                            <p>Lat: {order.lat}</p>
-                            <p>SG: {order.sg}</p>
-                            <p>Name: {order.name}</p>
-                            <p>Flow: {order.flow}</p>
-                            <p>Hours: {order.hours}</p>
-                            <p>Est_Start: {order.est_start} </p>
-                            <p>Prime_Date: {order.prime_date}</p>
-                            <p>Prime_Time: {order.prime_time}</p>
-                            <p>Start_Date: {order.start_date}</p>
-                            <p>Start_Time: {order.start_time}</p>
-                            <p>Finish_Date: {order.finish_date}</p>
-                            <p>Finish_Time: {order.finish_time}</p>
-                            <p>Prime_Total: {order.prime_total}</p>
-                            <p>Total_Hours: {order.total_hours}</p>
-                            <p>Called: {order.called}</p>
-                            <p>Notes: {order.wdo_notes}</p>
-                            <p>Comment: {order.comment}</p>
-                            <p>Abnormal: {order.abnormal}</p>
-                        </div>
-                    ))
-                ) : (
-                    <p>No orders found.</p>
-                )}
-            </div>
-        </div>
+        <Box sx={{ height: '100%', width: '100%' }}>
+            <DataGrid
+                editMode="cell"
+                rows={orders}
+                columns={columns}
+                pageSize={5}
+                rowsPerPageOptions={[5, 10, 20]}
+                checkboxSelection
+                processRowUpdate={(updatedRow, originalRow) =>
+                    handleCellEditCommit(updatedRow)
+                }
+                onProcessRowUpdateError={handleProcessRowUpdateError}
+            />
+        </Box>
     );
 }
