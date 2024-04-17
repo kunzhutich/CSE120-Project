@@ -4,6 +4,7 @@ import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid c
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
 // Creates column definitions for the DataGrid
+
 const columns = [
   { field: 'id', headerName: '', width: 30, hide: true, headerClassName: 'super-app-theme--header' },
   { field: 'head', headerName: 'Head', flex: 2, headerClassName: 'super-app-theme--header' },
@@ -58,14 +59,16 @@ const columns = [
 //  }
 //];
 
-export default function HeadTable() {
+export default function HeadTable(props) {
+    const { requiredString } = props;
+    console.log(requiredString);
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:5000/h1', {
+                const response = await fetch(`http://127.0.0.1:5000/${requiredString}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -90,6 +93,41 @@ export default function HeadTable() {
         fetchOrders();
     }, []);
 
+    const handleCellEditCommit = async (updatedRow) => {
+        try {
+            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
+            const updatedOrders = orders.map(order =>
+                order.id === id ? { ...order, ...updatedOrder } : order
+            );
+            setOrders(updatedOrders);
+
+            const encodedId = encodeURIComponent(id);
+
+            // Send the updated data to your backend API for saving
+            const sa = sessionStorage.getItem('sa');
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sa,
+                },
+                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.ok) {
+                console.log(message);
+            }
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        };
+    };
+
+    const handleProcessRowUpdateError = React.useCallback((error) => {
+        console.log(error);
+    }, []);
+
   return (
     <Box sx = {{height: 'auto', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: 'rgba(108, 193, 101)',
@@ -97,7 +135,11 @@ export default function HeadTable() {
       <StripedDataGrid
       rows={orders}
       columns={columns}
+      processRowUpdate={(updatedRow, originalRow) =>
+          handleCellEditCommit(updatedRow)
+      }
       hideFooter
+
 
       slots={{
         toolbar: CustomToolbar

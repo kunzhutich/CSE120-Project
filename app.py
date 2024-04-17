@@ -410,39 +410,6 @@ def updateOrder(combo):
 
         # Get the updated data from the request
         data = request.json
-        
-        
-        # transferQuery = text("""
-        # UPDATE rhdb.orders
-        # SET 
-        #     lat = :lat,
-        #     sg = :sg,
-        #     name = :name,
-        #     phone = :phone,
-        #     flow = :flow,
-        #     hours = :hours,
-        #     acre = :acre,
-        #     crop = :crop,
-        #     type = :type,
-        #     date = :date,
-        #     trantime = :trantime,
-        #     ex = :ex,
-        #     final = :final,
-        #     comment = :comment,
-        #     sbxcfs = :sbxcfs,
-        #     deleted = :deleted,
-        #     sa = :sa,
-        #     head = :head,
-        #     est_start = :est_start,
-        #     est_finish = :est_finish,
-        #     wdo_notes = :wdo_notes
-        # WHERE combo = :combo;
- 
-        #                      """)
-        
-        # with db.engine.begin() as connection:
-        #     connection.execute(transferQuery)
-        #     print("Data update successful.")
 
         # Update the order object
         
@@ -463,9 +430,7 @@ def updateOrder(combo):
         order.sbxcfs = data.get('sbxcfs', order.sbxcfs)
         order.deleted = data.get('deleted', order.deleted)
         order.sa = data.get('sa', order.sa)
-        print(order.head == data.get('head'))
         order.head = data.get('head')
-        print(order.head == data.get('head'))
         #order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
         # order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
         # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
@@ -477,51 +442,6 @@ def updateOrder(combo):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-
-# @app.route('/updateOrder/<string:combo>', methods=['PUT'])
-# def updateOrder(combo):
-#     try:
-#         print('Received update request for combo:', combo)
-#         print('Received update request')
-#         print('Combo:', combo)
-#         print('Request data:', request.json)
-        
-#         # Get the order object to update
-#         order = Orders.query.filter_by(combo=combo).first()
-        
-#         # Check if the order exists
-#         if not order:
-#             print('Order not found')
-#             return jsonify({"error": "Order not found"}), 404
-        
-#         # Get the updated data from the request
-#         data = request.json
-#         print('Received data from frontend:', data)
-        
-#         # Update the specific field of the order
-#         field = data.get('field')
-#         value = data.get('value')
-        
-#         print('Updating field:', field)
-#         print('Updating value:', value)
-        
-#         if field == 'date':
-#             order.date = datetime.strptime(value, '%Y-%m-%d') if value else order.date
-#         elif field == 'est_start':
-#             order.est_start = datetime.strptime(value, '%Y-%m-%d %H:%M:%S') if value else order.est_start
-#         elif field == 'est_finish':
-#             order.est_finish = datetime.strptime(value, '%Y-%m-%d %H:%M:%S') if value else order.est_finish
-#         else:
-#             setattr(order, field, value)
-        
-#         # Commit the changes to the database
-#         db.session.commit()
-#         print('Order updated successfully')
-        
-#         return jsonify({"message": "Order updated successfully"}), 200
-#     except Exception as e:
-#         print('Error occurred:', str(e))
-#         return jsonify({"error": str(e)}), 500
 
 
 
@@ -652,7 +572,7 @@ def morders():
 from sqlalchemy import text, func
 from flask import jsonify
 
-@app.route('/h1', methods=['GET'])
+@app.route('/H1', methods=['GET'])
 def h1():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
@@ -693,7 +613,7 @@ def h1():
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
 
-@app.route('/h2', methods=['GET'])
+@app.route('/H2', methods=['GET'])
 def h2():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
@@ -742,7 +662,7 @@ def h2():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
-@app.route('/h3', methods=['GET'])
+@app.route('/H3', methods=['GET'])
 def h3():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
@@ -786,7 +706,7 @@ def h3():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
-@app.route('/h4', methods=['GET'])
+@app.route('/H4', methods=['GET'])
 def h4():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
@@ -835,7 +755,7 @@ def h4():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
-@app.route('/h5', methods=['GET'])
+@app.route('/H5', methods=['GET'])
 def h5():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders

@@ -7,7 +7,7 @@ export default function h1() {
     return (
         <div>
             <NavBar/>
-            <HeadTable/>
+            <HeadTable requiredString={'H1'}/>
         </div>
     );
 }
