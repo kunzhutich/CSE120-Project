@@ -3,6 +3,8 @@ from sqlalchemy.exc import SQLAlchemyError
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy.sql import text, or_
+from sqlalchemy import text
+from sqlalchemy import func
 from datetime import datetime
 
 app = Flask(__name__)
@@ -396,7 +398,7 @@ def forders():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
-@app.route('/updateFtableOrder/<string:combo>', methods=['PUT'])
+@app.route('/updateOrder/<string:combo>', methods=['PUT'])
 def updateOrder(combo):
     try:
         # Get the order object to update
@@ -408,7 +410,6 @@ def updateOrder(combo):
 
         # Get the updated data from the request
         data = request.json
-        print(data)
         
         
         # transferQuery = text("""
@@ -465,7 +466,7 @@ def updateOrder(combo):
         print(order.head == data.get('head'))
         order.head = data.get('head')
         print(order.head == data.get('head'))
-        order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
+        #order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
         # order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
         # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
 
@@ -625,8 +626,30 @@ def morders():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
+# combo = db.Column(db.String(17), primary_key=True)
+#     lat = db.Column(db.String(10))
+#     sg = db.Column(db.String(10))
+#     name = db.Column(db.String(100))
+#     phone = db.Column(db.String(10))
+#     flow = db.Column(db.Float())
+#     hours = db.Column(db.Float())
+#     acre = db.Column(db.Float())
+#     crop = db.Column(db.String(2))
+#     type = db.Column(db.String(2))
+#     date = db.Column(db.Date())
+#     trantime = db.Column(db.Integer())
+#     ex = db.Column(db.String(1))
+#     final = db.Column(db.String(1))
+#     comment = db.Column(db.String(255))
+#     sbxcfs = db.Column(db.Float())
+#     deleted = db.Column(db.String(1))
+#     sa = db.Column(db.String(2))
+#     head = db.Column(db.String(4))
+#     est_start = db.Column(db.DateTime())
+#     est_finish = db.Column(db.DateTime())
+#     wdo_notes = db.Column(db.String(255))
 
-from sqlalchemy import text
+from sqlalchemy import text, func
 from flask import jsonify
 
 @app.route('/h1', methods=['GET'])
@@ -634,16 +657,12 @@ def h1():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
-            INSERT IGNORE INTO rhdb.head1
-                (`COMBO`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `PRIME_DATE`, `PRIME_TIME`, `START_DATE`, `START_TIME`,
-                              `FINISH_DATE`, `FINISH_TIME`, `PRIME_TOTAL`, `TOTAL_HOURS`, `CALLED`, `NOTES`, `COMMENT`, `ABNORMAL`)
             SELECT 
-                `COMBO`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `PRIME_DATE`, `PRIME_TIME`, `START_DATE`, `START_TIME`,
-                              `FINISH_DATE`, `FINISH_TIME`, `PRIME_TOTAL`, `TOTAL_HOURS`, `CALLED`, `NOTES`, `COMMENT`, `ABNORMAL`
+                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
             FROM 
                 rhdb.orders
             WHERE 
-                UPPER(heads) = 'H1';
+                UPPER(HEAD) = 'H1';
         """)
         
         with db.engine.begin() as connection:
@@ -651,16 +670,19 @@ def h1():
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.filter(func.upper(Orders.heads) == 'H1').all()
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H1').all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
             {
-                "combo": order.COMBO, 
-                "lat": order.LAT, 
-                "sg": order.SG,
-                "name": order.NAME,
-                "comment": order.COMMENT
+                "combo": order.combo, 
+                "head": order.head, 
+                "lat": order.lat,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start,
+                "est_finish": order.est_finish
             }
             for order in orders_query
         ]

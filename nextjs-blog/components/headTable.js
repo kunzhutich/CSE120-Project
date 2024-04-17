@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
@@ -25,46 +25,77 @@ const columns = [
 ];
 
 // Creates row data for the DataGrid
-const rows = [
-  { id: 1, head: '001002003 -654258', lateral: 'CM', sg: '06-05',
-    contact: 'George Washington', phoneNumber: '111-2345', rqstFlo: '16.77',
-    hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
-    startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
-    primeTotal: '7:55', totalHour: '3:05', called: 'o'
-  },
-  { id: 2, head: '001002003 -654258', lateral: 'CM', sg: '06-05',
-    contact: 'George Washington', phoneNumber: '111-2345', rqstFlo: '16.77',
-    hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
-    startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
-    primeTotal: '7:55', totalHour: '3:05', called: 'o'
-  },
-  { id: 3, head: '001002003 -654258', lateral: 'CM', sg: '06-05',
-    contact: 'George Washington', phoneNumber: '111-2345', rqstFlo: '16.77',
-    hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
-    startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
-    primeTotal: '7:55', totalHour: '3:05', called: 'o'
-  },
-  { id: 4, head: '001002003 -654258', lateral: 'CM', sg: '06-05',
-    contact: 'George Washington', phoneNumber: '111-2345', rqstFlo: '16.77',
-    hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
-    startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
-    primeTotal: '7:55', totalHour: '3:05', called: 'o'
-  },
-  { id: 5, head: ' ', lateral: ' ', sg: ' ',
-    contact: ' ', phoneNumber: ' ', rqstFlo: ' ',
-    hours: ' ', estStart: ' ', primeDate: ' ', primeTime: ' ',
-    startDate: ' ', startTime: ' ', finishDate: ' ', finishTime: ' ',
-    primeTotal: ' ', totalHour: '', called: ' '
-  }
-];
+//const rows = [
+//  { id: 1, head: '001002003 -654258', lateral: 'CM', sg: '06-05',
+//    contact: 'George Washington', phoneNumber: '111-2345', rqstFlo: '16.77',
+//    hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
+//    startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
+//    primeTotal: '7:55', totalHour: '3:05', called: 'o'
+//  },
+//  { id: 2, head: '001002003 -654258', lateral: 'CM', sg: '06-05',
+//    contact: 'George Washington', phoneNumber: '111-2345', rqstFlo: '16.77',
+//    hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
+//    startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
+//    primeTotal: '7:55', totalHour: '3:05', called: 'o'
+//  },
+//  { id: 3, head: '001002003 -654258', lateral: 'CM', sg: '06-05',
+//    contact: 'George Washington', phoneNumber: '111-2345', rqstFlo: '16.77',
+//    hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
+//    startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
+//    primeTotal: '7:55', totalHour: '3:05', called: 'o'
+//  },
+//  { id: 4, head: '001002003 -654258', lateral: 'CM', sg: '06-05',
+//    contact: 'George Washington', phoneNumber: '111-2345', rqstFlo: '16.77',
+//    hours: '11', estStart: 'Thu 1430', primeDate: '0208', primeTime: '0635',
+//    startDate: '0208', startTime: '1430', finishDate: '0208', finishTime: '1735',
+//    primeTotal: '7:55', totalHour: '3:05', called: 'o'
+//  },
+//  { id: 5, head: ' ', lateral: ' ', sg: ' ',
+//    contact: ' ', phoneNumber: ' ', rqstFlo: ' ',
+//    hours: ' ', estStart: ' ', primeDate: ' ', primeTime: ' ',
+//    startDate: ' ', startTime: ' ', finishDate: ' ', finishTime: ' ',
+//    primeTotal: ' ', totalHour: '', called: ' '
+//  }
+//];
 
 export default function HeadTable() {
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const sa = sessionStorage.getItem('sa');
+                const response = await fetch('http://127.0.0.1:5000/h1', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'SA': sa,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                // Map the fetched data to include a unique 'id' for each row using 'combo'
+                const formattedData = data.map((item) => ({
+                    ...item,
+                    id: item.combo, // Use `combo` as the `id`
+                }));
+                setOrders(formattedData);
+            } catch (error) {
+                console.error("Failed to fetch orders:", error);
+            }
+        };
+
+        fetchOrders();
+    }, []);
+
   return (
     <Box sx = {{height: 'auto', width: '100%', paddingTop: 9, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: 'rgba(108, 193, 101)',
     }, headerClassName: 'super-app-theme--header'}}>
       <StripedDataGrid
-      rows={rows}
+      rows={orders}
       columns={columns}
       hideFooter
 
