@@ -26,14 +26,16 @@ function CustomToolbar() {
     );
   }
 
-export default function HFSTable() {
+export default function HFSTable(props) {
+    const { requiredString } = props;
+    console.log(requiredString);
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:5000/h1', {
+                const response = await fetch(`http://127.0.0.1:5000/${requiredString}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -58,6 +60,37 @@ export default function HFSTable() {
         fetchOrders();
     }, []);
 
+    const handleCellEditCommit = async (updatedRow) => {
+        try {
+            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
+            const updatedOrders = orders.map(order =>
+                order.id === id ? { ...order, ...updatedOrder } : order
+            );
+            setOrders(updatedOrders);
+
+            const encodedId = encodeURIComponent(id);
+
+            // Send the updated data to your backend API for saving
+            const sa = sessionStorage.getItem('sa');
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sa,
+                },
+                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.ok) {
+                console.log(message);
+            }
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        };
+    };
+
 return (
     <Box sx = {{height: 420, width: '40vw', paddingLeft: 4, paddingRight: 4}}>
         <DataGrid
@@ -70,6 +103,9 @@ return (
       }}
       getRowClassName={(params) =>
         params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+      }
+      processRowUpdate={(updatedRow, originalRow) =>
+            handleCellEditCommit(updatedRow)
       }
         />
     </Box>

@@ -145,12 +145,46 @@ export function MHTable() {
       fetchOrders();
   }, []);
 
+    const handleCellEditCommit = async (updatedRow) => {
+        try {
+            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
+            const updatedOrders = orders.map(order =>
+                order.id === id ? { ...order, ...updatedOrder } : order
+            );
+            setOrders(updatedOrders);
+
+            const encodedId = encodeURIComponent(id);
+
+            // Send the updated data to your backend API for saving
+            const sa = sessionStorage.getItem('sa');
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sa,
+                },
+                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.ok) {
+                console.log(message);
+            }
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        };
+    };
+
   return (
       <Box sx={{ height: '100%', width: '100%' }}>
           <DataGrid
               rows={orders}
               columns={mhcolumns}
               pageSize={5}
+              processRowUpdate={(updatedRow, originalRow) =>
+                  handleCellEditCommit(updatedRow)
+              }
           />
       </Box>
   );
