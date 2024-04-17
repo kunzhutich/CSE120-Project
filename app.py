@@ -84,6 +84,17 @@ class Orders(db.Model):
     est_start = db.Column(db.DateTime())
     est_finish = db.Column(db.DateTime())
     wdo_notes = db.Column(db.String(255))
+    prime_date = db.Column(db.Date())
+    prime_time = db.Column(db.Integer())
+    start_date = db.Column(db.Date())
+    start_time = db.Column(db.Integer())
+    finish_date = db.Column(db.Date())
+    finish_time = db.Column(db.Integer())
+    prime_total = db.Column(db.Integer())
+    total_hours = db.Column(db.Integer())
+    called = db.Column(db.String(1))
+    abnormal = db.Column(db.String(1))
+    
  
 # class Head1(db.Model):
 #     __bind_key__ = 'rhdb'
@@ -434,6 +445,14 @@ def updateOrder(combo):
         #order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
         # order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
         # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
+        #order.prime_date = datetime.strptime(data.get('prime_date'), '%Y-%m-%d %H:%M:%S') if data.get('prime_date') else order.prime_date
+        order.prime_time = data.get('prime_time', order.prime_time)
+        #order.start_date = datetime.strptime(data.get('start_date'), '%Y-%m-%d %H:%M:%S') if data.get('start_date') else order.start_date
+        order.start_time = data.get('start_time', order.start_time)
+        #order.finish_date = datetime.strptime(data.get('finish_date'), '%Y-%m-%d %H:%M:%S') if data.get('finish_date') else order.finish_date
+        order.finish_time = data.get('finish_time', order.finish_time)
+        order.called = data.get('called', order.called)
+        order.abonormal = data.get('abnormal', order.abnormal)
 
         # Commit the changes to the database
         db.session.commit()
@@ -618,41 +637,32 @@ def h2():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
-            INSERT IGNORE INTO rhdb.head2
-                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
-                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
-                orders.COMBO AS 'COMBO', 
-                orders.LATERAL AS 'LAT', 
-                orders.SIDEGATE AS 'SG', 
-                orders.NAME AS 'NAME', 
-                orders.COMMENT AS 'COMMENT'
+            SELECT 
+                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
             FROM 
-                rhdb.orders orders
+                rhdb.orders
             WHERE 
-                 (
-                   orders.heads='h2'             
-                  );
+                UPPER(HEAD) = 'H2';
         """)
         
-        # with db.engine.connect() as connection:
-        #     result = connection.execute(transfer_query)
-        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
-
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.all()
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H2').all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
             {
                 "combo": order.combo, 
-                "lat": order.lat, 
-                "sg": order.sg,
-                "name": order.name,
-                "comment": order.comment
+                "head": order.head, 
+                "lat": order.lat,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start,
+                "est_finish": order.est_finish
             }
             for order in orders_query
         ]
@@ -667,36 +677,32 @@ def h3():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
-            INSERT IGNORE INTO rhdb.head3
-                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
-                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
-                orders.COMBO AS 'COMBO', 
-                orders.LATERAL AS 'LAT', 
-                orders.SIDEGATE AS 'SG', 
-                orders.NAME AS 'NAME', 
-                orders.COMMENT AS 'COMMENT'
+            SELECT 
+                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
             FROM 
-                rhdb.orders orders
+                rhdb.orders
             WHERE 
-                 (
-                   orders.heads='h3'             
-                  );
+                UPPER(HEAD) = 'H3';
         """)
-
+        
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
             print("Data transfer successful.")
-
-        orders_query = Orders.query.all()
+        
+        # Now, query the RHDB.Orders to fetch the transferred data
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H3').all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
             {
                 "combo": order.combo, 
-                "lat": order.lat, 
-                "sg": order.sg,
-                "name": order.name,
-                "comment": order.comment
+                "head": order.head, 
+                "lat": order.lat,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start,
+                "est_finish": order.est_finish
             }
             for order in orders_query
         ]
@@ -711,41 +717,32 @@ def h4():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
-            INSERT IGNORE INTO rhdb.head4
-                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
-                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
-                orders.COMBO AS 'COMBO', 
-                orders.LATERAL AS 'LAT', 
-                orders.SIDEGATE AS 'SG', 
-                orders.NAME AS 'NAME', 
-                orders.COMMENT AS 'COMMENT'
+            SELECT 
+                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
             FROM 
-                rhdb.orders orders
+                rhdb.orders
             WHERE 
-                 (
-                   orders.heads='h4'             
-                  );
+                UPPER(HEAD) = 'H4';
         """)
         
-        # with db.engine.connect() as connection:
-        #     result = connection.execute(transfer_query)
-        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
-
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.all()
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H4').all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
             {
                 "combo": order.combo, 
-                "lat": order.lat, 
-                "sg": order.sg,
-                "name": order.name,
-                "comment": order.comment
+                "head": order.head, 
+                "lat": order.lat,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start,
+                "est_finish": order.est_finish
             }
             for order in orders_query
         ]
@@ -760,41 +757,32 @@ def h5():
     try:
         # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
         transfer_query = text("""
-            INSERT IGNORE INTO rhdb.head5
-                ('COMBO', 'LAT', 'SG', 'NAME', 'FLOW', 'HOURS', 'EST_START', 'PRIME_DATE', 'PRIME_TIME', 'START_DATE', 'START_TIME',
-                              'FINISH_DATE', 'FINISH_TIME', 'PRIME_TOTAL', 'TOTAL_HOURS', 'CALLED', 'NOTES', `COMMENT`, 'ABNORMAL')
-                orders.COMBO AS 'COMBO', 
-                orders.LATERAL AS 'LAT', 
-                orders.SIDEGATE AS 'SG', 
-                orders.NAME AS 'NAME', 
-                orders.COMMENT AS 'COMMENT'
+            SELECT 
+                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
             FROM 
-                rhdb.orders orders
+                rhdb.orders
             WHERE 
-                 (
-                   orders.heads='h5'             
-                  );
+                UPPER(HEAD) = 'H5';
         """)
         
-        # with db.engine.connect() as connection:
-        #     result = connection.execute(transfer_query)
-        #     print(f"Data transfer successful. Rows affected: {result.rowcount}")
-
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
             print("Data transfer successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
-        orders_query = Orders.query.all()
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H5').all()
         
         # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
             {
                 "combo": order.combo, 
-                "lat": order.lat, 
-                "sg": order.sg,
-                "name": order.name,
-                "comment": order.comment
+                "head": order.head, 
+                "lat": order.lat,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start,
+                "est_finish": order.est_finish
             }
             for order in orders_query
         ]
