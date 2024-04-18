@@ -2,7 +2,32 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
+// Define the options for the dropdown menu
+const headOptions = [
+  { value: 'm', label: 'Micro Order' },
+];
+
+// Define a custom editor for the 'Head' field
+const HeadEditor = ({ value, onCellValueChange }) => {
+  const handleChange = (event) => {
+      onCellValueChange(event.target.value);
+  };
+
+  return (
+      <select value={value} onChange={handleChange}>
+          {headOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                  {option.label}
+              </option>
+          ))}
+      </select>
+  );
+};
 
 // Creates column definitions for the DataGrid
 const columns = [
@@ -20,7 +45,8 @@ const columns = [
   { field: 'final', headerName: 'Final', flex: 0.25, headerClassName: 'super-app-theme--header' },
   { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, headerClassName: 'super-app-theme--header' },
   { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
-  { field: 'head', headerName: 'Head', editable: true, flex: 0.25, headerClassName: 'super-app-theme--header' },
+  { field: 'head', headerName: 'Head', editable: true, flex: 1.75, headerClassName: 'super-app-theme--header', renderCell: (params)=> <HeadEditor value = {params.value} 
+  onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
   { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
   { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
   { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
@@ -58,8 +84,39 @@ export default function MordersTable() {
       fetchOrders();
   }, []);
 
+    const handleCellEditCommit = async (updatedRow) => {
+        try {
+            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
+            const updatedOrders = orders.map(order =>
+                order.id === id ? { ...order, ...updatedOrder } : order
+            );
+            setOrders(updatedOrders);
+
+            const encodedId = encodeURIComponent(id);
+
+            // Send the updated data to your backend API for saving
+            const sa = sessionStorage.getItem('sa');
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sa,
+                },
+                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.ok) {
+                console.log(message);
+            }
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        };
+    };
+
   return (
-    <Box sx = {{height: '100vh', width: '100%', paddingTop: 2, paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
+    <Box sx = {{height: '90vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: 'rgba(101, 176, 193, 0.5)',
     },}}>
       <StripedDataGrid
@@ -72,6 +129,9 @@ export default function MordersTable() {
       }}
       getRowClassName={(params) =>
         params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+      }
+      processRowUpdate={(updatedRow, originalRow) =>
+          handleCellEditCommit(updatedRow)
       }
       />
     </Box>
