@@ -446,11 +446,11 @@ def updateOrder(combo):
         # order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
         # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
         #order.prime_date = datetime.strptime(data.get('prime_date'), '%Y-%m-%d %H:%M:%S') if data.get('prime_date') else order.prime_date
-        order.prime_time = data.get('prime_time', order.prime_time)
+        order.prime_time = data.get('primeTime', order.prime_time)
         #order.start_date = datetime.strptime(data.get('start_date'), '%Y-%m-%d %H:%M:%S') if data.get('start_date') else order.start_date
-        order.start_time = data.get('start_time', order.start_time)
+        order.start_time = data.get('startTime', order.start_time)
         #order.finish_date = datetime.strptime(data.get('finish_date'), '%Y-%m-%d %H:%M:%S') if data.get('finish_date') else order.finish_date
-        order.finish_time = data.get('finish_time', order.finish_time)
+        order.finish_time = data.get('finishTime', order.finish_time)
         order.called = data.get('called', order.called)
         order.abonormal = data.get('abnormal', order.abnormal)
 
