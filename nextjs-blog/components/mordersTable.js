@@ -3,6 +3,27 @@ import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
+// Define the options for the dropdown menu
+const headOptions = [
+  { value: 'm', label: 'Micro Order' },
+];
+
+// Define a custom editor for the 'Head' field
+const HeadEditor = ({ value, onCellValueChange }) => {
+  const handleChange = (event) => {
+      onCellValueChange(event.target.value);
+  };
+
+  return (
+      <select value={value} onChange={handleChange}>
+          {headOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                  {option.label}
+              </option>
+          ))}
+      </select>
+  );
+};
 
 // Creates column definitions for the DataGrid
 const columns = [
@@ -20,7 +41,8 @@ const columns = [
   { field: 'final', headerName: 'Final', flex: 0.25, headerClassName: 'super-app-theme--header' },
   { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, headerClassName: 'super-app-theme--header' },
   { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
-  { field: 'head', headerName: 'Head', editable: true, flex: 0.25, headerClassName: 'super-app-theme--header' },
+  { field: 'head', headerName: 'Head', editable: true, flex: 1.75, headerClassName: 'super-app-theme--header', renderCell: (params)=> <HeadEditor value = {params.value} 
+  onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
   { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
   { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
   { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },

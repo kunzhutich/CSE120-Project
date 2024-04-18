@@ -3,6 +3,31 @@ import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
+// Define the options for the dropdown menu
+const headOptions = [
+    { value: 'h1', label: 'Head 1' },
+    { value: 'h2', label: 'Head 2' },
+    { value: 'h3', label: 'Head 3' },
+    { value: 'h4', label: 'Head 4' },
+    { value: 'h5', label: 'Head 5' },
+];
+
+// Define a custom editor for the 'Head' field
+const HeadEditor = ({ value, onCellValueChange }) => {
+    const handleChange = (event) => {
+        onCellValueChange(event.target.value);
+    };
+
+    return (
+        <select value={value} onChange={handleChange}>
+            {headOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
+    );
+};
 
 // Define the columns for the DataGrid
 const columns = [
@@ -18,7 +43,9 @@ const columns = [
     { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
+    renderCell: (params)=> <HeadEditor value = {params.value} 
+    onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} />, headerClassName: 'super-app-theme--header' },
     { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];

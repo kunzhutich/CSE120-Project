@@ -39,7 +39,7 @@ const columns = [
     { field: 'hours', headerName: 'Hours', flex: 1 },
     { field: 'crop', headerName: 'Crop', flex: 1},
     { field: 'date', headerName: 'Date', editable: true, flex: 1 },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1, 
+    { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
     renderCell: (params)=> <HeadEditor value = {params.value} 
     onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
 ];
