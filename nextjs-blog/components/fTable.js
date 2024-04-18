@@ -10,6 +10,7 @@ const headOptions = [
     { value: 'h3', label: 'Head 3' },
     { value: 'h4', label: 'Head 4' },
     { value: 'h5', label: 'Head 5' },
+    { value: 'un', label: 'Unordered' },
 ];
 
 // Define a custom editor for the 'Head' field
