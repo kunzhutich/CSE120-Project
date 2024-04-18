@@ -3,6 +3,32 @@ import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 
+// Define the options for the dropdown menu
+const headOptions = [
+    { value: 'h1', label: 'Head 1' },
+    { value: 'h2', label: 'Head 2' },
+    { value: 'h3', label: 'Head 3' },
+    { value: 'h4', label: 'Head 4' },
+    { value: 'h5', label: 'Head 5' },
+];
+
+// Define a custom editor for the 'Head' field
+const HeadEditor = ({ value, onCellValueChange }) => {
+    const handleChange = (event) => {
+        onCellValueChange(event.target.value);
+    };
+
+    return (
+        <select value={value} onChange={handleChange}>
+            {headOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
+    );
+};
+
 const columns = [
     { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
     { field: 'lat', headerName: 'Lat', flex: 1 },
@@ -13,7 +39,9 @@ const columns = [
     { field: 'hours', headerName: 'Hours', flex: 1 },
     { field: 'crop', headerName: 'Crop', flex: 1},
     { field: 'date', headerName: 'Date', editable: true, flex: 1 },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1 },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1, 
+    renderCell: (params)=> <HeadEditor value = {params.value} 
+    onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
 ];
 
 

@@ -46,7 +46,8 @@ export default function HFSTable() {
     }, []);
 
 return (
-    <Box sx = {{height: 420, width: '40vw', paddingLeft: 1, paddingRight: 4, paddingTop: 2}}>
+    <Box sx = {{height: 420, width: '40vw', paddingLeft: 1, paddingRight: 4, paddingTop: 2, 
+    '& .super-app-theme--header': {backgroundColor: 'rgba(101, 176, 193, 0.5)',}}}>
         <StripedDataGrid
             rows={orders}
             columns={columns}
