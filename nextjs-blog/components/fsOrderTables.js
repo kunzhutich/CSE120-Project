@@ -4,6 +4,32 @@ import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid c
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
+// Define the options for the dropdown menu
+const headOptions = [
+    { value: 'h1', label: 'Head 1' },
+    { value: 'h2', label: 'Head 2' },
+    { value: 'h3', label: 'Head 3' },
+    { value: 'h4', label: 'Head 4' },
+    { value: 'h5', label: 'Head 5' },
+];
+
+// Define a custom editor for the 'Head' field
+const HeadEditor = ({ value, onCellValueChange }) => {
+    const handleChange = (event) => {
+        onCellValueChange(event.target.value);
+    };
+
+    return (
+        <select value={value} onChange={handleChange}>
+            {headOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
+    );
+};
+
 const columns = [
     { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
     { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
