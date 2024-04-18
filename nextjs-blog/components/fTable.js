@@ -20,6 +20,7 @@ const HeadEditor = ({ value, onCellValueChange }) => {
 
     return (
         <select value={value} onChange={handleChange}>
+            <option value="">Select...</option>
             {headOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                     {option.label}
