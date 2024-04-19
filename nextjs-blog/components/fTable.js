@@ -48,13 +48,10 @@ const columns = [
     { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
     renderCell: (params) => (
         <HeadEditor
-            value={params.value}
-            onCellValueChange={(newValue) => {
-                const editProps = { id: params.id, field: params.field, props: params };
-                params.api.commitCellChange(editProps);
-            }}
-        />
-    ), headerClassName: 'super-app-theme--header' },
+          value={params.value}
+          onCellValueChange={(newValue) => params.api.commitCellChange({ id: params.id, field: 'head', value: newValue })}
+            />
+        ), headerClassName: 'super-app-theme--header' },
     { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
