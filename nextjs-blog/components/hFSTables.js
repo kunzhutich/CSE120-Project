@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
@@ -95,7 +96,7 @@ return (
     <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: 'rgba(108, 193, 101)',
     }}}>
-        <DataGrid
+        <StripedDataGrid
             rows={orders}
             columns={columns}
             hideFooter
