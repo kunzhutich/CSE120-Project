@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 // Define the options for the dropdown menu
 const headOptions = [
@@ -55,6 +56,18 @@ const columns = [
       ), headerClassName: 'super-app-theme--header' },
 ];
 
+// Custom toolbar for datagrid settings
+function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector
+          slotProps={{ tooltip: { title: 'Change density' } }}
+        />
+      </GridToolbarContainer>
+    );
+  }
 
 export default function FSTable() {
     const [orders, setOrders] = useState([]);
@@ -88,9 +101,41 @@ export default function FSTable() {
         fetchOrders();
     }, []);
 
+    const handleCellEditCommit = async (updatedRow) => {
+        try {
+            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
+            const updatedOrders = orders.map(order =>
+                order.id === id ? { ...order, ...updatedOrder } : order
+            );
+            setOrders(updatedOrders);
+
+            const encodedId = encodeURIComponent(id);
+
+            // Send the updated data to your backend API for saving
+            const sa = sessionStorage.getItem('sa');
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sa,
+                },
+                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.ok) {
+                console.log(message);
+            }
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        };
+    };
+
     return (
-        <Box sx={{height: 800, width: '60vw', paddingLeft: 4, paddingTop: 2, 
-        '& .super-app-theme--header': {backgroundColor: 'rgba(101, 176, 193, 0.5)',},}}>
+        <Box sx={{height: '100vh', width: '60vw', paddingLeft: 4, '& .super-app-theme--header': {
+            backgroundColor: 'rgba(101, 176, 193, 0.5)',
+          }}}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}
@@ -102,6 +147,9 @@ export default function FSTable() {
                 getRowClassName={(params) =>
                     params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                   }
+                processRowUpdate={(updatedRow, originalRow) =>
+                    handleCellEditCommit(updatedRow)
+                }
             />
         </Box>
     );

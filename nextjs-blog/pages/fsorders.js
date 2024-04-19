@@ -7,15 +7,15 @@ export default function fsorders() {
         <div>
             <NavBar/>
             <div style={{display: 'flex', flexDirection: 'row'}}>
-                <div style={{position: 'sticky', top: 65, left: 0}}>
+                <div style={{position: 'sticky', top: 65, float: '0'}}>
                     <FSTable/>
                 </div>
                 <div>
-                    <HFSTable/>
-                    <HFSTable/>
-                    <HFSTable/>
-                    <HFSTable/>
-                    <HFSTable/>
+                    <HFSTable requiredString={'H1'} />
+                    <HFSTable requiredString={'H2'} />
+                    <HFSTable requiredString={'H3'} />
+                    <HFSTable requiredString={'H4'} />
+                    <HFSTable requiredString={'H5'} />
                 </div>
             </div>
         </div>

@@ -1,26 +1,41 @@
 import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
-import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
 
 // Creates column definitions for the DataGrid
 const columns = [
-    { field: 'id', headerName: 'Head', width: 150 },
-    { field: 'sg', headerName: 'SG', width: 75},
-    { field: 'name', headerName: 'Contact', width: 250},
-    { field: 'hours', headerName: 'Hours', width: 75},
-    { field: 'estStart', headerName: 'Est Start', editable: true},
+    { field: 'id', headerName: 'Head', width: 150, headerClassName: 'super-app-theme--header' },
+    { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
+    { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
+    { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
+    { field: 'estStart', headerName: 'Est Start', editable: true, headerClassName: 'super-app-theme--header'},
 ];
 
-export default function HFSTable() {
+// Custom toolbar for datagrid settings
+function CustomToolbar() {
+    return (
+      <GridToolbarContainer>
+        <GridToolbarColumnsButton />
+        <GridToolbarFilterButton />
+        <GridToolbarDensitySelector
+          slotProps={{ tooltip: { title: 'Change density' } }}
+        />
+      </GridToolbarContainer>
+    );
+  }
+
+export default function HFSTable(props) {
+    const { requiredString } = props;
+    console.log(requiredString);
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:5000/forders', {
+                const response = await fetch(`http://127.0.0.1:5000/${requiredString}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -45,10 +60,42 @@ export default function HFSTable() {
         fetchOrders();
     }, []);
 
+    const handleCellEditCommit = async (updatedRow) => {
+        try {
+            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
+            const updatedOrders = orders.map(order =>
+                order.id === id ? { ...order, ...updatedOrder } : order
+            );
+            setOrders(updatedOrders);
+
+            const encodedId = encodeURIComponent(id);
+
+            // Send the updated data to your backend API for saving
+            const sa = sessionStorage.getItem('sa');
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sa,
+                },
+                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            if (response.ok) {
+                console.log(message);
+            }
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        };
+    };
+
 return (
-    <Box sx = {{height: 420, width: '40vw', paddingLeft: 1, paddingRight: 4, paddingTop: 2, 
-    '& .super-app-theme--header': {backgroundColor: 'rgba(101, 176, 193, 0.5)',}}}>
-        <StripedDataGrid
+    <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
+      backgroundColor: 'rgba(108, 193, 101)',
+    }}}>
+        <DataGrid
             rows={orders}
             columns={columns}
             hideFooter
@@ -58,6 +105,9 @@ return (
       }}
       getRowClassName={(params) =>
         params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+      }
+      processRowUpdate={(updatedRow, originalRow) =>
+            handleCellEditCommit(updatedRow)
       }
         />
     </Box>
