@@ -72,7 +72,7 @@ class Orders(db.Model):
     acre = db.Column(db.Float())
     crop = db.Column(db.String(2))
     type = db.Column(db.String(2))
-    date = db.Column(db.Date())
+    date = db.Column(db.DateTime())
     trantime = db.Column(db.Integer())
     ex = db.Column(db.String(1))
     final = db.Column(db.String(1))

@@ -3,23 +3,53 @@ import Box from '@mui/material/Box';
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
+// Define the options for the dropdown menu
+const headOptions = [
+    { value: 'h1', label: 'Head 1' },
+    { value: 'h2', label: 'Head 2' },
+    { value: 'h3', label: 'Head 3' },
+    { value: 'h4', label: 'Head 4' },
+    { value: 'h5', label: 'Head 5' },
+    { value: 'un', label: 'Unordered' },
+];
+
+// Define a custom editor for the 'Head' field
+const HeadEditor = ({ value, onCellValueChange }) => {
+    const handleChange = (event) => {
+        onCellValueChange(event.target.value);
+    };
+
+    return (
+        <select value={value} onChange={handleChange}>
+            <option value="">Select...</option>
+            {headOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
+    );
+};
+
 // Define the columns for the DataGrid
 const columns = [
-    { field: 'id', headerName: 'Combo', width: 130, flex: 2 },
-    { field: 'lat', headerName: 'Lat', flex: 1 },
-    { field: 'sg', headerName: 'SG', flex: 1 },
-    { field: 'name', headerName: 'Name', flex: 2 },
-    { field: 'phone', headerName: 'Phone', flex: 1 },
-    { field: 'flow', headerName: 'Flow', flex: 1 },
-    { field: 'hours', headerName: 'Hours', flex: 1 },
-    { field: 'acre', headerName: 'Acre', flex: 1 },
-    { field: 'crop', headerName: 'Crop', flex: 1 },
-    { field: 'type', headerName: 'Type', flex: 1 },
-    { field: 'date', headerName: 'Date', editable: true, flex: 1 },
-    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1 },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1 },
-    { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1 },
-    { field: 'est_finish', headerName: 'Est Stop', editable: true, flex: 1 },
+    { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'acre', headerName: 'Acre', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
+    renderCell: (params)=> <HeadEditor value = {params.value} 
+    onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} />, headerClassName: 'super-app-theme--header' },
+    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
 
 function CustomToolbar() {
