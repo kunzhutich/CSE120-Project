@@ -41,54 +41,54 @@ const DatePickerCell = () => {
   );
 };
 
-// const CommentsCell = (props) => {
-//     const { value, row } = props;
-//     const [open, setOpen] = useState(false);
-//     const [comment, setComment] = useState(value || row.comments);
+const CommentsCell = (props) => {
+    const { value, row } = props;
+    const [open, setOpen] = useState(false);
+    const [comment, setComment] = useState(value || row.comments);
   
-//     const handleClickOpen = () => {
-//       setOpen(true);
-//     };
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
   
-//     const handleClose = () => {
-//       setOpen(false);
-//     };
+    const handleClose = () => {
+      setOpen(false);
+    };
   
-//     const handleCommentChange = (event) => {
-//       setComment(event.target.value);
-//     };
+    const handleCommentChange = (event) => {
+      setComment(event.target.value);
+    };
   
-//     const handleMenuClose = (option) => {
-//       setComment(option);
-//       setOpen(false);
-//       props.onChange(option);
-//     };
+    const handleMenuClose = (option) => {
+      setComment(option);
+      setOpen(false);
+      props.onChange(option);
+    };
   
-//     return (
-//       <div>
-//         <div style={{ display: 'flex', alignItems: 'center' }}>
-//           <IconButton
-//             aria-label="more"
-//             aria-controls="long-menu"
-//             aria-haspopup="true"
-//             onClick={handleClickOpen}
-//           >
-//             <MoreVertIcon />
-//           </IconButton>
-//           <span>{comment}</span>
-//         </div>
-//         <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-//           <DialogTitle>Comment</DialogTitle>
-//           <DialogContent>
-//             <DialogContentText>{comment}</DialogContentText>
-//           </DialogContent>
-//           <DialogActions>
-//             <Button onClick={handleClose}>Close</Button>
-//           </DialogActions>
-//         </Dialog>
-//       </div>
-//     );
-//   };
+    return (
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton
+            aria-label="more"
+            aria-controls="long-menu"
+            aria-haspopup="true"
+            onClick={handleClickOpen}
+          >
+            <MoreVertIcon />
+          </IconButton>
+          <span>{comment}</span>
+        </div>
+        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+          <DialogTitle>Comment</DialogTitle>
+          <DialogContent>
+            <DialogContentText>{comment}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  };
   
 
 // Define the options for the dropdown menu
@@ -132,6 +132,7 @@ const columns = [
     { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
     { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
     renderCell: (params)=> <HeadEditor value = {params.value} 
