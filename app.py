@@ -5,7 +5,7 @@ from flask_cors import CORS
 from sqlalchemy.sql import text, or_
 from sqlalchemy import text
 from sqlalchemy import func
-from datetime import datetime
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -442,7 +442,7 @@ def updateOrder(combo):
         order.deleted = data.get('deleted', order.deleted)
         order.sa = data.get('sa', order.sa)
         order.head = data.get('head')
-        #order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
+        order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
         # order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
         # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
         #order.prime_date = datetime.strptime(data.get('prime_date'), '%Y-%m-%d %H:%M:%S') if data.get('prime_date') else order.prime_date
@@ -453,6 +453,17 @@ def updateOrder(combo):
         order.finish_time = data.get('finishTime', order.finish_time)
         order.called = data.get('called', order.called)
         order.abonormal = data.get('abnormal', order.abnormal)
+
+        if 'est_finish' in data and 'hours' in data and 'trantime' in data:
+            est_finish = datetime.strptime(data['est_finish'], '%Y-%m-%d %H:%M:%S')
+            hours = int(data['hours'])
+            trantime = int(data['trantime'])
+            est_start = est_finish - timedelta(hours=hours)
+            primeTotal = hours + trantime
+
+            order.est_start = est_start
+            order.est_finish = est_finish
+            order.primeTotal = primeTotal
 
         # Commit the changes to the database
         db.session.commit()
