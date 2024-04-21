@@ -132,7 +132,7 @@ const columns = [
     { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
+    { field: 'comment', headerName: 'Comment', editable: true,  flex: 1.5, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
     { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
     renderCell: (params)=> <HeadEditor value = {params.value} 
