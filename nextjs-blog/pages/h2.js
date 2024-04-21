@@ -7,7 +7,7 @@ export default function h2() {
     return (
         <div>
             <NavBar />
-            <HeadTable requiredString={'H2'} 
+            <HeadTable headerColor='rgba(135, 206, 250, 1)' requiredString={'H2'} 
             />
         </div>
     );
