@@ -27,7 +27,7 @@ function CustomToolbar() {
   }
 
 export default function HFSTable(props) {
-    const { requiredString } = props;
+    const { requiredString, headerColor  } = props;
     console.log(requiredString);
     const [orders, setOrders] = useState([]);
 
@@ -93,7 +93,7 @@ export default function HFSTable(props) {
 
 return (
     <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
-      backgroundColor: 'rgba(108, 193, 101)',
+      backgroundColor: headerColor,
     }}}>
         <DataGrid
             rows={orders}
