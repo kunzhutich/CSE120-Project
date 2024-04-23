@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
