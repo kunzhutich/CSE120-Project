@@ -7,7 +7,7 @@ export default function h1() {
     return (
         <div>
             <NavBar/>
-            <HeadTable requiredString={'H1'}/>
+            <HeadTable  headerColor='rgba(108, 193, 101) 'requiredString={'H1'}/>
         </div>
     );
 }
