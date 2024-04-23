@@ -156,7 +156,7 @@ export default function FSTable() {
         { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
         {
-            field: 'head', headerName: 'Head', editable: true, flex: 1.5,
+            field: 'head', headerName: 'Head', editable: true, flex: 1.5,  headerClassName: 'super-app-theme--header',
             renderCell: (params) => <HeadEditor
                 value={params.value}
                 onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
