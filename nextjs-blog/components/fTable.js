@@ -17,30 +17,6 @@ import Button from '@mui/material/Button';
 import DialogContentText from '@mui/material/DialogContentText';
 import IconButton from '@mui/material/IconButton';
 
-
-const DatePickerCell = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        label=""
-        value={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        renderInput={(props) => <input {...props} readOnly />}
-        renderOpenPicker={(openPicker) => (
-          <input
-            type="text"
-            value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
-            onFocus={openPicker}
-            readOnly
-          />
-        )}
-      />
-    </LocalizationProvider>
-  );
-};
-
 const CommentsCell = (props) => {
     const { value, row } = props;
     const [open, setOpen] = useState(false);
@@ -135,11 +111,43 @@ const columns = [
     { field: 'comment', headerName: 'Comment', editable: true,  flex: 1.5, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
     { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
-    renderCell: (params)=> <HeadEditor value = {params.value} 
-    onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} />, headerClassName: 'super-app-theme--header' },
-    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell />  },
+        renderCell: (params) => <HeadEditor
+            value={params.value}
+            onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
+        />, headerClassName: 'super-app-theme--header' },
+    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
+        renderCell: (params) => <DatePickerCell value={params.value}
+            onChange={(date) => handleCellEditCommit({ id: params.id, startDate: date })} />  },
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
+
+const DatePickerCell = () => {
+    const [selectedDate, setSelectedDate] = useState(null);
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        onChange(date.toDate()); // Convert Dayjs object to JavaScript Date object
+    };
+
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+                label=""
+                value={selectedDate}
+                onChange={handleDateChange}
+                renderInput={(props) => <input {...props} readOnly />}
+                renderOpenPicker={(openPicker) => (
+                    <input
+                        type="text"
+                        value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
+                        onFocus={openPicker}
+                        readOnly
+                    />
+                )}
+            />
+        </LocalizationProvider>
+    );
+};
 
 export default function FTable() {
     const [orders, setOrders] = useState([]);
