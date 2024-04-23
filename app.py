@@ -12,9 +12,9 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 # CORS(app, resources={r"*": {"origins": "*"}})
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin123@localhost/txdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:hiii@localhost/txdb'
 app.config["SQLALCHEMY_BINDS"] = {
-    'rhdb':'mysql://root:admin123@localhost/rhdb'
+    'rhdb':'mysql://root:hiii@localhost/rhdb'
 }
 
 db = SQLAlchemy(app)
@@ -442,7 +442,7 @@ def updateOrder(combo):
         order.deleted = data.get('deleted', order.deleted)
         order.sa = data.get('sa', order.sa)
         order.head = data.get('head')
-        #order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
+        order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
         # order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
         # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
         #order.prime_date = datetime.strptime(data.get('prime_date'), '%Y-%m-%d %H:%M:%S') if data.get('prime_date') else order.prime_date
@@ -617,6 +617,7 @@ def h1():
                 "combo": order.combo, 
                 "head": order.head, 
                 "lat": order.lat,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -658,6 +659,7 @@ def h2():
                 "combo": order.combo, 
                 "head": order.head, 
                 "lat": order.lat,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -698,6 +700,7 @@ def h3():
                 "combo": order.combo, 
                 "head": order.head, 
                 "lat": order.lat,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -738,6 +741,7 @@ def h4():
                 "combo": order.combo, 
                 "head": order.head, 
                 "lat": order.lat,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -778,6 +782,7 @@ def h5():
                 "combo": order.combo, 
                 "head": order.head, 
                 "lat": order.lat,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
