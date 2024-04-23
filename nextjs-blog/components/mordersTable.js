@@ -22,7 +22,7 @@ const DatePickerCell = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
+      <DateTimePicker ampm={false}
         label=""
         value={selectedDate}
         onChange={(date) => setSelectedDate(date)}
@@ -132,7 +132,7 @@ const columns = [
   { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
   { field: 'head', headerName: 'Head', editable: true, flex: 1.75, headerClassName: 'super-app-theme--header', renderCell: (params)=> <HeadEditor value = {params.value} 
   onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
-  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell /> },
+  { field: 'estStart', headerName: 'Est Start', flex: 1.25, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell /> },
   { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
   { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];

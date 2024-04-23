@@ -16,6 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import DialogContentText from '@mui/material/DialogContentText';
 import IconButton from '@mui/material/IconButton';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 
 const DatePickerCell = () => {
@@ -23,7 +24,7 @@ const DatePickerCell = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
+      <DateTimePicker ampm={false}
         label=""
         value={selectedDate}
         onChange={(date) => setSelectedDate(date)}
@@ -137,7 +138,7 @@ const columns = [
     { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
     renderCell: (params)=> <HeadEditor value = {params.value} 
     onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} />, headerClassName: 'super-app-theme--header' },
-    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell />  },
+    { field: 'estStart', headerName: 'Est Start', flex: 1, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell />  },
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
 
