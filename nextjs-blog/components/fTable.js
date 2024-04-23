@@ -5,6 +5,94 @@ import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
 
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import dayjs from 'dayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
+import DialogContentText from '@mui/material/DialogContentText';
+import IconButton from '@mui/material/IconButton';
+
+
+const DatePickerCell = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+        label=""
+        value={selectedDate}
+        onChange={(date) => setSelectedDate(date)}
+        renderInput={(props) => <input {...props} readOnly />}
+        renderOpenPicker={(openPicker) => (
+          <input
+            type="text"
+            value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
+            onFocus={openPicker}
+            readOnly
+          />
+        )}
+      />
+    </LocalizationProvider>
+  );
+};
+
+const CommentsCell = (props) => {
+    const { value, row } = props;
+    const [open, setOpen] = useState(false);
+    const [comment, setComment] = useState(value || row.comments);
+  
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+  
+    const handleCommentChange = (event) => {
+      setComment(event.target.value);
+    };
+  
+    const handleMenuClose = (option) => {
+      setComment(option);
+      setOpen(false);
+      props.onChange(option);
+    };
+  
+    return (
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <IconButton
+            aria-label="more"
+            aria-controls="long-menu"
+            aria-haspopup="true"
+            onClick={handleClickOpen}
+          >
+            <MoreVertIcon />
+          </IconButton>
+          <span>{comment}</span>
+        </div>
+        <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+          <DialogTitle>Comment</DialogTitle>
+          <DialogContent>
+            <DialogContentText>{comment}</DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Close</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+    );
+  };
+  
 
 // Define the options for the dropdown menu
 const headOptions = [
@@ -47,11 +135,12 @@ const columns = [
     { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'comment', headerName: 'Comment', editable: true,  flex: 1.5, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
     { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
     renderCell: (params)=> <HeadEditor value = {params.value} 
     onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} />, headerClassName: 'super-app-theme--header' },
-    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell />  },
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
 
