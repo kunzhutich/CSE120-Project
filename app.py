@@ -433,7 +433,7 @@ def updateOrder(combo):
         order.acre = data.get('acre', order.acre)
         order.crop = data.get('crop', order.crop)
         order.type = data.get('type', order.type)
-        # order.date = datetime.strptime(data.get('date'), '%Y-%m-%d %H:%M:%S') if data.get('date') else order.date
+        #order.date = datetime.strptime(data.get('date'), '%Y-%m-%d %H:%M:%S') if data.get('date') else order.date
         order.trantime = data.get('trantime', order.trantime)
         order.ex = data.get('ex', order.ex)
         order.final = data.get('final', order.final)

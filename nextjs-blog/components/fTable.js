@@ -96,58 +96,9 @@ const HeadEditor = ({ value, onCellValueChange }) => {
 };
 
 // Define the columns for the DataGrid
-const columns = [
-    { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
-    { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
-    { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'acre', headerName: 'Acre', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'comment', headerName: 'Comment', editable: true,  flex: 1.5, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
-    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
-        renderCell: (params) => <HeadEditor
-            value={params.value}
-            onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
-        />, headerClassName: 'super-app-theme--header' },
-    { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
-        renderCell: (params) => <DatePickerCell value={params.value}
-            onChange={(date) => handleCellEditCommit({ id: params.id, startDate: date })} />  },
-    { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-];
 
-const DatePickerCell = () => {
-    const [selectedDate, setSelectedDate] = useState(null);
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-        onChange(date.toDate()); // Convert Dayjs object to JavaScript Date object
-    };
 
-    return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker
-                label=""
-                value={selectedDate}
-                onChange={handleDateChange}
-                renderInput={(props) => <input {...props} readOnly />}
-                renderOpenPicker={(openPicker) => (
-                    <input
-                        type="text"
-                        value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
-                        onFocus={openPicker}
-                        readOnly
-                    />
-                )}
-            />
-        </LocalizationProvider>
-    );
-};
 
 export default function FTable() {
     const [orders, setOrders] = useState([]);
@@ -216,6 +167,58 @@ export default function FTable() {
     const handleProcessRowUpdateError = React.useCallback((error) => {
         console.log(error);
     }, []);
+
+    const DatePickerCell = () => {
+        const [selectedDate, setSelectedDate] = useState(null);
+
+        return (
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                    label=""
+                    value={selectedDate}
+                    onChange={handleCellEditCommit}
+                    renderInput={(props) => <input {...props} readOnly />}
+                    renderOpenPicker={(openPicker) => (
+                        <input
+                            type="text"
+                            value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
+                            onFocus={openPicker}
+                            readOnly
+                        />
+                    )}
+                />
+            </LocalizationProvider>
+        );
+    };
+
+    const columns = [
+        { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
+        { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
+        { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'acre', headerName: 'Acre', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'comment', headerName: 'Comment', editable: true, flex: 1.5, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
+        { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
+        {
+            field: 'head', headerName: 'Head', editable: true, flex: 1.5,
+            renderCell: (params) => <HeadEditor
+                value={params.value}
+                onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
+            />, headerClassName: 'super-app-theme--header'
+        },
+        {
+            field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell value={params.value}
+                onChange={(date) => handleCellEditCommit({ id: params.id, startDate: date.toDate() })} />
+        },
+        { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    ];
 
     
 
