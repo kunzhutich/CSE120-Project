@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
@@ -12,6 +13,7 @@ const headOptions = [
     { value: 'h4', label: 'Head 4' },
     { value: 'h5', label: 'Head 5' },
     { value: 'un', label: 'Unordered' },
+
 ];
 
 // Define a custom editor for the 'Head' field

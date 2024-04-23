@@ -96,7 +96,7 @@ return (
     <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: headerColor,
     }}}>
-        <DataGrid
+        <StripedDataGrid
             rows={orders}
             columns={columns}
             hideFooter
