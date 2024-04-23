@@ -5,7 +5,7 @@ import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar compone
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -17,29 +17,53 @@ import Button from '@mui/material/Button';
 import DialogContentText from '@mui/material/DialogContentText';
 import IconButton from '@mui/material/IconButton';
 
-const DatePickerCell = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
+// const DatePickerCell = () => {
+//   const [selectedDate, setSelectedDate] = useState(null);
 
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DatePicker
-        label=""
-        value={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        renderInput={(props) => <input {...props} readOnly />}
-        renderOpenPicker={(openPicker) => (
-          <input
-            type="text"
-            value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
-            onFocus={openPicker}
-            readOnly
-          />
-        )}
-      />
-    </LocalizationProvider>
-  );
+//   return (
+//     <LocalizationProvider dateAdapter={AdapterDayjs}>
+//       <DateTimePicker
+//         label=""
+//         value={selectedDate}
+//         onChange={(date) => setSelectedDate(date)}
+//         renderInput={(props) => <input {...props} readOnly />}
+//         renderOpenPicker={(openPicker) => (
+//           <input
+//             type="text"
+//             value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
+//             onFocus={openPicker}
+//             readOnly
+//           />
+//         )}
+//       />
+//     </LocalizationProvider>
+//   );
+// };
+
+const DatePickerCell = (props) => {
+    const { value, id, onCellValueChange } = props;
+    const [selectedDate, setSelectedDate] = useState(value);
+  
+    const handleDateChange = (newDate) => {
+      setSelectedDate(newDate);
+      onCellValueChange({
+        id: id,
+        estStart: newDate ? newDate.format('YYYY-MM-DD HH:mm:ss') : null,
+      });
+    };
+  
+    return (
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DateTimePicker
+          label=""
+          value={selectedDate}
+          onChange={handleDateChange}
+          renderInput={(props) => <input {...props} readOnly />}
+        />
+      </LocalizationProvider>
+    );
 };
-
+  
 
 
 const CommentsCell = (props) => {
@@ -132,7 +156,13 @@ const columns = [
   { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
   { field: 'head', headerName: 'Head', editable: true, flex: 1.75, headerClassName: 'super-app-theme--header', renderCell: (params)=> <HeadEditor value = {params.value} 
   onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
-  { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell /> },
+  { field: 'estStart', headerName: 'Est Start', flex: 1.25, headerClassName: 'super-app-theme--header', 
+    renderCell: (params) => <DatePickerCell
+    id={params.id}
+    value={params.value ? dayjs(params.value) : null}
+    onCellValueChange={handleCellEditCommit}
+    /> 
+  },
   { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
   { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];

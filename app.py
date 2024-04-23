@@ -442,8 +442,10 @@ def updateOrder(combo):
         order.deleted = data.get('deleted', order.deleted)
         order.sa = data.get('sa', order.sa)
         order.head = data.get('head')
-        order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
-        # order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
+        # order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
+        if 'estStart' in data:
+            order.est_start = datetime.strptime(data['estStart'], '%Y-%m-%d %H:%M:%S') if data['estStart'] else None
+        order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
         # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
         #order.prime_date = datetime.strptime(data.get('prime_date'), '%Y-%m-%d %H:%M:%S') if data.get('prime_date') else order.prime_date
         order.prime_time = data.get('primeTime', order.prime_time)

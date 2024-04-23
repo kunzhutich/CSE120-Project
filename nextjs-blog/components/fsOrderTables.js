@@ -15,6 +15,37 @@ const headOptions = [
 ];
 
 // Define a custom editor for the 'Head' field
+const HeadEditor = ({ value, onCellValueChange }) => {
+    const handleChange = (event) => {
+        onCellValueChange(event.target.value);
+    };
+
+    return (
+        <select value={value} onChange={handleChange}>
+            <option value="">Select...</option>
+            {headOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
+    );
+};
+
+const columns = [
+    { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
+    renderCell: (params)=> <HeadEditor value = {params.value} 
+    onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} />, headerClassName: 'super-app-theme--header' },
+];
 
 // Custom toolbar for datagrid settings
 function CustomToolbar() {
