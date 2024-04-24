@@ -1,7 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import useSWR from "swr";
+import fetcher from '../utils/fetcher';
 
 
 // Creates column definitions for the DataGrid
@@ -31,34 +34,12 @@ export default function HFSTable(props) {
     console.log(requiredString);
     const [orders, setOrders] = useState([]);
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const sa = sessionStorage.getItem('sa');
-                const response = await fetch(`http://127.0.0.1:5000/${requiredString}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'SA': sa,
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                // Map the fetched data to include a unique 'id' for each row using 'combo'
-                const formattedData = data.map((item) => ({
-                    ...item,
-                    id: item.combo, // Use `combo` as the `id`
-                }));
-                setOrders(formattedData);
-            } catch (error) {
-                console.error("Failed to fetch orders:", error);
-            }
-        };
+    const {data, error, loading} = useSWR(`http://127.0.0.1:5000/${requiredString}`, fetcher, {refreshInterval: 1000});
 
-        fetchOrders();
-    }, []);
+    if (error) return <div>Failed to load</div>
+    if (loading) return <div>Loading</div>
+
+    if(!data) return <div>No Data</div>
 
     const handleCellEditCommit = async (updatedRow) => {
         try {
@@ -91,12 +72,17 @@ export default function HFSTable(props) {
         };
     };
 
+    const head1 = data.map((item) => ({
+        ...item,
+        id: item.combo, // Use `combo` as the `id`
+    }));
+
 return (
     <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
       backgroundColor: headerColor,
     }}}>
-        <DataGrid
-            rows={orders}
+        <StripedDataGrid
+            rows={head1}
             columns={columns}
             hideFooter
 
