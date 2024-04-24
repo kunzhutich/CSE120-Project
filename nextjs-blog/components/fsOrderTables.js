@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import useSWR from "swr";
+import fetcher from '../utils/fetcher';
 
 // Define the options for the dropdown menu
 const headOptions = [
@@ -63,8 +65,6 @@ function CustomToolbar() {
 
 export default function FSTable() {
     const [orders, setOrders] = useState([]);
-
-   
 
     useEffect(() => {
         const fetchOrders = async () => {
