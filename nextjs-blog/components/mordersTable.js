@@ -260,16 +260,14 @@ export default function MordersTable() {
             <StripedDataGrid
                 rows={orders}
                 columns={columns}
-                hideFooter
                 slots={{
                     toolbar: CustomToolbar,
                 }}
                 getRowClassName={(params) =>
                     params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                 }
-                processRowUpdate={(updatedRow) =>
-                    handleCellEditCommit(updatedRow)
-                }
+                onProcessRowUpdateError={handleProcessRowUpdateError}
+                hideFooter
             />
         </Box>
     );

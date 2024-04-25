@@ -214,8 +214,12 @@ export default function FTable() {
                 rows={orders}
                 columns={columns}
                 pageSize={5}
-                components={{ Toolbar: CustomToolbar }}
-                getRowClassName={(params) => params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}
+                slots={{ 
+                    toolbar: CustomToolbar 
+                }}
+                getRowClassName={(params) => 
+                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                }
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
             />
