@@ -142,7 +142,16 @@ def updateOrder(combo):
     data = request.json
     for field in data:
         if hasattr(order, field):
-            setattr(order, field, data[field])
+            
+            if field in ['est_start', 'est_finish', 'any_other_datetime_field']:        # Check if the field is a datetime field
+                if data[field] is not None:  
+                    try:
+                        datetime_value = datetime.strptime(data[field], '%Y-%m-%d %H:%M:%S')
+                        setattr(order, field, datetime_value)
+                    except ValueError:
+                        return jsonify({"error": "Incorrect datetime format"}), 400
+            else:
+                setattr(order, field, data[field])
 
     db.session.commit()
     return jsonify({"message": "Order updated successfully"}), 200
@@ -244,8 +253,8 @@ def forders():
                 "deleted": order.deleted,
                 "sa": order.sa,
                 "head": order.head,
-                "est_start": order.est_start,
-                "est_finish":order.est_finish
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
             }
             for order in orders_query
         ]
@@ -347,7 +356,10 @@ def morders():
                 "comment": order.comment,
                 "sbxcfs": order.sbxcfs,
                 "deleted": order.deleted,
-                "sa": order.sa
+                "sa": order.sa,
+                "head": order.head,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
             }
             for order in orders_query
         ]
@@ -372,8 +384,7 @@ def h1():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start,
-                "est_finish": order.est_finish
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -398,8 +409,7 @@ def h2():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start,
-                "est_finish": order.est_finish
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -423,8 +433,7 @@ def h3():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start,
-                "est_finish": order.est_finish
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -448,8 +457,7 @@ def h4():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start,
-                "est_finish": order.est_finish
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -473,8 +481,7 @@ def h5():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start,
-                "est_finish": order.est_finish
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]

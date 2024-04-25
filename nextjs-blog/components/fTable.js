@@ -14,16 +14,26 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
+
+
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
-    const [selectedDate, setSelectedDate] = useState(value);
+    const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
     const handleDateChange = (newDate) => {
         setSelectedDate(newDate);
-        onCellValueChange({
-            id: id,
-            field: 'est_start',
-            value: newDate ? newDate.format('YYYY-MM-DD HH:mm:ss') : null,
-        });
+        if (newDate && newDate.isValid()) { 
+            onCellValueChange({
+                id: id,
+                field: 'est_start',
+                value: newDate.format('YYYY-MM-DD HH:mm:ss'),
+            });
+        } else {
+            onCellValueChange({
+                id: id,
+                field: 'est_start',
+                value: null,
+            });
+        }
     };
 
     return (
@@ -39,6 +49,8 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
         </LocalizationProvider>
     );
 };
+
+
 
 const CommentsCell = ({ value, row, onCellValueChange }) => {
     const [open, setOpen] = useState(false);
@@ -95,7 +107,7 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     };
 
     return (
-        <select value={value} onChange={handleChange}>
+        <select value={value || ''} onChange={handleChange}>
             <option value="">Select...</option>
             {headOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -138,6 +150,9 @@ export default function FTable() {
     }, []);
 
     const handleCellEditCommit = async (params) => {
+
+        console.log("Final data being sent for update:", params);
+
         const { id, field, value } = params;
         const currentOrderData = orders.find(order => order.id === id);
         if (!currentOrderData) {

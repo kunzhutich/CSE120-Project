@@ -15,15 +15,23 @@ import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
-    const [selectedDate, setSelectedDate] = useState(value);
+    const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
     const handleDateChange = (newDate) => {
         setSelectedDate(newDate);
-        onCellValueChange({
-            id: id,
-            field: 'est_start',
-            value: newDate ? newDate.format('YYYY-MM-DD HH:mm:ss') : null,
-        });
+        if (newDate && newDate.isValid()) { 
+            onCellValueChange({
+                id: id,
+                field: 'est_start',
+                value: newDate.format('YYYY-MM-DD HH:mm:ss'),
+            });
+        } else {
+            onCellValueChange({
+                id: id,
+                field: 'est_start',
+                value: null,
+            });
+        }
     };
 
     return (
@@ -114,7 +122,7 @@ const HeadEditor = ({ value, onCellValueChange }) => {
     const handleChange = (event) => onCellValueChange(event.target.value);
 
     return (
-        <select value={value} onChange={handleChange}>
+        <select value={value || ''} onChange={handleChange}>
             <option value="">Select...</option>
             {headOptions.map((option) => (
                 <option key={option.value} value={option.value}>
