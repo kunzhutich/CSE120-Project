@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import { DataGrid } from '@mui/x-data-grid';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 import dayjs from 'dayjs';
@@ -112,23 +111,27 @@ export default function FTable() {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            const sa = sessionStorage.getItem('sa');
-            const response = await fetch('http://127.0.0.1:5000/forders', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'SA': sa,
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            try {
+                const sa = sessionStorage.getItem('sa');
+                const response = await fetch('http://127.0.0.1:5000/forders', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'SA': sa,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const formattedData = data.map((item) => ({
+                    ...item,
+                    id: item.combo,
+                }));
+                setOrders(formattedData);
+            } catch (error) {
+                console.error("Failed to fetch orders:", error);
             }
-            const data = await response.json();
-            const formattedData = data.map((item) => ({
-                ...item,
-                id: item.combo,
-            }));
-            setOrders(formattedData);
         };
 
         fetchOrders();
@@ -167,7 +170,6 @@ export default function FTable() {
             console.error('Failed to update order:', error);
         }
     };
-    
 
     const handleProcessRowUpdateError = React.useCallback((error) => {
         console.log('Update error:', error);
@@ -203,7 +205,7 @@ export default function FTable() {
                 onCellValueChange={handleCellEditCommit} 
             />
         },
-        { field: 'estStop', headerName: 'Est Stop', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'est_finish', headerName: 'Est Finish', flex: 1, headerClassName: 'super-app-theme--header' },
     ];
 
     return (
