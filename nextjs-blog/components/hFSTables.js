@@ -1,31 +1,47 @@
 import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import CustomToolbar from './CustomToolbar';
+import dayjs from 'dayjs';
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 
-// Creates column definitions for the DataGrid
-const columns = [
-    { field: 'id', headerName: 'Head', width: 150, headerClassName: 'super-app-theme--header' },
-    { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
-    { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
-    { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
-    { field: 'estStart', headerName: 'Est Start', editable: true, headerClassName: 'super-app-theme--header'},
-];
+const DatePickerCell = ({ value, id, onCellValueChange }) => {
+    const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
-// Custom toolbar for datagrid settings
-function CustomToolbar() {
+    const handleDateChange = (newDate) => {
+        setSelectedDate(newDate);
+        if (newDate && newDate.isValid()) { 
+            onCellValueChange({
+                id: id,
+                field: 'est_start',
+                value: newDate.format('YYYY-MM-DD HH:mm:ss'),
+            });
+        } else {
+            onCellValueChange({
+                id: id,
+                field: 'est_start',
+                value: null,
+            });
+        }
+    };
+
     return (
-      <GridToolbarContainer>
-        <GridToolbarColumnsButton />
-        <GridToolbarFilterButton />
-        <GridToolbarDensitySelector
-          slotProps={{ tooltip: { title: 'Change density' } }}
-        />
-      </GridToolbarContainer>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateTimePicker
+                label=""
+                value={selectedDate}
+                onChange={handleDateChange}
+                inputFormat="YYYY-MM-DD HH:mm:ss"
+                ampm={false}
+                renderInput={(props) => <input {...props} />}
+            />
+        </LocalizationProvider>
     );
-  }
+};
+
+
 
 export default function HFSTable(props) {
     const { requiredString, headerColor  } = props;
@@ -61,56 +77,76 @@ export default function HFSTable(props) {
         fetchOrders();
     }, []);
 
-    const handleCellEditCommit = async (updatedRow) => {
+    const handleCellEditCommit = async (params) => {
+
+        console.log("Final data being sent for update:", params);
+
+        const { id, field, value } = params;
+        const currentOrderData = orders.find(order => order.id === id);
+        if (!currentOrderData) {
+            console.error("Order not found");
+            return;
+        }
+    
+        const updatedOrder = { ...currentOrderData, [field]: value };
+        console.log("Sending update for", id, updatedOrder);
+    
         try {
-            const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
-            const updatedOrders = orders.map(order =>
-                order.id === id ? { ...order, ...updatedOrder } : order
-            );
-            setOrders(updatedOrders);
-
             const encodedId = encodeURIComponent(id);
-
-            // Send the updated data to your backend API for saving
-            const sa = sessionStorage.getItem('sa');
             const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'SA': sa,
+                    'SA': sessionStorage.getItem('sa'),
                 },
-                body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+                body: JSON.stringify(updatedOrder),
             });
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('Failed to update order');
             }
-            if (response.ok) {
-                console.log(message);
-            }
+            const updatedData = await response.json();
+            console.log("Order updated successfully:", updatedData.message);
+    
+            // Optionally update local state to reflect backend confirmation
+            setOrders(prevOrders => prevOrders.map(order => order.id === id ? { ...order, ...updatedOrder } : order));
         } catch (error) {
             console.error('Failed to update order:', error);
-        };
+        }
     };
 
-return (
-    <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
-      backgroundColor: headerColor,
-    }}}>
-        <DataGrid
-            rows={orders}
-            columns={columns}
-            hideFooter
+    const handleProcessRowUpdateError = React.useCallback((error) => {
+        console.log(error);
+    }, []);
 
-      slots={{
-        toolbar: CustomToolbar
-      }}
-      getRowClassName={(params) =>
-        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-      }
-      processRowUpdate={(updatedRow, originalRow) =>
-            handleCellEditCommit(updatedRow)
-      }
-        />
-    </Box>
+    // Creates column definitions for the DataGrid
+    const columns = [
+        { field: 'id', headerName: 'Head', width: 150, headerClassName: 'super-app-theme--header' },
+        { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
+        { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
+        { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
+        { field: 'est_start', headerName: 'Est Start', editable: true, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell 
+                id={params.id} 
+                value={params.value ? dayjs(params.value) : null} 
+                onCellValueChange={handleCellEditCommit} 
+            />
+        },
+    ];
+
+    return (
+        <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
+            <StripedDataGrid
+                rows={orders}
+                columns={columns}
+                slots={{
+                    toolbar: CustomToolbar
+                }}
+                getRowClassName={(params) =>
+                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                }
+                onProcessRowUpdateError={handleProcessRowUpdateError}
+                hideFooter
+            />
+        </Box>
     );
 }
