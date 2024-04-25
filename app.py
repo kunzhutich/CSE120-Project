@@ -133,6 +133,22 @@ def login():
         return jsonify({"error": "Invalid username or password"}), 401
 
 
+@app.route('/updateOrder/<string:combo>', methods=['PUT'])
+def updateOrder(combo):
+    order = Orders.query.filter_by(combo=combo).first()
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
+
+    data = request.json
+    for field in data:
+        if hasattr(order, field):
+            setattr(order, field, data[field])
+
+    db.session.commit()
+    return jsonify({"message": "Order updated successfully"}), 200
+
+
+
 
 
 @app.route('/forders', methods=['GET'])
@@ -239,132 +255,6 @@ def forders():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
     
-# @app.route('/updateOrder/<string:combo>', methods=['PUT'])
-# def updateOrder(combo):
-#     try:
-#         # Get the order object to update
-#         order = Orders.query.filter_by(combo=combo).first()
-
-#         # Check if the order exists
-#         if not order:
-#             return jsonify({"error": "Order not found"}), 404
-
-#         # Get the updated data from the request
-#         data = request.json
-
-#         # Update the order object
-        
-#         order.lat = data.get('lat', order.lat)
-#         order.sg = data.get('sg', order.sg)
-#         order.name = data.get('name', order.name)
-#         order.phone = data.get('phone', order.phone)
-#         order.flow = data.get('flow', order.flow)
-#         order.hours = data.get('hours', order.hours)
-#         order.acre = data.get('acre', order.acre)
-#         order.crop = data.get('crop', order.crop)
-#         order.type = data.get('type', order.type)
-#         # order.date = datetime.strptime(data.get('date'), '%Y-%m-%d %H:%M:%S') if data.get('date') else order.date
-#         order.trantime = data.get('trantime', order.trantime)
-#         order.ex = data.get('ex', order.ex)
-#         order.final = data.get('final', order.final)
-#         order.comment = data.get('comment', order.comment)
-#         order.sbxcfs = data.get('sbxcfs', order.sbxcfs)
-#         order.deleted = data.get('deleted', order.deleted)
-#         order.sa = data.get('sa', order.sa)
-#         order.head = data.get('head')
-#         # order.est_start = datetime.strptime(data.get('est_start'), '%Y-%m-%d %H:%M:%S') if data.get('est_start') else order.est_start
-#         if 'estStart' in data:
-#             order.est_start = datetime.strptime(data['estStart'], '%Y-%m-%d %H:%M:%S') if data['estStart'] else None
-        
-#         order.est_finish = datetime.strptime(data.get('estStop'), '%Y-%m-%d %H:%M:%S') if data.get('estStop') else order.est_finish
-#         # order.wdo_notes = data.get('wdo_notes', order.wdo_notes)
-#         #order.prime_date = datetime.strptime(data.get('prime_date'), '%Y-%m-%d %H:%M:%S') if data.get('prime_date') else order.prime_date
-#         order.prime_time = data.get('primeTime', order.prime_time)
-#         #order.start_date = datetime.strptime(data.get('start_date'), '%Y-%m-%d %H:%M:%S') if data.get('start_date') else order.start_date
-#         order.start_time = data.get('startTime', order.start_time)
-#         #order.finish_date = datetime.strptime(data.get('finish_date'), '%Y-%m-%d %H:%M:%S') if data.get('finish_date') else order.finish_date
-#         order.finish_time = data.get('finishTime', order.finish_time)
-#         order.called = data.get('called', order.called)
-#         order.abonormal = data.get('abnormal', order.abnormal)
-
-#         if 'est_finish' in data and 'hours' in data and 'trantime' in data:
-#             est_finish = datetime.strptime(data['est_finish'], '%Y-%m-%d %H:%M:%S')
-#             hours = int(data['hours'])
-#             trantime = int(data['trantime'])
-#             est_start = est_finish - timedelta(hours=hours)
-#             primeTotal = hours + trantime
-
-#             order.est_start = est_start
-#             order.est_finish = est_finish
-#             order.primeTotal = primeTotal
-
-#         # Commit the changes to the database
-#         db.session.commit()
-
-#         return jsonify({"message": "Order updated successfully"}), 200
-
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
-
-# WORKS BELOW
-# @app.route('/updateOrder/<string:combo>', methods=['PUT'])  
-# def updateOrder(combo):
-#     order = Orders.query.filter_by(combo=combo).first()
-#     if not order:
-#         return jsonify({"error": "Order not found"}), 404
-
-#     data = request.json
-#     # Update fields only if they exist in the incoming JSON
-#     order.lat = data.get('lat', order.lat)
-#     order.sg = data.get('sg', order.sg)
-#     order.name = data.get('name', order.name)
-#     order.phone = data.get('phone', order.phone)
-#     order.flow = data.get('flow', order.flow)
-#     order.hours = data.get('hours', order.hours)
-#     order.acre = data.get('acre', order.acre)
-#     order.crop = data.get('crop', order.crop)
-#     order.type = data.get('type', order.type)
-#     # order.date = datetime.strptime(data.get('date'), '%Y-%m-%d %H:%M:%S') if data.get('date') else order.date
-#     order.trantime = data.get('trantime', order.trantime)
-#     order.ex = data.get('ex', order.ex)
-#     order.final = data.get('final', order.final)
-#     order.comment = data.get('comment', order.comment)
-#     order.sbxcfs = data.get('sbxcfs', order.sbxcfs)
-#     order.deleted = data.get('deleted', order.deleted)
-#     order.sa = data.get('sa', order.sa)
-#     order.prime_time = data.get('primeTime', order.prime_time)
-#     order.start_time = data.get('startTime', order.start_time)
-#     order.finish_time = data.get('finishTime', order.finish_time)
-#     order.called = data.get('called', order.called)
-#     order.abnormal = data.get('abnormal', order.abnormal)
-
-#     if 'head' in data:
-#         order.head = data['head']
-#     if 'estStart' in data:
-#         order.est_start = datetime.strptime(data['estStart'], '%Y-%m-%d %H:%M:%S') if data['estStart'] else order.est_start
-#     if 'estStop' in data:
-#         order.est_finish = datetime.strptime(data['estStop'], '%Y-%m-%d %H:%M:%S') if data['estStop'] else order.est_finish
-
-#     db.session.commit()
-#     return jsonify({"message": "Order updated successfully"}), 200
-
-@app.route('/updateOrder/<string:combo>', methods=['PUT'])
-def updateOrder(combo):
-    order = Orders.query.filter_by(combo=combo).first()
-    if not order:
-        return jsonify({"error": "Order not found"}), 404
-
-    data = request.json
-    for field in data:
-        if hasattr(order, field):
-            setattr(order, field, data[field])
-
-    db.session.commit()
-    return jsonify({"message": "Order updated successfully"}), 200
-
-
-
 
 @app.route('/morders', methods=['GET'])
 def morders():
@@ -450,7 +340,7 @@ def morders():
                 "acre": order.acre,
                 "crop": order.crop,
                 "type": order.type,
-                "date": order.date,
+                "date": order.date.strftime('%Y-%m-%d'),
                 "trantime": order.trantime,
                 "ex": order.ex,
                 "final": order.final,
@@ -467,55 +357,18 @@ def morders():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
-# combo = db.Column(db.String(17), primary_key=True)
-#     lat = db.Column(db.String(10))
-#     sg = db.Column(db.String(10))
-#     name = db.Column(db.String(100))
-#     phone = db.Column(db.String(10))
-#     flow = db.Column(db.Float())
-#     hours = db.Column(db.Float())
-#     acre = db.Column(db.Float())
-#     crop = db.Column(db.String(2))
-#     type = db.Column(db.String(2))
-#     date = db.Column(db.Date())
-#     trantime = db.Column(db.Integer())
-#     ex = db.Column(db.String(1))
-#     final = db.Column(db.String(1))
-#     comment = db.Column(db.String(255))
-#     sbxcfs = db.Column(db.Float())
-#     deleted = db.Column(db.String(1))
-#     sa = db.Column(db.String(2))
-#     head = db.Column(db.String(4))
-#     est_start = db.Column(db.DateTime())
-#     est_finish = db.Column(db.DateTime())
-#     wdo_notes = db.Column(db.String(255))
 
 @app.route('/H1', methods=['GET'])
 def h1():
     try:
-        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
-        transfer_query = text("""
-            SELECT 
-                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
-            FROM 
-                rhdb.orders
-            WHERE 
-                UPPER(HEAD) = 'H1';
-        """)
-        
-        with db.engine.begin() as connection:
-            connection.execute(transfer_query)
-            print("Data transfer successful.")
-        
-        # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(func.upper(Orders.head) == 'H1').all()
         
-        # Convert the query result into a list of dictionaries to jsonify
         orders_list = [
             {
                 "combo": order.combo, 
-                "head": order.head, 
                 "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -534,29 +387,14 @@ def h1():
 @app.route('/H2', methods=['GET'])
 def h2():
     try:
-        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
-        transfer_query = text("""
-            SELECT 
-                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
-            FROM 
-                rhdb.orders
-            WHERE 
-                UPPER(HEAD) = 'H2';
-        """)
-        
-        with db.engine.begin() as connection:
-            connection.execute(transfer_query)
-            print("Data transfer successful.")
-        
-        # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(func.upper(Orders.head) == 'H2').all()
-        
-        # Convert the query result into a list of dictionaries to jsonify
+
         orders_list = [
             {
                 "combo": order.combo, 
-                "head": order.head, 
                 "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -574,29 +412,14 @@ def h2():
 @app.route('/H3', methods=['GET'])
 def h3():
     try:
-        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
-        transfer_query = text("""
-            SELECT 
-                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
-            FROM 
-                rhdb.orders
-            WHERE 
-                UPPER(HEAD) = 'H3';
-        """)
-        
-        with db.engine.begin() as connection:
-            connection.execute(transfer_query)
-            print("Data transfer successful.")
-        
-        # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(func.upper(Orders.head) == 'H3').all()
-        
-        # Convert the query result into a list of dictionaries to jsonify
+
         orders_list = [
             {
                 "combo": order.combo, 
-                "head": order.head, 
                 "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -614,29 +437,14 @@ def h3():
 @app.route('/H4', methods=['GET'])
 def h4():
     try:
-        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
-        transfer_query = text("""
-            SELECT 
-                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
-            FROM 
-                rhdb.orders
-            WHERE 
-                UPPER(HEAD) = 'H4';
-        """)
-        
-        with db.engine.begin() as connection:
-            connection.execute(transfer_query)
-            print("Data transfer successful.")
-        
-        # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(func.upper(Orders.head) == 'H4').all()
-        
-        # Convert the query result into a list of dictionaries to jsonify
+
         orders_list = [
             {
                 "combo": order.combo, 
-                "head": order.head, 
                 "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -654,29 +462,14 @@ def h4():
 @app.route('/H5', methods=['GET'])
 def h5():
     try:
-        # Perform the SQL operation to transfer data from TXDB to RHDB.Orders
-        transfer_query = text("""
-            SELECT 
-                `COMBO`, `HEAD`, `LAT`, `SG`, `NAME`, `FLOW`, `HOURS`, `EST_START`, `EST_FINISH`, `COMMENT`
-            FROM 
-                rhdb.orders
-            WHERE 
-                UPPER(HEAD) = 'H5';
-        """)
-        
-        with db.engine.begin() as connection:
-            connection.execute(transfer_query)
-            print("Data transfer successful.")
-        
-        # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(func.upper(Orders.head) == 'H5').all()
-        
-        # Convert the query result into a list of dictionaries to jsonify
+
         orders_list = [
             {
                 "combo": order.combo, 
-                "head": order.head, 
                 "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
@@ -690,6 +483,9 @@ def h5():
     except Exception as e:
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
+
+
+
 
 
 if __name__ == '__main__':
