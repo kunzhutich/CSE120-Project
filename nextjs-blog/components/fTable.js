@@ -14,29 +14,6 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-const DatePickerCell = () => {
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateTimePicker ampm={false}
-        label=""
-        value={selectedDate}
-        onChange={(date) => setSelectedDate(date)}
-        renderInput={(props) => <input {...props} readOnly />}
-        renderOpenPicker={(openPicker) => (
-          <input
-            type="text"
-            value={selectedDate ? dayjs(selectedDate).format('MM/DD/YYYY') : ''}
-            onFocus={openPicker}
-            readOnly
-          />
-        )}
-      />
-    </LocalizationProvider>
-  );
-
-
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
