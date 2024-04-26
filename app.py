@@ -143,7 +143,7 @@ def updateOrder(combo):
     for field in data:
         if hasattr(order, field):
             
-            if field in ['est_start', 'est_finish', 'any_other_datetime_field']:        # Check if the field is a datetime field
+            if field in ['est_start', 'est_finish']:        # Check if the field is a datetime field
                 if data[field] is not None:  
                     try:
                         datetime_value = datetime.strptime(data[field], '%Y-%m-%d %H:%M:%S')
@@ -522,8 +522,8 @@ def un():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
-@app.route('/m', methods=['GET'])
-def MordersTable(): 
+@app.route('/M', methods=['GET'])
+def MTable(): 
     try:
         orders_query = Orders.query.filter(func.upper(Orders.head) == 'M').all()
 
@@ -545,7 +545,6 @@ def MordersTable():
     except Exception as e:
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
-
 
 
 if __name__ == '__main__':

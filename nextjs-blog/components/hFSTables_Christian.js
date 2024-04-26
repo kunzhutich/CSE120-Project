@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
+import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 import CustomToolbar from './CustomToolbar';
 import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import useSWR from "swr";
+import fetcher from '../utils/fetcher';
 
 
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
@@ -43,37 +46,18 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
 };
 
 
-export default function MTable() {
+
+export default function HFSTable(props) {
+    const { requiredString, headerColor  } = props;
+    console.log(requiredString);
     const [orders, setOrders] = useState([]);
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:5000/M', {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'SA': sa,
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                // Map the fetched data to include a unique 'id' for each row using 'combo'
-                const formattedData = data.map((item) => ({
-                    ...item,
-                    id: item.combo, // Use `combo` as the `id`
-                }));
-                setOrders(formattedData);
-            } catch (error) {
-                console.error("Failed to fetch orders:", error);
-            }
-        };
+    const {data, error, loading} = useSWR(`http://127.0.0.1:5000/${requiredString}`, fetcher, {refreshInterval: 1000});
 
-        fetchOrders();
-    }, []);
+    if (error) return <div>Failed to load</div>
+    if (loading) return <div>Loading</div>
+
+    if(!data) return <div>No Data</div>
 
     const handleCellEditCommit = async (params) => {
 
@@ -113,41 +97,35 @@ export default function MTable() {
     };
 
     const handleProcessRowUpdateError = React.useCallback((error) => {
-        console.log('Update error:', error);
+        console.log(error);
     }, []);
-
 
     // Creates column definitions for the DataGrid
     const columns = [
-        { field: 'id', headerName: 'Combo', width: 130, hide: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lat', headerName: 'Lateral', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'name', headerName: 'Contact', flex: 2, headerClassName: 'super-app-theme--header' },
-        { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'flow', headerName: 'Rqst Flo', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'est_start', headerName: 'Est Start', flex: 1.25, headerClassName: 'super-app-theme--header',
+        { field: 'id', headerName: 'Head', width: 150, headerClassName: 'super-app-theme--header' },
+        { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
+        { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
+        { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
+        { field: 'est_start', headerName: 'Est Start', editable: true, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
                 id={params.id} 
                 value={params.value ? dayjs(params.value) : null} 
                 onCellValueChange={handleCellEditCommit} 
             />
         },
-        { field: 'prime_date', headerName: 'Prime Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'prime_time', headerName: 'Prime Time', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'start_date', headerName: 'Start Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'start_time', headerName: 'Start Time', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'finish_date', headerName: 'Finish Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'finish_time', headerName: 'Finish Time', editable: true,  flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'prime_total', headerName: 'Prime Total', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'total_hours', headerName: 'Total Hour', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'called', headerName: 'Called', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
     ];
 
 
+
+    const head1 = data.map((item) => ({
+        ...item,
+        id: item.combo,
+    }))
+
+
     return (
-        <Box sx={{ height: '90vh', width: '100', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(255, 165, 0, 1)' } }}>
-            <DataGrid
+        <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
+            <StripedDataGrid
                 rows={orders}
                 columns={columns}
                 slots={{
@@ -161,4 +139,23 @@ export default function MTable() {
             />
         </Box>
     );
+
+    // return (
+    //     <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
+    //         <StripedDataGrid
+    //             rows={head1}
+    //             columns={columns}
+    //             hideFooter
+    //             slots={{
+    //                 toolbar: CustomToolbar
+    //             }}
+    //             getRowClassName={(params) =>
+    //                 params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+    //             }
+    //             processRowUpdate={(updatedRow, originalRow) =>
+    //                     handleCellEditCommit(updatedRow)
+    //             }
+    //         />
+    //     </Box>
+    // );
 }

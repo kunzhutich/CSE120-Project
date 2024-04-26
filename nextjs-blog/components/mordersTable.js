@@ -84,12 +84,18 @@ const CommentsCell = ({ value, row, onCellValueChange }) => {
     );
 };
 
-const HeadEditor = ({ value, onCellValueChange }) => {
+const HeadEditor = ({ value, onCellValueChange, id }) => {
     const headOptions = [
         { value: 'm', label: 'Micro Order' },
     ];
 
-    const handleChange = (event) => onCellValueChange(event.target.value);
+    const handleChange = (event) => {
+        onCellValueChange({
+            id: id,
+            field: 'head',
+            value: event.target.value
+        });
+    };
 
     return (
         <select value={value || ''} onChange={handleChange}>
