@@ -13,7 +13,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
@@ -93,7 +92,6 @@ const CommentsCell = ({ value, row, onCellValueChange }) => {
 
 const HeadEditor = ({ value, onCellValueChange, id }) => {
     const headOptions = [
-        { value: '', label: 'Select...' },
         { value: 'h1', label: 'Head 1' },
         { value: 'h2', label: 'Head 2' },
         { value: 'h3', label: 'Head 3' },

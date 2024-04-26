@@ -10,7 +10,6 @@ import Select from '@mui/material/Select';
 
 // Define the options for the dropdown menu
 const headOptions = [
-    { value: '', label: 'Select...' },
     { value: 'h1', label: 'Head 1' },
     { value: 'h2', label: 'Head 2' },
     { value: 'h3', label: 'Head 3' },
