@@ -61,7 +61,6 @@ export default function HeadTable(props) {
 
     if (!data) return <div>No Data</div>
 
-    const handleCellEditCommit = async (updatedRow) => {
     const handleCellEditCommit = async (params) => {
 
         console.log("Final data being sent for update:", params);
@@ -137,7 +136,7 @@ export default function HeadTable(props) {
     return (
         <Box sx = {{height: 'auto', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
             <StripedDataGrid
-                rows={orders}
+                rows={head1}
                 columns={columns}
                 slots={{
                     toolbar: CustomToolbar
@@ -150,5 +149,4 @@ export default function HeadTable(props) {
             />
         </Box>
     );
-}
 }
