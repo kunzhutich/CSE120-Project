@@ -158,8 +158,8 @@ export default function FSTable() {
             renderCell: (params) => <HeadEditor
                 value={params.value}
                 onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
-            />
-        },
+            /> , headerClassName: 'super-app-theme--header' },
+
     ];
 
     return (

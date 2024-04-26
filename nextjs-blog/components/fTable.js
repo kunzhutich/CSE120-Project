@@ -13,7 +13,9 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { makeStyles } from '@mui/styles';
 
+  
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
@@ -106,7 +108,7 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     };
 
     return (
-        <select value={value || ''} onChange={handleChange}>
+        <select style={{ backgroundColor: 'lightblue', color: 'black', padding: '5px', borderRadius: '5px', fontSize: '14px' }} value={value || ''} onChange={handleChange}>
             <option value="">Select...</option>
             {headOptions.map((option) => (
                 <option key={option.value} value={option.value}>
