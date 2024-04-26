@@ -110,7 +110,7 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
 
     return (
         <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
                 <Select
                     labelId="head-select-label"
                     id="head-select"
