@@ -13,6 +13,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
@@ -89,6 +93,7 @@ const CommentsCell = ({ value, row, onCellValueChange }) => {
 
 const HeadEditor = ({ value, onCellValueChange, id }) => {
     const headOptions = [
+        { value: '', label: 'Select...' },
         { value: 'h1', label: 'Head 1' },
         { value: 'h2', label: 'Head 2' },
         { value: 'h3', label: 'Head 3' },
@@ -106,14 +111,27 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     };
 
     return (
-        <select value={value || ''} onChange={handleChange}>
-            <option value="">Select...</option>
-            {headOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                    {option.label}
-                </option>
-            ))}
-        </select>
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+                <Select
+                    labelId="head-select-label"
+                    id="head-select"
+                    value={value || ''}
+                    onChange={handleChange}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
     );
 };
 

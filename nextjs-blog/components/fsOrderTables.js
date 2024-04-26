@@ -3,9 +3,14 @@ import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 // Define the options for the dropdown menu
 const headOptions = [
+    { value: '', label: 'Select...' },
     { value: 'h1', label: 'Head 1' },
     { value: 'h2', label: 'Head 2' },
     { value: 'h3', label: 'Head 3' },
@@ -133,16 +138,29 @@ export default function FSTable() {
         };
 
         return (
-            <select value={value} onChange={handleChange}>
-                <option value="">Select...</option>
-                {headOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </select>
-        );
-    };
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+                <Select
+                    labelId="head-select-label"
+                    id="head-select"
+                    value={value || ''}
+                    onChange={handleChange}
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
+    );
+};
 
     const columns = [
         { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
