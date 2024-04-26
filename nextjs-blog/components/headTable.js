@@ -113,7 +113,7 @@ export default function HeadTable(props) {
         { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'flow', headerName: 'Rqst Flo', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header',
+        { field: 'est_start', headerName: 'Est Start', flex: 1.25, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
                 id={params.id} 
                 value={params.value ? dayjs(params.value) : null} 
