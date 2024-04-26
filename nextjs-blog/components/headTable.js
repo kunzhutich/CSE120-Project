@@ -41,8 +41,6 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
-
-
 export default function HeadTable(props) {
     const { requiredString, headerColor  } = props;
     console.log(requiredString);
@@ -126,7 +124,7 @@ export default function HeadTable(props) {
         { field: 'sg', headerName: 'SG', width: 60, headerClassName: 'super-app-theme--header' },
         { field: 'name', headerName: 'Contact', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'phone', headerName: 'Phone', width: 85, headerClassName: 'super-app-theme--header' },
-        { field: 'flow', headerName: 'Rqst Flo', width: 80, headerClassName: 'super-app-theme--header' },
+        { field: 'flow', headerName: 'Flow', width: 80, headerClassName: 'super-app-theme--header' },
         { field: 'hours', headerName: 'Hours', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
@@ -146,10 +144,8 @@ export default function HeadTable(props) {
         { field: 'called', headerName: 'Called', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
     ];
 
-
-
     return (
-        <Box sx = {{height: 'auto', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
+        <Box sx = {{height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}

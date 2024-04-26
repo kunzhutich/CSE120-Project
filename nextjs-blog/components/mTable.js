@@ -6,7 +6,7 @@ import CustomToolbar from './CustomToolbar';
 import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
+import StripedDataGrid from './StripedDataGrid';
 
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
@@ -120,13 +120,13 @@ export default function MTable() {
     // Creates column definitions for the DataGrid
     const columns = [
         { field: 'id', headerName: 'Combo', width: 130, hide: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lat', headerName: 'Lateral', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'name', headerName: 'Contact', flex: 2, headerClassName: 'super-app-theme--header' },
-        { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'flow', headerName: 'Rqst Flo', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'est_start', headerName: 'Est Start', flex: 1.25, headerClassName: 'super-app-theme--header',
+        { field: 'lat', headerName: 'Lateral', width: 70, headerClassName: 'super-app-theme--header' },
+        { field: 'sg', headerName: 'SG', width: 60, headerClassName: 'super-app-theme--header' },
+        { field: 'name', headerName: 'Contact', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'phone', headerName: 'Phone', width: 85, headerClassName: 'super-app-theme--header' },
+        { field: 'flow', headerName: 'Flow', width: 80, headerClassName: 'super-app-theme--header' },
+        { field: 'hours', headerName: 'Hours', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'est_start', headerName: 'Est Start', flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
                 id={params.id} 
                 value={params.value ? dayjs(params.value) : null} 
@@ -146,8 +146,8 @@ export default function MTable() {
 
 
     return (
-        <Box sx={{ height: '90vh', width: '100', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(255, 165, 0, 1)' } }}>
-            <DataGrid
+        <Box sx={{ height: '93vh', width: '100', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(255, 165, 0, 1)' } }}>
+            <StripedDataGrid
                 rows={orders}
                 columns={columns}
                 slots={{

@@ -212,7 +212,7 @@ export default function MordersTable() {
     ];
 
     return (
-        <Box sx={{ height: '90vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' }}}>
+        <Box sx={{ height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' }}}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}

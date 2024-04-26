@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
@@ -40,8 +39,6 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
         </LocalizationProvider>
     );
 };
-
-
 
 export default function HFSTable({ orders, headerColor, requiredString }) {
     console.log("Orders in HFSTable for", requiredString, ":", orders);
@@ -103,7 +100,7 @@ export default function HFSTable({ orders, headerColor, requiredString }) {
     ];
 
     return (
-        <Box sx={{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
+        <Box sx={{height: 420, width: '39vw', paddingLeft: 1, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}  

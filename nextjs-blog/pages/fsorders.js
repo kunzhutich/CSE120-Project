@@ -79,10 +79,6 @@ const fsorders = () => {
         });
         setHeads(newHeads);
     };
-    
-    
-    
-    
 
     return (
         <div>

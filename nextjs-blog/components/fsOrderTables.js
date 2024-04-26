@@ -30,10 +30,7 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     );
 };
 
-
-
 export default function FSTable({ orders, onHeadChange }) {
-
     const columns = [
         { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
         { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
@@ -44,7 +41,7 @@ export default function FSTable({ orders, onHeadChange }) {
         { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'head', headerName: 'Head', editable: true, flex: 1.5,
+        { field: 'head', headerName: 'Head', editable: true, flex: 1.5, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <HeadEditor 
                 id={params.id} 
                 value={params.value} 
@@ -54,7 +51,7 @@ export default function FSTable({ orders, onHeadChange }) {
     ];
 
     return (
-        <Box sx={{ height: '100vh', width: '60vw', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' }}}>
+        <Box sx={{ height: '93vh', width: '60vw', paddingLeft: 4, paddingRight: 1, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' }}}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}

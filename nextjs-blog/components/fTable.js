@@ -13,9 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { makeStyles } from '@mui/styles';
 
-  
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
@@ -49,8 +47,6 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
         </LocalizationProvider>
     );
 };
-
-
 
 const CommentsCell = ({ value, row, onCellValueChange }) => {
     const [open, setOpen] = useState(false);
@@ -225,7 +221,7 @@ export default function FTable() {
     ];
 
     return (
-        <Box sx={{ height: '90vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' } }}>
+        <Box sx={{ height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' } }}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}
