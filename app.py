@@ -490,6 +490,30 @@ def h5():
     except Exception as e:
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
+    
+@app.route('/UN', methods=['GET'])
+def un():
+    try:
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'UN').all()
+
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
 
 
 
