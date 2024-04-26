@@ -147,6 +147,7 @@ export default function FSTable() {
                     autoWidth
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ fontSize: '0.65rem'}}
                 >
                     <MenuItem value="">
                         <em>Select...</em>
