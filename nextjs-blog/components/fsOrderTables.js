@@ -12,6 +12,7 @@ const headOptions = [
     { value: 'h4', label: 'Head 4' },
     { value: 'h5', label: 'Head 5' },
     { value: 'un', label: 'Unordered' },
+
 ];
 
 // Define a custom editor for the 'Head' field
@@ -42,7 +43,7 @@ const columns = [
     { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
+    { field: 'head', headerName: 'Head', editable: true, flex: 1.5, headerClassName: 'super-app-theme--header',
     renderCell: (params)=> <HeadEditor value = {params.value} 
     onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} />, headerClassName: 'super-app-theme--header' },
 ];
@@ -62,8 +63,6 @@ function CustomToolbar() {
 
 export default function FSTable() {
     const [orders, setOrders] = useState([]);
-
-   
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -156,7 +155,7 @@ export default function FSTable() {
         { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
         {
-            field: 'head', headerName: 'Head', editable: true, flex: 1.5,
+            field: 'head', headerName: 'Head', editable: true, flex: 1.5,  headerClassName: 'super-app-theme--header',
             renderCell: (params) => <HeadEditor
                 value={params.value}
                 onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
