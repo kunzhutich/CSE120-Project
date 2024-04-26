@@ -106,14 +106,14 @@ export default function HeadTable(props) {
 
     // Creates column definitions for the DataGrid
     const columns = [
-        { field: 'id', headerName: 'Combo', width: 130, hide: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lat', headerName: 'Lateral', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'name', headerName: 'Contact', flex: 2, headerClassName: 'super-app-theme--header' },
-        { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'flow', headerName: 'Rqst Flo', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header',
+        { field: 'id', headerName: 'Combo', width: 145, hide: true, headerClassName: 'super-app-theme--header' },
+        { field: 'lat', headerName: 'Lateral', width: 70, headerClassName: 'super-app-theme--header' },
+        { field: 'sg', headerName: 'SG', width: 60, headerClassName: 'super-app-theme--header' },
+        { field: 'name', headerName: 'Contact', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'phone', headerName: 'Phone', width: 85, headerClassName: 'super-app-theme--header' },
+        { field: 'flow', headerName: 'Rqst Flo', width: 80, headerClassName: 'super-app-theme--header' },
+        { field: 'hours', headerName: 'Hours', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
                 id={params.id} 
                 value={params.value ? dayjs(params.value) : null} 
