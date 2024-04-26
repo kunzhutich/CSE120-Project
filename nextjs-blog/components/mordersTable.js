@@ -48,35 +48,7 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
-// const CommentsCell = ({ value, row }) => {
-//     const [open, setOpen] = useState(false);
-//     const [comment, setComment] = useState(value || row.comments);
 
-//     const handleClickOpen = () => setOpen(true);
-//     const handleClose = () => setOpen(false);
-//     const handleCommentChange = (event) => setComment(event.target.value);
-
-//     return (
-//         <div style={{ display: 'flex', alignItems: 'center' }}>
-//             <IconButton onClick={handleClickOpen} aria-label="more">
-//                 <MoreVertIcon />
-//             </IconButton>
-//             <span>{comment}</span>
-//             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-//                 <DialogTitle>Comment</DialogTitle>
-//                 <DialogContent>
-//                     <DialogContentText>{comment}</DialogContentText>
-//                 </DialogContent>
-//                 <DialogActions>
-//                     <Button onClick={handleClose}>Close</Button>
-//                 </DialogActions>
-//             </Dialog>
-//         </div>
-//     );
-// };
-
-//THE ABOVE FUNCTION WAS ORIGINALLY IN HERE
-//AND THE BELOW CODE IS FROM fTable.js
 
 const CommentsCell = ({ value, row, onCellValueChange }) => {
     const [open, setOpen] = useState(false);
@@ -114,12 +86,18 @@ const CommentsCell = ({ value, row, onCellValueChange }) => {
     );
 };
 
-const HeadEditor = ({ value, onCellValueChange }) => {
+const HeadEditor = ({ value, onCellValueChange, id }) => {
     const headOptions = [
         { value: 'm', label: 'Micro Order' },
     ];
 
-    const handleChange = (event) => onCellValueChange(event.target.value);
+    const handleChange = (event) => {
+        onCellValueChange({
+            id: id,
+            field: 'head',
+            value: event.target.value
+        });
+    };
 
     return (
         <select value={value || ''} onChange={handleChange}>

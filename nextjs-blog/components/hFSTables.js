@@ -1,14 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
-        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 import CustomToolbar from './CustomToolbar';
 import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import useSWR from "swr";
-import fetcher from '../utils/fetcher';
 
 
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
@@ -47,17 +43,8 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
 
 
 
-export default function HFSTable(props) {
-    const { requiredString, headerColor  } = props;
-    console.log(requiredString);
-    const [orders, setOrders] = useState([]);
-
-    const {data, error, loading} = useSWR(`http://127.0.0.1:5000/${requiredString}`, fetcher, {refreshInterval: 1000});
-
-    if (error) return <div>Failed to load</div>
-    if (loading) return <div>Loading</div>
-
-    if(!data) return <div>No Data</div>
+export default function HFSTable({ orders, headerColor, requiredString }) {
+    console.log("Orders in HFSTable for", requiredString, ":", orders);
 
     const handleCellEditCommit = async (params) => {
 
@@ -96,13 +83,13 @@ export default function HFSTable(props) {
         }
     };
 
-    // const handleProcessRowUpdateError = React.useCallback((error) => {
-    //     console.log(error);
-    // }, []);
+    const handleProcessRowUpdateError = React.useCallback((error) => {
+        console.log(error);
+    }, []);
 
     // Creates column definitions for the DataGrid
     const columns = [
-        { field: 'id', headerName: 'Head', width: 150, headerClassName: 'super-app-theme--header' },
+        { field: 'id', headerName: requiredString, width: 150, headerClassName: 'super-app-theme--header' },
         { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
         { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
         { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
@@ -115,28 +102,15 @@ export default function HFSTable(props) {
         },
     ];
 
-
-
-    const head1 = data.map((item) => ({
-        ...item,
-        id: item.combo,
-    }))
-
     return (
-        <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
+        <Box sx={{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
             <StripedDataGrid
-                rows={head1}
-                columns={columns}
+                rows={orders}
+                columns={columns}  
+                slots={{ toolbar: CustomToolbar }}
+                getRowClassName={(params) => params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}
+                onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
-                slots={{
-                    toolbar: CustomToolbar
-                }}
-                getRowClassName={(params) =>
-                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
-                processRowUpdate={(updatedRow, originalRow) =>
-                        handleCellEditCommit(updatedRow)
-                }
             />
         </Box>
     );
