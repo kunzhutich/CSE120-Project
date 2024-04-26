@@ -138,12 +138,13 @@ export default function FSTable() {
 
         return (
         <Box sx={{ minWidth: 120 }}>
-            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
                 <Select
                     labelId="head-select-label"
                     id="head-select"
                     value={value || ''}
                     onChange={handleChange}
+                    autoWidth
                     displayEmpty
                     inputProps={{ 'aria-label': 'Without label' }}
                 >
