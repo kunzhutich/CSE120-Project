@@ -5,16 +5,45 @@ import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 import useSWR from "swr";
 import fetcher from '../utils/fetcher';
+import dayjs from 'dayjs';
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+
+const DatePickerCell = ({ value, id, onCellValueChange }) => {
+  const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
+
+  const handleDateChange = (newDate) => {
+      setSelectedDate(newDate);
+      if (newDate && newDate.isValid()) { 
+          onCellValueChange({
+              id: id,
+              field: 'est_start',
+              value: newDate.format('YYYY-MM-DD HH:mm:ss'),
+          });
+      } else {
+          onCellValueChange({
+              id: id,
+              field: 'est_start',
+              value: null,
+          });
+      }
+  };
+
+  return (
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DateTimePicker
+              label=""
+              value={selectedDate}
+              onChange={handleDateChange}
+              inputFormat="YYYY-MM-DD HH:mm:ss"
+              ampm={false}
+              renderInput={(props) => <input {...props} />}
+          />
+      </LocalizationProvider>
+  );
+};
 
 
-// Creates column definitions for the DataGrid
-const columns = [
-    { field: 'id', headerName: 'Head', width: 150, headerClassName: 'super-app-theme--header' },
-    { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
-    { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
-    { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
-    { field: 'estStart', headerName: 'Est Start', editable: true, headerClassName: 'super-app-theme--header'},
-];
 
 // Custom toolbar for datagrid settings
 function CustomToolbar() {
@@ -76,6 +105,18 @@ export default function HFSTable(props) {
         ...item,
         id: item.combo, // Use `combo` as the `id`
     }));
+  
+    const columns = [
+      { field: 'id', headerName: requiredString, width: 150, headerClassName: 'super-app-theme--header' },
+      { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
+      { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
+      { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
+      { field: 'estStart', headerName: 'Est Start', editable: true, headerClassName: 'super-app-theme--header',renderCell: (params) => <DatePickerCell 
+      id={params.id} 
+      value={params.value ? dayjs(params.value) : null} 
+      onCellValueChange={handleCellEditCommit} 
+  /> },
+  ];
 
 return (
     <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
