@@ -11,11 +11,11 @@ export default function fsorders() {
                     <FSTable/>
                 </div>
                 <div>
-                    <HFSTable requiredString={'H1'} />
-                    <HFSTable requiredString={'H2'} />
-                    <HFSTable requiredString={'H3'} />
-                    <HFSTable requiredString={'H4'} />
-                    <HFSTable requiredString={'H5'} />
+                    <HFSTable headerColor='rgba(108, 193, 101)'  requiredString={'H1'} />
+                    <HFSTable headerColor='rgba(135, 206, 250, 1)' requiredString={'H2'} />
+                    <HFSTable headerColor='rgba(255, 182, 193, 1)' requiredString={'H3'} />
+                    <HFSTable headerColor='rgba(220, 200, 255, 1)' requiredString={'H4'} />
+                    <HFSTable headerColor='rgba(210, 180, 140, 1)' requiredString={'H5'} />
                 </div>
             </div>
         </div>

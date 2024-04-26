@@ -7,7 +7,7 @@ export default function h3() {
     return (
         <div>
             <NavBar />
-            <HeadTable requiredString={'H3'} />
+            <HeadTable headerColor='rgba(255, 182, 193, 1)' requiredString={'H3'} />
         </div>
     );
 }

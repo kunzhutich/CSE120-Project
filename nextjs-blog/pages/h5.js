@@ -7,7 +7,7 @@ export default function h5() {
     return (
         <div>
             <NavBar />
-            <HeadTable requiredString={'H5'} />
+            <HeadTable headerColor='rgba(210, 180, 140, 1)' requiredString={'H5'} />
         </div>
     );
 }
