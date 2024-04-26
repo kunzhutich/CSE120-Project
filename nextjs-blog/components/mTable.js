@@ -7,7 +7,7 @@ import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
 // Define the columns for the DataGrid
 // Creates column definitions for the DataGrid
 const columns = [
-    { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
+    { field: 'id', headerName: 'Combo', width: 145, headerClassName: 'super-app-theme--header' },
     { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
