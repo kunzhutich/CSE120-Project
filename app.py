@@ -1,7 +1,10 @@
 from flask import Flask, jsonify, request
+from sqlalchemy.exc import SQLAlchemyError
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from sqlalchemy.sql import text, or_
+from sqlalchemy import text, func
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -57,7 +60,7 @@ class Sbxdtl(db.Model):
 #The following is the models for RHDB
 class Orders(db.Model):
     __bind_key__ = 'rhdb'
- 
+    
     combo = db.Column(db.String(17), primary_key=True)
     lat = db.Column(db.String(10))
     sg = db.Column(db.String(10))
@@ -80,174 +83,16 @@ class Orders(db.Model):
     est_start = db.Column(db.DateTime())
     est_finish = db.Column(db.DateTime())
     wdo_notes = db.Column(db.String(255))
- 
-# class Head1(db.Model):
-#     __bind_key__ = 'rhdb'
- 
-#     combo = db.Column(db.String(17), primary_key=True)
-#     lat = db.Column(db.String(10))
-#     sg = db.Column(db.String(10))
-#     name = db.Column(db.String(100))
-#     phone = db.Column(db.String(10))
-#     flow = db.Column(db.Float())
-#     hours = db.Column(db.Float())
-#     est_start = db.Column(db.DateTime())
-#     prime_date = db.Column(db.Date())
-#     prime_time = db.Column(db.Integer())
-#     start_date = db.Column(db.Date())
-#     start_time = db.Column(db.Integer())
-#     finish_date = db.Column(db.Date())
-#     finish_time = db.Column(db.Integer())
-#     prime_total = db.Column(db.Integer())
-#     total_hours = db.Column(db.Integer())
-#     called = db.Column(db.String(1))
-#     wdo_notes = db.Column(db.String(255))
-#     comment = db.Column(db.String(255))
-#     abnormal = db.Column(db.String(1))
-
-# class Head2(db.Model):
-#     __bind_key__ = 'rhdb'
- 
-#     combo = db.Column(db.String(17), primary_key=True)
-#     lat = db.Column(db.String(10))
-#     sg = db.Column(db.String(10))
-#     name = db.Column(db.String(100))
-#     phone = db.Column(db.String(10))
-#     flow = db.Column(db.Float())
-#     hours = db.Column(db.Float())
-#     est_start = db.Column(db.DateTime())
-#     prime_date = db.Column(db.Date())
-#     prime_time = db.Column(db.Integer())
-#     start_date = db.Column(db.Date())
-#     start_time = db.Column(db.Integer())
-#     finish_date = db.Column(db.Date())
-#     finish_time = db.Column(db.Integer())
-#     prime_total = db.Column(db.Integer())
-#     total_hours = db.Column(db.Integer())
-#     called = db.Column(db.String(1))
-#     wdo_notes = db.Column(db.String(255))
-#     comment = db.Column(db.String(255))
-#     abnormal = db.Column(db.String(1))
-
-# class Head3(db.Model):
-#     __bind_key__ = 'rhdb'
- 
-#     combo = db.Column(db.String(17), primary_key=True)
-#     lat = db.Column(db.String(10))
-#     sg = db.Column(db.String(10))
-#     name = db.Column(db.String(100))
-#     phone = db.Column(db.String(10))
-#     flow = db.Column(db.Float())
-#     hours = db.Column(db.Float())
-#     est_start = db.Column(db.DateTime())
-#     prime_date = db.Column(db.Date())
-#     prime_time = db.Column(db.Integer())
-#     start_date = db.Column(db.Date())
-#     start_time = db.Column(db.Integer())
-#     finish_date = db.Column(db.Date())
-#     finish_time = db.Column(db.Integer())
-#     prime_total = db.Column(db.Integer())
-#     total_hours = db.Column(db.Integer())
-#     called = db.Column(db.String(1))
-#     wdo_notes = db.Column(db.String(255))
-#     comment = db.Column(db.String(255))
-#     abnormal = db.Column(db.String(1))
-
-# class Head4(db.Model):
-#     __bind_key__ = 'rhdb'
- 
-#     combo = db.Column(db.String(17), primary_key=True)
-#     lat = db.Column(db.String(10))
-#     sg = db.Column(db.String(10))
-#     name = db.Column(db.String(100))
-#     phone = db.Column(db.String(10))
-#     flow = db.Column(db.Float())
-#     hours = db.Column(db.Float())
-#     est_start = db.Column(db.DateTime())
-#     prime_date = db.Column(db.Date())
-#     prime_time = db.Column(db.Integer())
-#     start_date = db.Column(db.Date())
-#     start_time = db.Column(db.Integer())
-#     finish_date = db.Column(db.Date())
-#     finish_time = db.Column(db.Integer())
-#     prime_total = db.Column(db.Integer())
-#     total_hours = db.Column(db.Integer())
-#     called = db.Column(db.String(1))
-#     wdo_notes = db.Column(db.String(255))
-#     comment = db.Column(db.String(255))
-#     abnormal = db.Column(db.String(1))
-
-# class Head5(db.Model):
-#     __bind_key__ = 'rhdb'
- 
-#     combo = db.Column(db.String(17), primary_key=True)
-#     lat = db.Column(db.String(10))
-#     sg = db.Column(db.String(10))
-#     name = db.Column(db.String(100))
-#     phone = db.Column(db.String(10))
-#     flow = db.Column(db.Float())
-#     hours = db.Column(db.Float())
-#     est_start = db.Column(db.DateTime())
-#     prime_date = db.Column(db.Date())
-#     prime_time = db.Column(db.Integer())
-#     start_date = db.Column(db.Date())
-#     start_time = db.Column(db.Integer())
-#     finish_date = db.Column(db.Date())
-#     finish_time = db.Column(db.Integer())
-#     prime_total = db.Column(db.Integer())
-#     total_hours = db.Column(db.Integer())
-#     called = db.Column(db.String(1))
-#     wdo_notes = db.Column(db.String(255))
-#     comment = db.Column(db.String(255))
-#     abnormal = db.Column(db.String(1))
-
-# class UN(db.Model):
-#     __bind_key__ = 'rhdb'
- 
-#     combo = db.Column(db.String(17), primary_key=True)
-#     lat = db.Column(db.String(10))
-#     sg = db.Column(db.String(10))
-#     name = db.Column(db.String(100))
-#     phone = db.Column(db.String(10))
-#     flow = db.Column(db.Float())
-#     hours = db.Column(db.Float())
-#     est_start = db.Column(db.DateTime())
-#     prime_date = db.Column(db.Date())
-#     prime_time = db.Column(db.Integer())
-#     start_date = db.Column(db.Date())
-#     start_time = db.Column(db.Integer())
-#     finish_date = db.Column(db.Date())
-#     finish_time = db.Column(db.Integer())
-#     prime_total = db.Column(db.Integer())
-#     total_hours = db.Column(db.Integer())
-#     called = db.Column(db.String(1))
-#     wdo_notes = db.Column(db.String(255))
-#     comment = db.Column(db.String(255))
-#     abnormal = db.Column(db.String(1))
-
-# class M(db.Model):
-    # __bind_key__ = 'rhdb'
- 
-    # combo = db.Column(db.String(17), primary_key=True)
-    # lat = db.Column(db.String(10))
-    # sg = db.Column(db.String(10))
-    # name = db.Column(db.String(100))
-    # phone = db.Column(db.String(10))
-    # flow = db.Column(db.Float())
-    # hours = db.Column(db.Float())
-    # est_start = db.Column(db.DateTime())
-    # prime_date = db.Column(db.Date())
-    # prime_time = db.Column(db.Integer())
-    # start_date = db.Column(db.Date())
-    # start_time = db.Column(db.Integer())
-    # finish_date = db.Column(db.Date())
-    # finish_time = db.Column(db.Integer())
-    # prime_total = db.Column(db.Integer())
-    # total_hours = db.Column(db.Integer())
-    # called = db.Column(db.String(1))
-    # wdo_notes = db.Column(db.String(255))
-    # comment = db.Column(db.String(255))
-    # abnormal = db.Column(db.String(1))
+    prime_date = db.Column(db.Date())
+    prime_time = db.Column(db.Integer())
+    start_date = db.Column(db.Date())
+    start_time = db.Column(db.Integer())
+    finish_date = db.Column(db.Date())
+    finish_time = db.Column(db.Integer())
+    prime_total = db.Column(db.Integer())
+    total_hours = db.Column(db.Integer())
+    called = db.Column(db.String(1))
+    abnormal = db.Column(db.String(1))
 
 class WDO(db.Model):
     __bind_key__ = 'rhdb'
@@ -286,6 +131,31 @@ def login():
         return jsonify({"sa": user.sa}), 200
     else:
         return jsonify({"error": "Invalid username or password"}), 401
+
+
+@app.route('/updateOrder/<string:combo>', methods=['PUT'])
+def updateOrder(combo):
+    order = Orders.query.filter_by(combo=combo).first()
+    if not order:
+        return jsonify({"error": "Order not found"}), 404
+
+    data = request.json
+    for field in data:
+        if hasattr(order, field):
+            
+            if field in ['est_start', 'est_finish', 'any_other_datetime_field']:        # Check if the field is a datetime field
+                if data[field] is not None:  
+                    try:
+                        datetime_value = datetime.strptime(data[field], '%Y-%m-%d %H:%M:%S')
+                        setattr(order, field, datetime_value)
+                    except ValueError:
+                        return jsonify({"error": "Incorrect datetime format"}), 400
+            else:
+                setattr(order, field, data[field])
+
+    db.session.commit()
+    return jsonify({"message": "Order updated successfully"}), 200
+
 
 
 
@@ -374,14 +244,17 @@ def forders():
                 "acre": order.acre,
                 "crop": order.crop,
                 "type": order.type,
-                "date": order.date,
+                "date": order.date.strftime('%Y-%m-%d'),
                 "trantime": order.trantime,
                 "ex": order.ex,
                 "final": order.final,
                 "comment": order.comment,
                 "sbxcfs": order.sbxcfs,
                 "deleted": order.deleted,
-                "sa": order.sa
+                "sa": order.sa,
+                "head": order.head,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
             }
             for order in orders_query
         ]
@@ -390,7 +263,7 @@ def forders():
     except Exception as e:
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
-
+    
 
 @app.route('/morders', methods=['GET'])
 def morders():
@@ -470,19 +343,23 @@ def morders():
                 "lat": order.lat, 
                 "sg": order.sg,
                 "name": order.name,
+                "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
                 "acre": order.acre,
                 "crop": order.crop,
                 "type": order.type,
-                "date": order.date,
+                "date": order.date.strftime('%Y-%m-%d'),
                 "trantime": order.trantime,
                 "ex": order.ex,
                 "final": order.final,
                 "comment": order.comment,
                 "sbxcfs": order.sbxcfs,
                 "deleted": order.deleted,
-                "sa": order.sa
+                "sa": order.sa,
+                "head": order.head,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
             }
             for order in orders_query
         ]
@@ -491,6 +368,129 @@ def morders():
     except Exception as e:
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
+
+
+@app.route('/H1', methods=['GET'])
+def h1():
+    try:
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H1').all()
+        
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+
+
+@app.route('/H2', methods=['GET'])
+def h2():
+    try:
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H2').all()
+
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+    
+@app.route('/H3', methods=['GET'])
+def h3():
+    try:
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H3').all()
+
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+    
+@app.route('/H4', methods=['GET'])
+def h4():
+    try:
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H4').all()
+
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+    
+@app.route('/H5', methods=['GET'])
+def h5():
+    try:
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H5').all()
+
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
+
 
 
 

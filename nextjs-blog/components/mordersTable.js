@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
-import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import StripedDataGrid from './StripedDataGrid';
+import CustomToolbar from './CustomToolbar';
 import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -48,7 +48,35 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
+// const CommentsCell = ({ value, row }) => {
+//     const [open, setOpen] = useState(false);
+//     const [comment, setComment] = useState(value || row.comments);
 
+//     const handleClickOpen = () => setOpen(true);
+//     const handleClose = () => setOpen(false);
+//     const handleCommentChange = (event) => setComment(event.target.value);
+
+//     return (
+//         <div style={{ display: 'flex', alignItems: 'center' }}>
+//             <IconButton onClick={handleClickOpen} aria-label="more">
+//                 <MoreVertIcon />
+//             </IconButton>
+//             <span>{comment}</span>
+//             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+//                 <DialogTitle>Comment</DialogTitle>
+//                 <DialogContent>
+//                     <DialogContentText>{comment}</DialogContentText>
+//                 </DialogContent>
+//                 <DialogActions>
+//                     <Button onClick={handleClose}>Close</Button>
+//                 </DialogActions>
+//             </Dialog>
+//         </div>
+//     );
+// };
+
+//THE ABOVE FUNCTION WAS ORIGINALLY IN HERE
+//AND THE BELOW CODE IS FROM fTable.js
 
 const CommentsCell = ({ value, row, onCellValueChange }) => {
     const [open, setOpen] = useState(false);
@@ -85,25 +113,13 @@ const CommentsCell = ({ value, row, onCellValueChange }) => {
         </div>
     );
 };
-  
 
-const HeadEditor = ({ value, onCellValueChange, id }) => {
+const HeadEditor = ({ value, onCellValueChange }) => {
     const headOptions = [
-        { value: 'h1', label: 'Head 1' },
-        { value: 'h2', label: 'Head 2' },
-        { value: 'h3', label: 'Head 3' },
-        { value: 'h4', label: 'Head 4' },
-        { value: 'h5', label: 'Head 5' },
-        { value: 'un', label: 'Unordered' },
+        { value: 'm', label: 'Micro Order' },
     ];
 
-    const handleChange = (event) => {
-        onCellValueChange({
-            id: id,
-            field: 'head',
-            value: event.target.value
-        });
-    };
+    const handleChange = (event) => onCellValueChange(event.target.value);
 
     return (
         <select value={value || ''} onChange={handleChange}>
@@ -117,36 +133,37 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     );
 };
 
-// Define the columns for the DataGrid
+// Creates column definitions for the DataGrid
 const columns = [
-    { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
-    { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
-    { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'acre', headerName: 'Acre', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'comment', headerName: 'Comment', editable: true,  flex: 1.5, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
-    { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
-    { field: 'head', headerName: 'Head', editable: true, flex: 1.5, 
-    renderCell: (params)=> <HeadEditor value = {params.value} 
-    onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} />, headerClassName: 'super-app-theme--header' },
-    { field: 'estStart', headerName: 'Est Start', flex: 1, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell />  },
-    { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'combo', headerName: 'Combo', flex: 2.5, headerClassName: 'super-app-theme--header'},
+  { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'name', headerName: 'Name', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'phone', headerName: 'Phone', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+  // { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'date', headerName: 'Date', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'tranTime', headerName: 'Trantime', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'ex', headerName: 'EX', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'final', headerName: 'Final', flex: 0.25, headerClassName: 'super-app-theme--header' },
+  { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
+  { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'head', headerName: 'Head', editable: true, flex: 1.75, headerClassName: 'super-app-theme--header', renderCell: (params)=> <HeadEditor value = {params.value} 
+  onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
+  { field: 'estStart', headerName: 'Est Start', flex: 1.25, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell /> },
+  { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
+  { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
 ];
 
-export default function FTable() {
+export default function MordersTable() {
     const [orders, setOrders] = useState([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch('http://127.0.0.1:5000/forders', {
+                const response = await fetch('http://127.0.0.1:5000/morders', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -171,9 +188,6 @@ export default function FTable() {
     }, []);
 
     const handleCellEditCommit = async (params) => {
-
-        console.log("Final data being sent for update:", params);
-
         const { id, field, value } = params;
         const currentOrderData = orders.find(order => order.id === id);
         if (!currentOrderData) {
@@ -211,6 +225,34 @@ export default function FTable() {
         console.log('Update error:', error);
     }, []);
 
+    // const columns = [
+    //     { field: 'combo', headerName: 'Combo', flex: 2.5, headerClassName: 'super-app-theme--header'},
+    //     { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+    //     { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+    //     { field: 'name', headerName: 'Name', flex: 1.5, headerClassName: 'super-app-theme--header' },
+    //     { field: 'phone', headerName: 'Phone', flex: 1.5, headerClassName: 'super-app-theme--header' },
+    //     { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+    //     { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+    //     // { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
+    //     { field: 'date', headerName: 'Date', flex: 1, headerClassName: 'super-app-theme--header' },
+    //     { field: 'tranTime', headerName: 'Trantime', flex: 1.5, headerClassName: 'super-app-theme--header' },
+    //     { field: 'ex', headerName: 'EX', flex: 1, headerClassName: 'super-app-theme--header' },
+    //     { field: 'final', headerName: 'Final', flex: 0.25, headerClassName: 'super-app-theme--header' },
+    //     { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
+    //     { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
+    //     { field: 'head', headerName: 'Head', editable: true, flex: 1.75, headerClassName: 'super-app-theme--header', renderCell: (params)=> <HeadEditor value = {params.value} 
+    //     onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
+    //     { field: 'estStart', headerName: 'Est Start', flex: 1.25, headerClassName: 'super-app-theme--header', 
+    //         renderCell: (params) => <DatePickerCell
+    //         id={params.id}
+    //         value={params.value ? dayjs(params.value) : null}
+    //         onCellValueChange={handleCellEditCommit}
+    //         /> 
+    //     },
+    //     { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
+    //     { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+    // ];
+
     const columns = [
         { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
         { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
@@ -245,15 +287,14 @@ export default function FTable() {
     ];
 
     return (
-        <Box sx={{ height: '90vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' } }}>
+        <Box sx={{ height: '90vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' }}}>
             <StripedDataGrid
                 rows={orders}
                 columns={columns}
-                pageSize={5}
-                slots={{ 
-                    toolbar: CustomToolbar 
+                slots={{
+                    toolbar: CustomToolbar,
                 }}
-                getRowClassName={(params) => 
+                getRowClassName={(params) =>
                     params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                 }
                 onProcessRowUpdateError={handleProcessRowUpdateError}
