@@ -119,7 +119,7 @@ export default function MTable() {
 
     // Creates column definitions for the DataGrid
     const columns = [
-        { field: 'id', headerName: 'Combo', width: 130, hide: true, headerClassName: 'super-app-theme--header' },
+        { field: 'id', headerName: 'Combo', width: 145, hide: true, headerClassName: 'super-app-theme--header' },
         { field: 'lat', headerName: 'Lateral', width: 70, headerClassName: 'super-app-theme--header' },
         { field: 'sg', headerName: 'SG', width: 60, headerClassName: 'super-app-theme--header' },
         { field: 'name', headerName: 'Contact', flex: 1, headerClassName: 'super-app-theme--header' },
