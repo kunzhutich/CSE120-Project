@@ -384,7 +384,14 @@ def h1():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                # "prime_date": order.prime_date.strftime('%Y-%m-%d'),
+                # "prime_time": order.prime_time.strftime('%Y-%m-%d %H:%M:%S')  if order.prime_time else None,
+                # "start_date": order.start_date.strftime('%Y-%m-%d'),
+                # "start_time": order.start_time.strftime('%Y-%m-%d %H:%M:%S') if order.start_time else None,
+                # "finish_date": order.finish_date.strftime('%Y-%m-%d'),
+                # "finish_time": order.finish_time.strftime('%Y-%m-%d %H:%M:%S') if order.finish_time else None,
+                # "prime_total": order.prime_total
             }
             for order in orders_query
         ]
@@ -515,7 +522,29 @@ def un():
         print(f"An error occurred: {e}")
         return jsonify({"error": "An error occurred while processing your request."}), 500
 
+@app.route('/m', methods=['GET'])
+def MordersTable(): 
+    try:
+        orders_query = Orders.query.filter(func.upper(Orders.head) == 'M').all()
 
+        orders_list = [
+            {
+                "combo": order.combo, 
+                "lat": order.lat,
+                "sg": order.sg,
+                "name": order.name,
+                "phone": order.phone,
+                "flow": order.flow,
+                "hours": order.hours,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+            }
+            for order in orders_query
+        ]
+        
+        return jsonify(orders_list)
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return jsonify({"error": "An error occurred while processing your request."}), 500
 
 
 
