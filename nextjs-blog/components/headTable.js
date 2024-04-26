@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import useSWR from "swr";
+import fetcher from '../utils/fetcher';
 import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -48,34 +50,16 @@ export default function HeadTable(props) {
     console.log(requiredString);
     const [orders, setOrders] = useState([]);
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const sa = sessionStorage.getItem('sa');
-                const response = await fetch(`http://127.0.0.1:5000/${requiredString}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'SA': sa,
-                    },
-                });
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const data = await response.json();
-                // Map the fetched data to include a unique 'id' for each row using 'combo'
-                const formattedData = data.map((item) => ({
-                    ...item,
-                    id: item.combo, // Use `combo` as the `id`
-                }));
-                setOrders(formattedData);
-            } catch (error) {
-                console.error("Failed to fetch orders:", error);
-            }
-        };
-
-        fetchOrders();
+    const handleProcessRowUpdateError = React.useCallback((error) => {
+        console.log(error);
     }, []);
+
+    const {data, error, loading} = useSWR(`http://127.0.0.1:5000/${requiredString}`, fetcher, {refreshInterval: 1000});
+
+    if (error) return <div>Failed to load</div>
+    if (loading) return <div>Loading</div>
+
+    if (!data) return <div>No Data</div>
 
     const handleCellEditCommit = async (params) => {
 
@@ -114,9 +98,10 @@ export default function HeadTable(props) {
         }
     };
 
-    const handleProcessRowUpdateError = React.useCallback((error) => {
-        console.log(error);
-    }, []);
+    const head1 = data.map((item) => ({
+        ...item,
+        id: item.combo, // Use `combo` as the `id`
+    }));
 
 
     // Creates column definitions for the DataGrid
@@ -151,7 +136,7 @@ export default function HeadTable(props) {
     return (
         <Box sx = {{height: 'auto', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
             <StripedDataGrid
-                rows={orders}
+                rows={head1}
                 columns={columns}
                 slots={{
                     toolbar: CustomToolbar

@@ -133,6 +133,29 @@ const HeadEditor = ({ value, onCellValueChange }) => {
     );
 };
 
+// Creates column definitions for the DataGrid
+const columns = [
+  { field: 'combo', headerName: 'Combo', flex: 2.5, headerClassName: 'super-app-theme--header'},
+  { field: 'lat', headerName: 'Lat', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'name', headerName: 'Name', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'phone', headerName: 'Phone', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+  // { field: 'type', headerName: 'Type', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'date', headerName: 'Date', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'tranTime', headerName: 'Trantime', flex: 1.5, headerClassName: 'super-app-theme--header' },
+  { field: 'ex', headerName: 'EX', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'final', headerName: 'Final', flex: 0.25, headerClassName: 'super-app-theme--header' },
+  { field: 'comment', headerName: 'Comment', editable: true,  flex: 2, renderCell: (params) => <CommentsCell {...params} />, headerClassName: 'super-app-theme--header' },
+  { field: 'sbxcfs', headerName: 'SBXCFS', flex: 1, headerClassName: 'super-app-theme--header' },
+  { field: 'head', headerName: 'Head', editable: true, flex: 1.75, headerClassName: 'super-app-theme--header', renderCell: (params)=> <HeadEditor value = {params.value} 
+  onCellValueChange= {(newValue) => params.api.setValue(params.id, 'head', newValue)} /> },
+  { field: 'estStart', headerName: 'Est Start', flex: 1.25, headerClassName: 'super-app-theme--header', renderCell: (params) => <DatePickerCell /> },
+  { field: 'estFinish', headerName: 'Est Finish', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header' },
+  { field: 'attention', headerName: 'Attention', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+];
+
 export default function MordersTable() {
     const [orders, setOrders] = useState([]);
 

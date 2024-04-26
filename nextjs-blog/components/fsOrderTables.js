@@ -3,16 +3,16 @@ import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; 
 
-// Define a custom editor for the 'Head' field
-const HeadEditor = ({ value, onCellValueChange, id }) => {
-    const headOptions = [
-        { value: 'h1', label: 'Head 1' },
-        { value: 'h2', label: 'Head 2' },
-        { value: 'h3', label: 'Head 3' },
-        { value: 'h4', label: 'Head 4' },
-        { value: 'h5', label: 'Head 5' },
-        { value: 'un', label: 'Unordered' },
-    ];
+// Define the options for the dropdown menu
+const headOptions = [
+    { value: 'h1', label: 'Head 1' },
+    { value: 'h2', label: 'Head 2' },
+    { value: 'h3', label: 'Head 3' },
+    { value: 'h4', label: 'Head 4' },
+    { value: 'h5', label: 'Head 5' },
+    { value: 'un', label: 'Unordered' },
+
+];
 
     const handleChange = (event) => {
         onCellValueChange({
@@ -38,8 +38,6 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
 
 export default function FSTable() {
     const [orders, setOrders] = useState([]);
-
-   
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -123,11 +121,11 @@ export default function FSTable() {
         { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'head', headerName: 'Head', editable: true, flex: 1.5,
-            renderCell: (params) => <HeadEditor 
-                id={params.id} 
-                value={params.value} 
-                onCellValueChange={handleCellEditCommit} 
+        {
+            field: 'head', headerName: 'Head', editable: true, flex: 1.5,  headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <HeadEditor
+                value={params.value}
+                onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
             />
         },
     ];
