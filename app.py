@@ -11,9 +11,9 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 # CORS(app, resources={r"*": {"origins": "*"}})
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:hiii@localhost/txdb'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:admin123@localhost/txdb'
 app.config["SQLALCHEMY_BINDS"] = {
-    'rhdb':'mysql://root:hiii@localhost/rhdb'
+    'rhdb':'mysql://root:admin123@localhost/rhdb'
 }
 
 db = SQLAlchemy(app)
