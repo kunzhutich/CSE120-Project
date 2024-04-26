@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
         GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
 
@@ -131,8 +130,8 @@ export default function FSTable() {
             renderCell: (params) => <HeadEditor
                 value={params.value}
                 onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
-            />
-        },
+            /> , headerClassName: 'super-app-theme--header' },
+
     ];
 
     return (

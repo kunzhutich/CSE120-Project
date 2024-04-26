@@ -31,6 +31,38 @@ const HeadEditor = ({ value, onCellValueChange }) => {
     );
 };
 
+const handleCellEditCommit = async (updatedRow) => {
+    try {
+        const { id, ...updatedOrder } = updatedRow; // Destructure the updatedRow object to get id and rest of the updatedOrder
+        const updatedOrders = orders.map(order =>
+            order.id === id ? { ...order, ...updatedOrder } : order
+        );
+        setOrders(updatedOrders);
+
+        const encodedId = encodeURIComponent(id);
+
+        // Send the updated data to your backend API for saving
+        const sa = sessionStorage.getItem('sa');
+        const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'SA': sa,
+            },
+            body: JSON.stringify(updatedOrder), // Send the entire updatedOrder object
+        });
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        if (response.ok) {
+            console.log('editable cell recognized');
+        }
+    } catch (error) {
+        console.error('Failed to update order:', error);
+    };
+};
+
+
 // Define the columns for the DataGrid
 const columns = [
     { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
@@ -49,8 +81,8 @@ const columns = [
     renderCell: (params) => (
         <HeadEditor
           value={params.value}
-          onCellValueChange={(newValue) => params.api.commitCellChange({ id: params.id, field: 'head', value: newValue })}
-            />
+          onCellValueChange={(newValue) => handleCellEditCommit({ id: params.id, head: newValue })}
+          />
         ), headerClassName: 'super-app-theme--header' },
     { field: 'estStart', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
     { field: 'estStop', headerName: 'Est Stop', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
