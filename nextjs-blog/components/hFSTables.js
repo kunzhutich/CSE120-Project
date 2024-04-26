@@ -107,7 +107,7 @@ export default function HFSTable(props) {
     }));
   
     const columns = [
-      { field: 'id', headerName: 'Head', width: 150, headerClassName: 'super-app-theme--header' },
+      { field: 'id', headerName: requiredString, width: 150, headerClassName: 'super-app-theme--header' },
       { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
       { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
       { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
