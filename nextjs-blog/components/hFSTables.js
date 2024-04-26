@@ -43,8 +43,39 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
 
 
 
-export default function HFSTable({ orders, headerColor, requiredString }) {
-    console.log("Orders in HFSTable for", requiredString, ":", orders);
+export default function HFSTable(props) {
+    const { requiredString, headerColor  } = props;
+    console.log(requiredString);
+    const [orders, setOrders] = useState([]);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const sa = sessionStorage.getItem('sa');
+                const response = await fetch(`http://127.0.0.1:5000/${requiredString}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'SA': sa,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                // Map the fetched data to include a unique 'id' for each row using 'combo'
+                const formattedData = data.map((item) => ({
+                    ...item,
+                    id: item.combo, // Use `combo` as the `id`
+                }));
+                setOrders(formattedData);
+            } catch (error) {
+                console.error("Failed to fetch orders:", error);
+            }
+        };
+
+        fetchOrders();
+    }, []);
 
     const handleCellEditCommit = async (params) => {
 
@@ -103,12 +134,16 @@ export default function HFSTable({ orders, headerColor, requiredString }) {
     ];
 
     return (
-        <Box sx={{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
+        <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
             <StripedDataGrid
                 rows={orders}
-                columns={columns}  
-                slots={{ toolbar: CustomToolbar }}
-                getRowClassName={(params) => params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}
+                columns={columns}
+                slots={{
+                    toolbar: CustomToolbar
+                }}
+                getRowClassName={(params) =>
+                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
+                }
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
             />
