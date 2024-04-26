@@ -11,7 +11,6 @@ import useSWR from "swr";
 import fetcher from '../utils/fetcher';
 
 
-
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
@@ -97,9 +96,9 @@ export default function HFSTable(props) {
         }
     };
 
-    const handleProcessRowUpdateError = React.useCallback((error) => {
-        console.log(error);
-    }, []);
+    // const handleProcessRowUpdateError = React.useCallback((error) => {
+    //     console.log(error);
+    // }, []);
 
     // Creates column definitions for the DataGrid
     const columns = [
@@ -116,42 +115,29 @@ export default function HFSTable(props) {
         },
     ];
 
+
+
+    const head1 = data.map((item) => ({
+        ...item,
+        id: item.combo,
+    }))
+
     return (
         <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor }}}>
             <StripedDataGrid
-                rows={orders}
+                rows={head1}
                 columns={columns}
+                hideFooter
                 slots={{
                     toolbar: CustomToolbar
                 }}
                 getRowClassName={(params) =>
                     params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                 }
-                onProcessRowUpdateError={handleProcessRowUpdateError}
-                hideFooter
+                processRowUpdate={(updatedRow, originalRow) =>
+                        handleCellEditCommit(updatedRow)
+                }
             />
         </Box>
-
-
-return (
-    <Box sx = {{height: 420, width: '39vw', paddingLeft: 2, paddingRight: 4, '& .super-app-theme--header': {
-      backgroundColor: headerColor,
-    }}}>
-        <StripedDataGrid
-            rows={head1}
-            columns={columns}
-            hideFooter
-
-      slots={{
-        toolbar: CustomToolbar
-      }}
-      getRowClassName={(params) =>
-        params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-      }
-      processRowUpdate={(updatedRow, originalRow) =>
-            handleCellEditCommit(updatedRow)
-      }
-        />
-    </Box>
     );
 }
