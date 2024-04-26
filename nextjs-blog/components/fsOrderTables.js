@@ -1,7 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import CustomToolbar from './CustomToolbar';
+import {GridToolbarContainer, GridToolbarColumnsButton, GridToolbarFilterButton,
+        GridToolbarDensitySelector, DataGrid} from '@mui/x-data-grid';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+
+// Define the options for the dropdown menu
+const headOptions = [
+    { value: 'h1', label: 'Head 1' },
+    { value: 'h2', label: 'Head 2' },
+    { value: 'h3', label: 'Head 3' },
+    { value: 'h4', label: 'Head 4' },
+    { value: 'h5', label: 'Head 5' },
+    { value: 'un', label: 'Unordered' },
+
+];
 
 // Define a custom editor for the 'Head' field
 const HeadEditor = ({ value, onCellValueChange, id }) => {

@@ -13,6 +13,10 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
@@ -98,14 +102,29 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     };
 
     return (
-        <select value={value || ''} onChange={handleChange}>
-            <option value="">Select...</option>
-            {headOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                    {option.label}
-                </option>
-            ))}
-        </select>
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                <Select
+                    labelId="head-select-label"
+                    id="head-select"
+                    value={value || ''}
+                    onChange={handleChange}
+                    autoWidth
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ fontSize: '0.65rem'}}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
     );
 };
 
