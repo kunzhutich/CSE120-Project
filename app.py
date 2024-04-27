@@ -221,9 +221,17 @@ def forders():
             );
         """)
 
+        update_query = text("""
+            UPDATE rhdb.orders
+            SET ABNORMAL = 'Y'
+            WHERE (EX = 'Y' OR FINAL = 'Y')
+        """)
+
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
-            print("Data transfer successful.")
+            connection.execute(update_query)
+            print("Data transfer and abnormal status update successful.")
+
         
         # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(
@@ -326,9 +334,16 @@ def morders():
             );
         """)
 
+        update_query = text("""
+            UPDATE rhdb.orders
+            SET ABNORMAL = 'Y'
+            WHERE (EX = 'Y' OR FINAL = 'Y')
+        """)
+
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
-            print("Data transfer successful.")
+            connection.execute(update_query)
+            print("Data transfer and abnormal status update successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(
