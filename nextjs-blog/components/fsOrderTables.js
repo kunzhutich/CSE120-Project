@@ -48,7 +48,7 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
                     <MenuItem value="">
                         <em>Select...</em>
                     </MenuItem>
-                    {headOptions.map((option) => (
+                    {headOptions.map((option) => ( 
                         <MenuItem key={option.value} value={option.value}>
                             {option.label}
                         </MenuItem>
