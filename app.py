@@ -221,15 +221,8 @@ def forders():
             );
         """)
 
-        update_query = text("""
-            UPDATE rhdb.orders
-            SET ABNORMAL = 'Y'
-            WHERE (EX = 'Y' OR FINAL = 'Y')
-        """)
-
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
-            connection.execute(update_query)
             print("Data transfer and abnormal status update successful.")
 
         
@@ -334,15 +327,8 @@ def morders():
             );
         """)
 
-        update_query = text("""
-            UPDATE rhdb.orders
-            SET ABNORMAL = 'Y'
-            WHERE (EX = 'Y' OR FINAL = 'Y')
-        """)
-
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
-            connection.execute(update_query)
             print("Data transfer and abnormal status update successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
@@ -388,7 +374,12 @@ def morders():
 @app.route('/H1', methods=['GET'])
 def h1():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H1').all()
+        sa = request.headers.get('SA')
+
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H1'
+        ).all()
         
         orders_list = [
             {
@@ -399,6 +390,8 @@ def h1():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
+                "ex": order.ex,
+                "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
                 # "prime_date": order.prime_date.strftime('%Y-%m-%d'),
                 # "prime_time": order.prime_time.strftime('%Y-%m-%d %H:%M:%S')  if order.prime_time else None,
@@ -420,7 +413,12 @@ def h1():
 @app.route('/H2', methods=['GET'])
 def h2():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H2').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H2'
+        ).all()
 
         orders_list = [
             {
@@ -431,6 +429,8 @@ def h2():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
+                "ex": order.ex,
+                "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
@@ -444,7 +444,12 @@ def h2():
 @app.route('/H3', methods=['GET'])
 def h3():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H3').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H3'
+        ).all()
 
         orders_list = [
             {
@@ -455,6 +460,8 @@ def h3():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
+                "ex": order.ex,
+                "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
@@ -468,7 +475,12 @@ def h3():
 @app.route('/H4', methods=['GET'])
 def h4():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H4').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H4'
+        ).all()
 
         orders_list = [
             {
@@ -479,6 +491,8 @@ def h4():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
+                "ex": order.ex,
+                "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
@@ -492,7 +506,12 @@ def h4():
 @app.route('/H5', methods=['GET'])
 def h5():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H5').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H5'
+        ).all()
 
         orders_list = [
             {
@@ -503,6 +522,8 @@ def h5():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
+                "ex": order.ex,
+                "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
@@ -516,7 +537,12 @@ def h5():
 @app.route('/UN', methods=['GET'])
 def un():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'UN').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'UN'
+        ).all()
 
         orders_list = [
             {
@@ -527,6 +553,8 @@ def un():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
+                "ex": order.ex,
+                "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
@@ -540,7 +568,12 @@ def un():
 @app.route('/M', methods=['GET'])
 def MTable(): 
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'M').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'M'
+        ).all()
 
         orders_list = [
             {
@@ -551,6 +584,8 @@ def MTable():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
+                "ex": order.ex,
+                "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query

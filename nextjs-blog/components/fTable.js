@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
+// import { DataGrid } from '@mui/x-data-grid';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 import dayjs from 'dayjs';
@@ -133,6 +134,15 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     );
 };
 
+const getRowClassName = (params) => {
+    if (params.row.ex === 'Y' || params.row.final === 'Y') {
+        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+}
+
+
+
 export default function FTable() {
     const [orders, setOrders] = useState([]);
 
@@ -206,8 +216,8 @@ export default function FTable() {
     }, []);
 
     const columns = [
-        { field: 'id', headerName: 'Combo', width: 145, headerClassName: 'super-app-theme--header' },
-        { field: 'lat', headerName: 'Lat', width: 70, headerClassName: 'super-app-theme--header' },
+        { field: 'id', headerName: 'Combo', width: 145, headerClassName: 'super-app-theme--header', hide: true },
+        { field: 'lat', headerName: 'Lat', width: 70, headerClassName: 'super-app-theme--header', hide: true },
         { field: 'sg', headerName: 'SG', width: 60, headerClassName: 'super-app-theme--header' },
         { field: 'name', headerName: 'Name', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'phone', headerName: 'Phone', width: 85, headerClassName: 'super-app-theme--header' },
@@ -217,6 +227,8 @@ export default function FTable() {
         { field: 'crop', headerName: 'Crop', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'type', headerName: 'Type', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'date', headerName: 'Date', width: 60, headerClassName: 'super-app-theme--header' },
+        { field: 'ex', headerName: 'EX', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'final', headerName: 'Final', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'comment', headerName: 'Comment', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <CommentsCell {...params} onCellValueChange={handleCellEditCommit} />
         },
@@ -247,11 +259,20 @@ export default function FTable() {
                 slots={{ 
                     toolbar: CustomToolbar 
                 }}
-                getRowClassName={(params) => 
-                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
+                getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
+                initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        acre: false,
+                        crop: false,
+                        type: false,
+                        ex: false,
+                        final: false
+                      },
+                    },
+                }}
             />
         </Box>
     );

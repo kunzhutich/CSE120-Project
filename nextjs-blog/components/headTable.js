@@ -41,6 +41,15 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
+const getRowClassName = (params) => {
+    if (params.row.ex === 'Y' || params.row.final === 'Y') {
+        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+}
+
+
+
 export default function HeadTable(props) {
     const { requiredString, headerColor  } = props;
     console.log(requiredString);
@@ -152,9 +161,7 @@ export default function HeadTable(props) {
                 slots={{
                     toolbar: CustomToolbar
                 }}
-                getRowClassName={(params) =>
-                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
+                getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
             />

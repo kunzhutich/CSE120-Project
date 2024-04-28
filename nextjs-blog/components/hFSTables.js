@@ -40,6 +40,15 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
+const getRowClassName = (params) => {
+    if (params.row.ex === 'Y' || params.row.final === 'Y') {
+        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+}
+
+
+
 export default function HFSTable({ orders, headerColor, requiredString }) {
     console.log("Orders in HFSTable for", requiredString, ":", orders);
 
@@ -105,7 +114,7 @@ export default function HFSTable({ orders, headerColor, requiredString }) {
                 rows={orders}
                 columns={columns}  
                 slots={{ toolbar: CustomToolbar }}
-                getRowClassName={(params) => params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}
+                getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
             />

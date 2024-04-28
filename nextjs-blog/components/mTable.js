@@ -42,6 +42,14 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
+const getRowClassName = (params) => {
+    if (params.row.ex === 'Y' || params.row.final === 'Y') {
+        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+}
+
+
 
 export default function MTable() {
     const [orders, setOrders] = useState([]);
@@ -153,11 +161,20 @@ export default function MTable() {
                 slots={{
                     toolbar: CustomToolbar
                 }}
-                getRowClassName={(params) =>
-                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
+                getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
+                initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        acre: false,
+                        crop: false,
+                        type: false,
+                        ex: false,
+                        final: false
+                      },
+                    },
+                }}
             />
         </Box>
     );

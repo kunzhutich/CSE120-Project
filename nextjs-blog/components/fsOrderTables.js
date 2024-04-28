@@ -6,18 +6,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-// Define the options for the dropdown menu
-const headOptions = [
-    { value: 'h1', label: 'Head 1' },
-    { value: 'h2', label: 'Head 2' },
-    { value: 'h3', label: 'Head 3' },
-    { value: 'h4', label: 'Head 4' },
-    { value: 'h5', label: 'Head 5' },
-    { value: 'un', label: 'Unordered' },
 
-];
-
-// Define a custom editor for the 'Head' field
 const HeadEditor = ({ value, onCellValueChange, id }) => {
     const headOptions = [
         { value: 'h1', label: 'Head 1' },
@@ -59,6 +48,15 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     );
 };
 
+const getRowClassName = (params) => {
+    if (params.row.ex === 'Y' || params.row.final === 'Y') {
+        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+}
+
+
+
 export default function FSTable({ orders, onHeadChange }) {
     const columns = [
         { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
@@ -70,6 +68,8 @@ export default function FSTable({ orders, onHeadChange }) {
         { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'ex', headerName: 'EX', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'final', headerName: 'Final', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'head', headerName: 'Head', editable: true, flex: 1.5, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <HeadEditor 
                 id={params.id} 
@@ -86,7 +86,18 @@ export default function FSTable({ orders, onHeadChange }) {
                 columns={columns}
                 slots={{ toolbar: CustomToolbar }}
                 hideFooter
-                getRowClassName={(params) => params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}
+                getRowClassName={getRowClassName}
+                initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        // acre: false,
+                        // crop: false,
+                        // type: false,
+                        ex: false,
+                        final: false
+                      },
+                    },
+                }}
             />
         </Box>
     );
