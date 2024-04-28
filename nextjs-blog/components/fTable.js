@@ -133,6 +133,59 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     );
 };
 
+const CalledEditor = ({ value, onCellValueChange, id }) => {
+    const headOptions = [
+        { value: 'C', label: 'C' },
+        { value: 'O', label: 'O' },
+    ];
+
+    const handleChange = (event) => {
+        onCellValueChange({
+            id: id,
+            field: 'called',
+            value: event.target.value
+        });
+    };
+
+    return (
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                <Select
+                    labelId="called-select-label"
+                    id="called-select"
+                    value={value || ''}
+                    onChange={handleChange}
+                    autoWidth
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ fontSize: '0.65rem'}}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
+    );
+};
+
+const getRowClassName = (params) => {
+    if (params.row.called === "O") {
+        return `dark-gray ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    if (params.row.ex === 'Y' || params.row.final === 'Y') {
+        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+}
+
+
+
 export default function FTable() {
     const [orders, setOrders] = useState([]);
 
@@ -206,8 +259,8 @@ export default function FTable() {
     }, []);
 
     const columns = [
-        { field: 'id', headerName: 'Combo', width: 145, headerClassName: 'super-app-theme--header' },
-        { field: 'lat', headerName: 'Lat', width: 70, headerClassName: 'super-app-theme--header' },
+        { field: 'id', headerName: 'Combo', width: 145, headerClassName: 'super-app-theme--header', hide: true },
+        { field: 'lat', headerName: 'Lat', width: 70, headerClassName: 'super-app-theme--header', hide: true },
         { field: 'sg', headerName: 'SG', width: 60, headerClassName: 'super-app-theme--header' },
         { field: 'name', headerName: 'Name', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'phone', headerName: 'Phone', width: 85, headerClassName: 'super-app-theme--header' },
@@ -216,12 +269,16 @@ export default function FTable() {
         { field: 'acre', headerName: 'Acre', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'crop', headerName: 'Crop', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'type', headerName: 'Type', width: 10, headerClassName: 'super-app-theme--header' },
-        { field: 'date', headerName: 'Date', width: 60, headerClassName: 'super-app-theme--header' },
+        { field: 'date', headerName: 'Date', width: 60, headerClassName: 'super-app-theme--header',
+            valueFormatter: (params) => dayjs(params.value).format('MM/DD')  
+        },
+        { field: 'ex', headerName: 'EX', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'final', headerName: 'Final', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'comment', headerName: 'Comment', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <CommentsCell {...params} onCellValueChange={handleCellEditCommit} />
         },
         { field: 'sbxcfs', headerName: 'SBXCFS', width: 70, headerClassName: 'super-app-theme--header' },
-        { field: 'head', headerName: 'Head', editable: true, width: 100, headerClassName: 'super-app-theme--header',
+        { field: 'head', headerName: 'Head', width: 100, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <HeadEditor 
                 id={params.id} 
                 value={params.value} 
@@ -236,6 +293,13 @@ export default function FTable() {
             />
         },
         { field: 'est_finish', headerName: 'Est Finish', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'called', headerName: 'Called', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <CalledEditor 
+                id={params.id} 
+                value={params.value} 
+                onCellValueChange={handleCellEditCommit} 
+            />
+        },
     ];
 
     return (
@@ -247,11 +311,21 @@ export default function FTable() {
                 slots={{ 
                     toolbar: CustomToolbar 
                 }}
-                getRowClassName={(params) => 
-                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
+                getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
+                initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        acre: false,
+                        crop: false,
+                        type: false,
+                        ex: false,
+                        final: false,
+                        called: false
+                      },
+                    },
+                }}
             />
         </Box>
     );

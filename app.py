@@ -83,16 +83,18 @@ class Orders(db.Model):
     est_start = db.Column(db.DateTime())
     est_finish = db.Column(db.DateTime())
     wdo_notes = db.Column(db.String(255))
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
+    # prime_date = db.Column(db.Date())
+    # prime_time = db.Column(db.Integer())
+    # start_date = db.Column(db.Date())
+    # start_time = db.Column(db.Integer())
+    # finish_date = db.Column(db.Date())
+    # finish_time = db.Column(db.Integer())
+    prime_datetime = db.Column(db.DateTime())
+    start_datetime = db.Column(db.DateTime())
+    finish_datetime = db.Column(db.DateTime())
     prime_total = db.Column(db.Integer())
     total_hours = db.Column(db.Integer())
     called = db.Column(db.String(1))
-    abnormal = db.Column(db.String(1))
 
 class WDO(db.Model):
     __bind_key__ = 'rhdb'
@@ -223,7 +225,8 @@ def forders():
 
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
-            print("Data transfer successful.")
+            print("Data transfer and abnormal status update successful.")
+
         
         # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(
@@ -254,7 +257,8 @@ def forders():
                 "sa": order.sa,
                 "head": order.head,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -328,7 +332,7 @@ def morders():
 
         with db.engine.begin() as connection:
             connection.execute(transfer_query)
-            print("Data transfer successful.")
+            print("Data transfer and abnormal status update successful.")
         
         # Now, query the RHDB.Orders to fetch the transferred data
         orders_query = Orders.query.filter(
@@ -359,7 +363,8 @@ def morders():
                 "sa": order.sa,
                 "head": order.head,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -373,7 +378,12 @@ def morders():
 @app.route('/H1', methods=['GET'])
 def h1():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H1').all()
+        sa = request.headers.get('SA')
+
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H1'
+        ).all()
         
         orders_list = [
             {
@@ -384,14 +394,14 @@ def h1():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
+                "ex": order.ex,
+                "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                # "prime_date": order.prime_date.strftime('%Y-%m-%d'),
-                # "prime_time": order.prime_time.strftime('%Y-%m-%d %H:%M:%S')  if order.prime_time else None,
-                # "start_date": order.start_date.strftime('%Y-%m-%d'),
-                # "start_time": order.start_time.strftime('%Y-%m-%d %H:%M:%S') if order.start_time else None,
-                # "finish_date": order.finish_date.strftime('%Y-%m-%d'),
-                # "finish_time": order.finish_time.strftime('%Y-%m-%d %H:%M:%S') if order.finish_time else None,
-                # "prime_total": order.prime_total
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -405,7 +415,12 @@ def h1():
 @app.route('/H2', methods=['GET'])
 def h2():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H2').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H2'
+        ).all()
 
         orders_list = [
             {
@@ -416,7 +431,14 @@ def h2():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "ex": order.ex,
+                "final": order.final,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -429,7 +451,12 @@ def h2():
 @app.route('/H3', methods=['GET'])
 def h3():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H3').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H3'
+        ).all()
 
         orders_list = [
             {
@@ -440,7 +467,14 @@ def h3():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "ex": order.ex,
+                "final": order.final,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -453,7 +487,12 @@ def h3():
 @app.route('/H4', methods=['GET'])
 def h4():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H4').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H4'
+        ).all()
 
         orders_list = [
             {
@@ -464,7 +503,14 @@ def h4():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "ex": order.ex,
+                "final": order.final,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -477,7 +523,12 @@ def h4():
 @app.route('/H5', methods=['GET'])
 def h5():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'H5').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'H5'
+        ).all()
 
         orders_list = [
             {
@@ -488,7 +539,14 @@ def h5():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "ex": order.ex,
+                "final": order.final,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -501,7 +559,12 @@ def h5():
 @app.route('/UN', methods=['GET'])
 def un():
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'UN').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'UN'
+        ).all()
 
         orders_list = [
             {
@@ -512,7 +575,14 @@ def un():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "ex": order.ex,
+                "final": order.final,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -525,7 +595,12 @@ def un():
 @app.route('/M', methods=['GET'])
 def MTable(): 
     try:
-        orders_query = Orders.query.filter(func.upper(Orders.head) == 'M').all()
+        sa = request.headers.get('SA')
+        
+        orders_query = Orders.query.filter(
+            Orders.sa == sa,
+            func.upper(Orders.head) == 'M'
+        ).all()
 
         orders_list = [
             {
@@ -536,7 +611,14 @@ def MTable():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "ex": order.ex,
+                "final": order.final,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]

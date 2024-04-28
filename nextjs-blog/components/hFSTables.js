@@ -5,6 +5,9 @@ import CustomToolbar from './CustomToolbar';
 import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 const DatePickerCell = ({ value, id, onCellValueChange }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
@@ -39,6 +42,59 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
         </LocalizationProvider>
     );
 };
+
+const CalledEditor = ({ value, onCellValueChange, id }) => {
+    const headOptions = [
+        { value: 'C', label: 'C' },
+        { value: 'O', label: 'O' },
+    ];
+
+    const handleChange = (event) => {
+        onCellValueChange({
+            id: id,
+            field: 'called',
+            value: event.target.value
+        });
+    };
+
+    return (
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                <Select
+                    labelId="called-select-label"
+                    id="called-select"
+                    value={value || ''}
+                    onChange={handleChange}
+                    autoWidth
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ fontSize: '0.65rem'}}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
+    );
+};
+
+const getRowClassName = (params) => {
+    if (params.row.called === "O") {
+        return `dark-gray ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    if (params.row.ex === 'Y' || params.row.final === 'Y') {
+        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+}
+
+
 
 export default function HFSTable({ orders, headerColor, requiredString }) {
     console.log("Orders in HFSTable for", requiredString, ":", orders);
@@ -90,12 +146,19 @@ export default function HFSTable({ orders, headerColor, requiredString }) {
         { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
         { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
         { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
-        { field: 'est_start', headerName: 'Est Start', editable: true, headerClassName: 'super-app-theme--header',
+        { field: 'est_start', headerName: 'Est Start', headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
                 id={params.id} 
                 value={params.value ? dayjs(params.value) : null} 
                 onCellValueChange={handleCellEditCommit} 
             />
+        },
+        { field: 'called', headerName: 'Called', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <CalledEditor 
+                id={params.id} 
+                value={params.value} 
+                onCellValueChange={handleCellEditCommit} 
+            /> 
         },
     ];
 
@@ -105,7 +168,7 @@ export default function HFSTable({ orders, headerColor, requiredString }) {
                 rows={orders}
                 columns={columns}  
                 slots={{ toolbar: CustomToolbar }}
-                getRowClassName={(params) => params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}
+                getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
             />
