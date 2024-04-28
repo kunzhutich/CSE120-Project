@@ -83,16 +83,18 @@ class Orders(db.Model):
     est_start = db.Column(db.DateTime())
     est_finish = db.Column(db.DateTime())
     wdo_notes = db.Column(db.String(255))
-    prime_date = db.Column(db.Date())
-    prime_time = db.Column(db.Integer())
-    start_date = db.Column(db.Date())
-    start_time = db.Column(db.Integer())
-    finish_date = db.Column(db.Date())
-    finish_time = db.Column(db.Integer())
+    # prime_date = db.Column(db.Date())
+    # prime_time = db.Column(db.Integer())
+    # start_date = db.Column(db.Date())
+    # start_time = db.Column(db.Integer())
+    # finish_date = db.Column(db.Date())
+    # finish_time = db.Column(db.Integer())
+    prime_datetime = db.Column(db.DateTime())
+    start_datetime = db.Column(db.DateTime())
+    finish_datetime = db.Column(db.DateTime())
     prime_total = db.Column(db.Integer())
     total_hours = db.Column(db.Integer())
     called = db.Column(db.String(1))
-    abnormal = db.Column(db.String(1))
 
 class WDO(db.Model):
     __bind_key__ = 'rhdb'
@@ -255,7 +257,8 @@ def forders():
                 "sa": order.sa,
                 "head": order.head,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -360,7 +363,8 @@ def morders():
                 "sa": order.sa,
                 "head": order.head,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -393,13 +397,11 @@ def h1():
                 "ex": order.ex,
                 "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                # "prime_date": order.prime_date.strftime('%Y-%m-%d'),
-                # "prime_time": order.prime_time.strftime('%Y-%m-%d %H:%M:%S')  if order.prime_time else None,
-                # "start_date": order.start_date.strftime('%Y-%m-%d'),
-                # "start_time": order.start_time.strftime('%Y-%m-%d %H:%M:%S') if order.start_time else None,
-                # "finish_date": order.finish_date.strftime('%Y-%m-%d'),
-                # "finish_time": order.finish_time.strftime('%Y-%m-%d %H:%M:%S') if order.finish_time else None,
-                # "prime_total": order.prime_total
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -431,7 +433,12 @@ def h2():
                 "hours": order.hours,
                 "ex": order.ex,
                 "final": order.final,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -462,7 +469,12 @@ def h3():
                 "hours": order.hours,
                 "ex": order.ex,
                 "final": order.final,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -493,7 +505,12 @@ def h4():
                 "hours": order.hours,
                 "ex": order.ex,
                 "final": order.final,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -524,7 +541,12 @@ def h5():
                 "hours": order.hours,
                 "ex": order.ex,
                 "final": order.final,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -555,7 +577,12 @@ def un():
                 "hours": order.hours,
                 "ex": order.ex,
                 "final": order.final,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]
@@ -586,7 +613,12 @@ def MTable():
                 "hours": order.hours,
                 "ex": order.ex,
                 "final": order.final,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
+                "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
+                "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
+                "prime_total": order.prime_total,
+                "called": order.called
             }
             for order in orders_query
         ]

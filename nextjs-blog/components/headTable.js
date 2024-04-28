@@ -5,9 +5,12 @@ import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar compone
 import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 
-const DatePickerCell = ({ value, id, onCellValueChange }) => {
+const DatePickerCell = ({ value, id, onCellValueChange, field }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
     const handleDateChange = (newDate) => {
@@ -15,13 +18,13 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
         if (newDate && newDate.isValid()) { 
             onCellValueChange({
                 id: id,
-                field: 'est_start',
+                field: field, 
                 value: newDate.format('YYYY-MM-DD HH:mm:ss'),
             });
         } else {
             onCellValueChange({
                 id: id,
-                field: 'est_start',
+                field: field,
                 value: null,
             });
         }
@@ -41,7 +44,51 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
+const CalledEditor = ({ value, onCellValueChange, id }) => {
+    const headOptions = [
+        { value: 'C', label: 'C' },
+        { value: 'O', label: 'O' },
+    ];
+
+    const handleChange = (event) => {
+        onCellValueChange({
+            id: id,
+            field: 'called',
+            value: event.target.value
+        });
+    };
+
+    return (
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                <Select
+                    labelId="called-select-label"
+                    id="called-select"
+                    value={value || ''}
+                    onChange={handleChange}
+                    autoWidth
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ fontSize: '0.65rem'}}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
+    );
+};
+
 const getRowClassName = (params) => {
+    if (params.row.called === "O") {
+        return `dark-gray ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
     if (params.row.ex === 'Y' || params.row.final === 'Y') {
         return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
     }
@@ -135,22 +182,47 @@ export default function HeadTable(props) {
         { field: 'phone', headerName: 'Phone', width: 85, headerClassName: 'super-app-theme--header' },
         { field: 'flow', headerName: 'Flow', width: 80, headerClassName: 'super-app-theme--header' },
         { field: 'hours', headerName: 'Hours', width: 10, headerClassName: 'super-app-theme--header' },
-        { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
+        { field: 'est_start', headerName: 'Est Start', flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
                 id={params.id} 
                 value={params.value ? dayjs(params.value) : null} 
                 onCellValueChange={handleCellEditCommit} 
+                field="est_start"
             />
         },
-        { field: 'prime_date', headerName: 'Prime Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'prime_time', headerName: 'Prime Time', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'start_date', headerName: 'Start Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'start_time', headerName: 'Start Time', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'finish_date', headerName: 'Finish Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'finish_time', headerName: 'Finish Time', editable: true,  flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'prime_datetime', headerName: 'Prime DateTime', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell 
+                id={params.id} 
+                value={params.value ? dayjs(params.value) : null} 
+                onCellValueChange={handleCellEditCommit} 
+                field="prime_datetime"
+            /> 
+        },
+        { field: 'start_datetime', headerName: 'Start DateTime', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell 
+                id={params.id} 
+                value={params.value ? dayjs(params.value) : null} 
+                onCellValueChange={handleCellEditCommit} 
+                field="start_datetime"
+            /> 
+        },
+        { field: 'finish_datetime', headerName: 'Finish DateTime', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell 
+                id={params.id} 
+                value={params.value ? dayjs(params.value) : null} 
+                onCellValueChange={handleCellEditCommit} 
+                field="finish_datetime"
+            /> 
+        },
         { field: 'prime_total', headerName: 'Prime Total', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'total_hours', headerName: 'Total Hour', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'called', headerName: 'Called', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'called', headerName: 'Called', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <CalledEditor 
+                id={params.id} 
+                value={params.value} 
+                onCellValueChange={handleCellEditCommit} 
+            /> 
+        },
     ];
 
     return (

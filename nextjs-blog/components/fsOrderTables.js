@@ -5,6 +5,7 @@ import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar compone
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import dayjs from 'dayjs';
 
 
 const HeadEditor = ({ value, onCellValueChange, id }) => {
@@ -48,7 +49,51 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     );
 };
 
+const CalledEditor = ({ value, onCellValueChange, id }) => {
+    const headOptions = [
+        { value: 'C', label: 'C' },
+        { value: 'O', label: 'O' },
+    ];
+
+    const handleChange = (event) => {
+        onCellValueChange({
+            id: id,
+            field: 'called',
+            value: event.target.value
+        });
+    };
+
+    return (
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                <Select
+                    labelId="called-select-label"
+                    id="called-select"
+                    value={value || ''}
+                    onChange={handleChange}
+                    autoWidth
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ fontSize: '0.65rem'}}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
+    );
+};
+
 const getRowClassName = (params) => {
+    if (params.row.called === "O") {
+        return `dark-gray ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
     if (params.row.ex === 'Y' || params.row.final === 'Y') {
         return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
     }
@@ -67,14 +112,23 @@ export default function FSTable({ orders, onHeadChange }) {
         { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'date', headerName: 'Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'date', headerName: 'Date', width: 60, headerClassName: 'super-app-theme--header',
+            valueFormatter: (params) => dayjs(params.value).format('MM/DD')  
+        },
         { field: 'ex', headerName: 'EX', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'final', headerName: 'Final', width: 10, headerClassName: 'super-app-theme--header' },
-        { field: 'head', headerName: 'Head', editable: true, flex: 1.5, headerClassName: 'super-app-theme--header',
+        { field: 'head', headerName: 'Head', flex: 1.5, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <HeadEditor 
                 id={params.id} 
                 value={params.value} 
                 onCellValueChange={onHeadChange} 
+            />
+        },
+        { field: 'called', headerName: 'Called', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <CalledEditor 
+                id={params.id} 
+                value={params.value} 
+                onCellValueChange={handleCellEditCommit} 
             />
         },
     ];
@@ -94,7 +148,8 @@ export default function FSTable({ orders, onHeadChange }) {
                         // crop: false,
                         // type: false,
                         ex: false,
-                        final: false
+                        final: false,
+                        called: false
                       },
                     },
                 }}
