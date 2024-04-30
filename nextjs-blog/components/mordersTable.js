@@ -53,34 +53,49 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
 
 const CommentsCell = ({ value, row, onCellValueChange }) => {
     const [open, setOpen] = useState(false);
-    const [comment, setComment] = useState(value || row.comments);
+    const [tempComment, setTempComment] = useState(value);
 
-    const handleClickOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const handleCommentChange = (event) => {
-        const newComment = event.target.value;
-        setComment(newComment);
+    const handleOpen = () => {
+        setOpen(true);
+        setTempComment(value);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleSave = () => {
+        setOpen(false);
         onCellValueChange({
             id: row.id,
             field: 'comment',
-            value: newComment,
+            value: tempComment,
         });
     };
 
+    const handleCommentChange = (event) => {
+        setTempComment(event.target.value);
+    };
+
     return (
-        <div style={{ display: 'width', alignItems: 'center' }}>
-            <IconButton onClick={handleClickOpen} aria-label="more">
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton onClick={handleOpen} aria-label="more">
                 <MoreVertIcon />
             </IconButton>
-            <span>{comment}</span>
+            <span>{value}</span>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
                 <DialogTitle>Comment</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>{comment}</DialogContentText>
-                    <input type="text" value={comment} onChange={handleCommentChange} />
+                    <input 
+                        type="text" 
+                        value={tempComment} 
+                        onChange={handleCommentChange} 
+                        autoFocus 
+                    />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Close</Button>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
         </div>
