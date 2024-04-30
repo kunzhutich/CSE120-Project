@@ -144,7 +144,7 @@ export default function HFSTable({ orders, headerColor, requiredString }) {
     const columns = [
         { field: 'id', headerName: requiredString, width: 150, headerClassName: 'super-app-theme--header' },
         { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
-        { field: 'name', headerName: 'Contact', width: 250, headerClassName: 'super-app-theme--header'},
+        { field: 'name', headerName: 'Contact', flex: 1, headerClassName: 'super-app-theme--header'},
         { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
         { field: 'est_start', headerName: 'Est Start', headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
