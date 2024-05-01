@@ -2,14 +2,21 @@ import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
-import useSWR from "swr";
-import fetcher from '../utils/fetcher';
 import dayjs from 'dayjs';
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
-
-const DatePickerCell = ({ value, id, onCellValueChange }) => {
+const DatePickerCell = ({ value, id, onCellValueChange, field }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
 
     const handleDateChange = (newDate) => {
@@ -17,13 +24,13 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
         if (newDate && newDate.isValid()) { 
             onCellValueChange({
                 id: id,
-                field: 'est_start',
+                field: field, 
                 value: newDate.format('YYYY-MM-DD HH:mm:ss'),
             });
         } else {
             onCellValueChange({
                 id: id,
-                field: 'est_start',
+                field: field,
                 value: null,
             });
         }
@@ -43,6 +50,108 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
+const CalledEditor = ({ value, onCellValueChange, id }) => {
+    const headOptions = [
+        { value: 'C', label: 'C' },
+        { value: 'O', label: 'O' },
+    ];
+
+    const handleChange = (event) => {
+        onCellValueChange({
+            id: id,
+            field: 'called',
+            value: event.target.value
+        });
+    };
+
+    return (
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                <Select
+                    labelId="called-select-label"
+                    id="called-select"
+                    value={value || ''}
+                    onChange={handleChange}
+                    autoWidth
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ fontSize: '0.65rem'}}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
+    );
+};
+
+const WdoAndFarmerCell = ({ value, row, onCellValueChange, field }) => {
+    const [open, setOpen] = useState(false);
+    const [tempComment, setTempComment] = useState(value);
+
+    const handleOpen = () => {
+        setOpen(true);
+        setTempComment(value);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleSave = () => {
+        setOpen(false);
+        onCellValueChange({
+            id: row.id,
+            field: field,
+            value: tempComment,
+        });
+    };
+
+    const handleCommentChange = (event) => {
+        setTempComment(event.target.value);
+    };
+
+    return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton onClick={handleOpen} aria-label="more">
+                <MoreVertIcon />
+            </IconButton>
+            <span>{value}</span>
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+                <DialogTitle>Comment</DialogTitle>
+                <DialogContent>
+                    <input 
+                        type="text" 
+                        value={tempComment} 
+                        onChange={handleCommentChange} 
+                        autoFocus 
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleSave}>Save</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
+    );
+};
+
+const getRowClassName = (params) => {
+    if (params.row.called === "O") {
+        return `dark-gray ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    if (params.row.ex === 'Y' || params.row.final === 'Y') {
+        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
+    }
+    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
+}
+
 
 
 export default function HeadTable(props) {
@@ -50,16 +159,34 @@ export default function HeadTable(props) {
     console.log(requiredString);
     const [orders, setOrders] = useState([]);
 
-    const handleProcessRowUpdateError = React.useCallback((error) => {
-        console.log(error);
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const sa = sessionStorage.getItem('sa');
+                const response = await fetch(`http://127.0.0.1:5000/${requiredString}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'SA': sa,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                // Map the fetched data to include a unique 'id' for each row using 'combo'
+                const formattedData = data.map((item) => ({
+                    ...item,
+                    id: item.combo, // Use `combo` as the `id`
+                }));
+                setOrders(formattedData);
+            } catch (error) {
+                console.error("Failed to fetch orders:", error);
+            }
+        };
+
+        fetchOrders();
     }, []);
-
-    const {data, error, loading} = useSWR(`http://127.0.0.1:5000/${requiredString}`, fetcher, {refreshInterval: 1000});
-
-    if (error) return <div>Failed to load</div>
-    if (loading) return <div>Loading</div>
-
-    if (!data) return <div>No Data</div>
 
     const handleCellEditCommit = async (params) => {
 
@@ -98,54 +225,96 @@ export default function HeadTable(props) {
         }
     };
 
-    const head1 = data.map((item) => ({
-        ...item,
-        id: item.combo, // Use `combo` as the `id`
-    }));
+    const handleProcessRowUpdateError = React.useCallback((error) => {
+        console.log('Update error:', error);
+    }, []);
 
 
     // Creates column definitions for the DataGrid
     const columns = [
-        { field: 'id', headerName: 'Combo', width: 130, hide: true, headerClassName: 'super-app-theme--header' },
-        { field: 'lat', headerName: 'Lateral', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'name', headerName: 'Contact', flex: 2, headerClassName: 'super-app-theme--header' },
-        { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'flow', headerName: 'Rqst Flo', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'est_start', headerName: 'Est Start', editable: true, flex: 1.25, headerClassName: 'super-app-theme--header',
+        { field: 'id', headerName: 'Combo', width: 145, hide: true, headerClassName: 'super-app-theme--header' },
+        { field: 'lat', headerName: 'Lateral', width: 70, headerClassName: 'super-app-theme--header' },
+        { field: 'sg', headerName: 'SG', width: 60, headerClassName: 'super-app-theme--header' },
+        { field: 'name', headerName: 'Contact', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'phone', headerName: 'Phone', width: 85, headerClassName: 'super-app-theme--header' },
+        { field: 'flow', headerName: 'Flow', width: 80, headerClassName: 'super-app-theme--header' },
+        { field: 'hours', headerName: 'Hours', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'est_start', headerName: 'Est Start', flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <DatePickerCell 
                 id={params.id} 
                 value={params.value ? dayjs(params.value) : null} 
                 onCellValueChange={handleCellEditCommit} 
+                field="est_start"
             />
         },
-        { field: 'prime_date', headerName: 'Prime Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'prime_time', headerName: 'Prime Time', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'start_date', headerName: 'Start Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'start_time', headerName: 'Start Time', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'finish_date', headerName: 'Finish Date', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'finish_time', headerName: 'Finish Time', editable: true,  flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'prime_datetime', headerName: 'Prime DateTime', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell 
+                id={params.id} 
+                value={params.value ? dayjs(params.value) : null} 
+                onCellValueChange={handleCellEditCommit} 
+                field="prime_datetime"
+            /> 
+        },
+        { field: 'start_datetime', headerName: 'Start DateTime', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell 
+                id={params.id} 
+                value={params.value ? dayjs(params.value) : null} 
+                onCellValueChange={handleCellEditCommit} 
+                field="start_datetime"
+            /> 
+        },
+        { field: 'finish_datetime', headerName: 'Finish DateTime', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell 
+                id={params.id} 
+                value={params.value ? dayjs(params.value) : null} 
+                onCellValueChange={handleCellEditCommit} 
+                field="finish_datetime"
+            /> 
+        },
         { field: 'prime_total', headerName: 'Prime Total', flex: 1, headerClassName: 'super-app-theme--header' },
         { field: 'total_hours', headerName: 'Total Hour', flex: 1, headerClassName: 'super-app-theme--header' },
-        { field: 'called', headerName: 'Called', editable: true, flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'called', headerName: 'Called', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <CalledEditor 
+                id={params.id} 
+                value={params.value} 
+                onCellValueChange={handleCellEditCommit} 
+            /> 
+        },
+        { field: 'wdo_notes', headerName: 'WDO Notes', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <WdoAndFarmerCell 
+                {...params} 
+                onCellValueChange={handleCellEditCommit} 
+                field="wdo_notes"
+            />
+        },
+        { field: 'farmer_comments', headerName: 'Farmer Comments', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <WdoAndFarmerCell
+                {...params} 
+                onCellValueChange={handleCellEditCommit} 
+                field="farmer_comments"
+            />
+        },
     ];
 
-
-
     return (
-        <Box sx = {{height: 'auto', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
+        <Box sx = {{height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
             <StripedDataGrid
-                rows={head1}
+                rows={orders}
                 columns={columns}
                 slots={{
                     toolbar: CustomToolbar
                 }}
-                getRowClassName={(params) =>
-                    params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
-                }
+                getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
+                initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        wdo_notes: false,
+                        farmer_comments: false
+                      },
+                    },
+                }}
             />
         </Box>
     );
