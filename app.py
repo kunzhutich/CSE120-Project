@@ -254,7 +254,8 @@ def forders():
                 "sa": order.sa,
                 "head": order.head,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
+                "est_finish": (
+                    order.est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -359,7 +360,8 @@ def morders():
                 "sa": order.sa,
                 "head": order.head,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None
+                "est_finish": (
+                    order.est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -374,9 +376,16 @@ def morders():
 def h1():
     try:
         orders_query = Orders.query.filter(func.upper(Orders.head) == 'H1').all()
-        
-        orders_list = [
-            {
+
+        prev_finish_time = None  # Initialize variable to store the previous finish time
+        orders_list = []
+        for order in orders_query:
+            # Calculate prime_start based on the previous finish_time and current trantime
+            prime_start = (
+                prev_finish_time + timedelta(hours=order.trantime)
+            ).strftime('%Y-%m-%d %H:%M:%S') if prev_finish_time else None
+            
+            orders_list.append({
                 "combo": order.combo, 
                 "lat": order.lat,
                 "sg": order.sg,
@@ -384,10 +393,18 @@ def h1():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
-            }
-            for order in orders_query
-        ]
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": (
+                    order.est_start + timedelta(hours=order.hours)
+                ).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,   
+                "prime_start": prime_start,  # Include prime_start in the response
+                "prime_total": (
+                    order.prime_total + timedelta(hours=order.trantime)
+                ).strftime('%Y-%m-%d %H:%M:%S') if order.prime_total else None
+            })
+            
+            # Update prev_finish_time for the next iteration
+            prev_finish_time = order.est_finish
         
         return jsonify(orders_list)
     except Exception as e:
@@ -409,7 +426,9 @@ def h2():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": (
+                    order.est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -433,7 +452,9 @@ def h3():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": (
+                    order.est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -457,7 +478,9 @@ def h4():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": (
+                    order.est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
@@ -481,7 +504,9 @@ def h5():
                 "phone": order.phone,
                 "flow": order.flow,
                 "hours": order.hours,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": (
+                    order.est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None
             }
             for order in orders_query
         ]
