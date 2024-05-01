@@ -229,9 +229,14 @@ def forders():
             Orders.type == "01"
         ).all()
         
-        # Convert the query result into a list of dictionaries to jsonify
-        orders_list = [
-            {
+        orders_list = []
+        prev_est_finish = None  # Variable to hold the previous order's est_finish
+
+        for order in orders_query:
+            # Calculate est_start based on the previous order's est_finish
+            est_start = prev_est_finish if prev_est_finish else order.est_start
+    
+            orders_list.append({
                 "combo": order.combo, 
                 "lat": order.lat, 
                 "sg": order.sg,
@@ -251,14 +256,15 @@ def forders():
                 "deleted": order.deleted,
                 "sa": order.sa,
                 "head": order.head,
-                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_start": est_start.strftime('%Y-%m-%d %H:%M:%S') if est_start else None,
                 "est_finish": (
-                    order.est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                    est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if est_start else None,
                 "called": order.called    
-            }
-            for order in orders_query
-        ]
-        
+            })
+    
+            prev_est_finish = (
+                est_start + timedelta(hours=order.hours)) if est_start else None
+
         return jsonify(orders_list)
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -381,9 +387,21 @@ def h1():
             Orders.sa == sa,
             func.upper(Orders.head) == 'H1'
         ).all()
+
+        orders_list = []
         
-        orders_list = [
-            {
+        for order in orders_query:
+            if order.start_datetime and order.prime_datetime:  # Check if both datetimes are not None
+                prime_total = (order.start_datetime - order.prime_datetime).total_seconds() / 3600
+            else:
+                prime_total = None  # Set prime_total to None if either datetime is None
+                
+            if order.start_datetime and order.finish_datetime:  # Check if both datetimes are not None
+                total_hours = (order.finish_datetime - order.start_datetime).total_seconds() / 3600
+            else:
+                total_hours = None  # Set prime_total to None if either datetime is None
+
+            orders_list.append({
                 "combo": order.combo, 
                 "lat": order.lat,
                 "sg": order.sg,
@@ -397,13 +415,12 @@ def h1():
                 "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
-                "prime_total": order.prime_total,
+                "prime_total": prime_total,
+                "total_hours": total_hours,
                 "called": order.called,
                 "wdo_notes": order.wdo_notes,
                 "farmer_comments": order.farmer_comments
-            }
-            for order in orders_query
-        ]
+            })
         
         return jsonify(orders_list)
     except Exception as e:
