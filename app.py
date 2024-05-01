@@ -82,19 +82,14 @@ class Orders(db.Model):
     head = db.Column(db.String(4))
     est_start = db.Column(db.DateTime())
     est_finish = db.Column(db.DateTime())
-    wdo_notes = db.Column(db.String(255))
-    # prime_date = db.Column(db.Date())
-    # prime_time = db.Column(db.Integer())
-    # start_date = db.Column(db.Date())
-    # start_time = db.Column(db.Integer())
-    # finish_date = db.Column(db.Date())
-    # finish_time = db.Column(db.Integer())
     prime_datetime = db.Column(db.DateTime())
     start_datetime = db.Column(db.DateTime())
     finish_datetime = db.Column(db.DateTime())
     prime_total = db.Column(db.Integer())
     total_hours = db.Column(db.Integer())
     called = db.Column(db.String(1))
+    wdo_notes = db.Column(db.String(255))
+    farmer_comments = db.Column(db.String(255))
 
 class WDO(db.Model):
     __bind_key__ = 'rhdb'
@@ -401,7 +396,9 @@ def h1():
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
-                "called": order.called
+                "called": order.called,
+                "wdo_notes": order.wdo_notes,
+                "farmer_comments": order.farmer_comments
             }
             for order in orders_query
         ]
@@ -438,7 +435,9 @@ def h2():
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
-                "called": order.called
+                "called": order.called,
+                "wdo_notes": order.wdo_notes,
+                "farmer_comments": order.farmer_comments
             }
             for order in orders_query
         ]
@@ -474,7 +473,9 @@ def h3():
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
-                "called": order.called
+                "called": order.called,
+                "wdo_notes": order.wdo_notes,
+                "farmer_comments": order.farmer_comments
             }
             for order in orders_query
         ]
@@ -510,7 +511,9 @@ def h4():
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
-                "called": order.called
+                "called": order.called,
+                "wdo_notes": order.wdo_notes,
+                "farmer_comments": order.farmer_comments
             }
             for order in orders_query
         ]
@@ -546,7 +549,9 @@ def h5():
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
-                "called": order.called
+                "called": order.called,
+                "wdo_notes": order.wdo_notes,
+                "farmer_comments": order.farmer_comments
             }
             for order in orders_query
         ]
@@ -582,7 +587,9 @@ def un():
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
-                "called": order.called
+                "called": order.called,
+                "wdo_notes": order.wdo_notes,
+                "farmer_comments": order.farmer_comments
             }
             for order in orders_query
         ]
@@ -618,7 +625,9 @@ def MTable():
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
-                "called": order.called
+                "called": order.called,
+                "wdo_notes": order.wdo_notes,
+                "farmer_comments": order.farmer_comments
             }
             for order in orders_query
         ]

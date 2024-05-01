@@ -8,7 +8,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 const DatePickerCell = ({ value, id, onCellValueChange, field }) => {
     const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
@@ -82,6 +88,57 @@ const CalledEditor = ({ value, onCellValueChange, id }) => {
                 </Select>
             </FormControl>
         </Box>
+    );
+};
+
+const WdoAndFarmerCell = ({ value, row, onCellValueChange, field }) => {
+    const [open, setOpen] = useState(false);
+    const [tempComment, setTempComment] = useState(value);
+
+    const handleOpen = () => {
+        setOpen(true);
+        setTempComment(value);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleSave = () => {
+        setOpen(false);
+        onCellValueChange({
+            id: row.id,
+            field: field,
+            value: tempComment,
+        });
+    };
+
+    const handleCommentChange = (event) => {
+        setTempComment(event.target.value);
+    };
+
+    return (
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+            <IconButton onClick={handleOpen} aria-label="more">
+                <MoreVertIcon />
+            </IconButton>
+            <span>{value}</span>
+            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+                <DialogTitle>Comment</DialogTitle>
+                <DialogContent>
+                    <input 
+                        type="text" 
+                        value={tempComment} 
+                        onChange={handleCommentChange} 
+                        autoFocus 
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleSave}>Save</Button>
+                </DialogActions>
+            </Dialog>
+        </div>
     );
 };
 
@@ -223,6 +280,20 @@ export default function HeadTable(props) {
                 onCellValueChange={handleCellEditCommit} 
             /> 
         },
+        { field: 'wdo_notes', headerName: 'WDO Notes', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <WdoAndFarmerCell 
+                {...params} 
+                onCellValueChange={handleCellEditCommit} 
+                field="wdo_notes"
+            />
+        },
+        { field: 'farmer_comments', headerName: 'Farmer Comments', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <WdoAndFarmerCell
+                {...params} 
+                onCellValueChange={handleCellEditCommit} 
+                field="farmer_comments"
+            />
+        },
     ];
 
     return (
@@ -236,6 +307,14 @@ export default function HeadTable(props) {
                 getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
+                initialState={{
+                    columns: {
+                      columnVisibilityModel: {
+                        wdo_notes: false,
+                        farmer_comments: false
+                      },
+                    },
+                }}
             />
         </Box>
     );

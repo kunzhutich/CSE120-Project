@@ -51,33 +51,29 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
-const CommentsCell = ({ value, row, onCellValueChange }) => {
+const CommentsCell = ({ value }) => {
     const [open, setOpen] = useState(false);
-    const [comment, setComment] = useState(value || row.comments);
 
-    const handleClickOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-    const handleCommentChange = (event) => {
-        const newComment = event.target.value;
-        setComment(newComment);
-        onCellValueChange({
-            id: row.id,
-            field: 'comment',
-            value: newComment,
-        });
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
         <div style={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton onClick={handleClickOpen} aria-label="more">
+            <IconButton onClick={handleOpen} aria-label="more">
                 <MoreVertIcon />
             </IconButton>
-            <span>{comment}</span>
+            <span>{value}</span>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-                <DialogTitle>Comment</DialogTitle>
+                <DialogTitle>Comment Details</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>{comment}</DialogContentText>
-                    <input type="text" value={comment} onChange={handleCommentChange} />
+                    <DialogContentText>
+                        {value}
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button>
@@ -86,7 +82,6 @@ const CommentsCell = ({ value, row, onCellValueChange }) => {
         </div>
     );
 };
-  
 
 const HeadEditor = ({ value, onCellValueChange, id }) => {
     const headOptions = [
@@ -217,6 +212,18 @@ export default function FTable() {
         fetchOrders();
     }, []);
 
+    useEffect(() => {
+        const handleFocusLoss = (event) => {
+            console.log('Focus lost to:', document.activeElement);
+        };
+    
+        document.addEventListener('focusout', handleFocusLoss);
+        return () => {
+            document.removeEventListener('focusout', handleFocusLoss);
+        };
+    }, []);
+    
+
     const handleCellEditCommit = async (params) => {
 
         console.log("Final data being sent for update:", params);
@@ -274,11 +281,11 @@ export default function FTable() {
         },
         { field: 'ex', headerName: 'EX', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'final', headerName: 'Final', width: 10, headerClassName: 'super-app-theme--header' },
-        { field: 'comment', headerName: 'Comment', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
-            renderCell: (params) => <CommentsCell {...params} onCellValueChange={handleCellEditCommit} />
+        { field: 'comment', headerName: 'Comment', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <CommentsCell value={params.value} />
         },
         { field: 'sbxcfs', headerName: 'SBXCFS', width: 70, headerClassName: 'super-app-theme--header' },
-        { field: 'head', headerName: 'Head', width: 100, headerClassName: 'super-app-theme--header',
+        { field: 'head', headerName: 'Head', width: 110, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <HeadEditor 
                 id={params.id} 
                 value={params.value} 
