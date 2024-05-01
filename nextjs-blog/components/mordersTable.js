@@ -51,30 +51,15 @@ const DatePickerCell = ({ value, id, onCellValueChange }) => {
     );
 };
 
-const CommentsCell = ({ value, row, onCellValueChange }) => {
+const CommentsCell = ({ value }) => {
     const [open, setOpen] = useState(false);
-    const [tempComment, setTempComment] = useState(value);
 
     const handleOpen = () => {
         setOpen(true);
-        setTempComment(value);
     };
 
     const handleClose = () => {
         setOpen(false);
-    };
-
-    const handleSave = () => {
-        setOpen(false);
-        onCellValueChange({
-            id: row.id,
-            field: 'comment',
-            value: tempComment,
-        });
-    };
-
-    const handleCommentChange = (event) => {
-        setTempComment(event.target.value);
     };
 
     return (
@@ -84,18 +69,14 @@ const CommentsCell = ({ value, row, onCellValueChange }) => {
             </IconButton>
             <span>{value}</span>
             <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-                <DialogTitle>Comment</DialogTitle>
+                <DialogTitle>Comment Details</DialogTitle>
                 <DialogContent>
-                    <input 
-                        type="text" 
-                        value={tempComment} 
-                        onChange={handleCommentChange} 
-                        autoFocus 
-                    />
+                    <DialogContentText>
+                        {value}
+                    </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSave}>Save</Button>
+                    <Button onClick={handleClose}>Close</Button>
                 </DialogActions>
             </Dialog>
         </div>
@@ -104,7 +85,7 @@ const CommentsCell = ({ value, row, onCellValueChange }) => {
 
 const HeadEditor = ({ value, onCellValueChange, id }) => {
     const headOptions = [
-        { value: 'm', label: 'Micro Order' },
+        { value: 'm', label: 'Micro' },
     ];
 
     const handleChange = (event) => {
@@ -279,7 +260,7 @@ export default function MordersTable() {
             valueFormatter: (params) => dayjs(params.value).format('MM/DD')  
         },
         { field: 'comment', headerName: 'Comment', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
-            renderCell: (params) => <CommentsCell {...params} onCellValueChange={handleCellEditCommit} />
+            renderCell: (params) => <CommentsCell value={params.value} />
         },
         { field: 'sbxcfs', headerName: 'SBXCFS', width: 70, headerClassName: 'super-app-theme--header' },
         { field: 'head', headerName: 'Head', width: 110, headerClassName: 'super-app-theme--header',
