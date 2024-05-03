@@ -259,6 +259,8 @@ export default function MordersTable() {
         { field: 'date', headerName: 'Date', width: 60, headerClassName: 'super-app-theme--header',
             valueFormatter: (params) => dayjs(params.value).format('MM/DD')  
         },
+        { field: 'ex', headerName: 'EX', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'final', headerName: 'Final', width: 10, headerClassName: 'super-app-theme--header' },
         { field: 'comment', headerName: 'Comment', editable: true, flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <CommentsCell value={params.value} />
         },
