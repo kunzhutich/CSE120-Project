@@ -1,89 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { AppStateContext } from '../context/AppStateContext';
 import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 import dayjs from 'dayjs';
-import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import IconButton from '@mui/material/IconButton';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { DatePickerCell } from '../componentsHelpers/DatePickerCell';
+import { FinishDateField } from '../componentsHelpers/FinishDateField';
+import { CalledEditor } from '../componentsHelpers/CalledEditor';
+import { getRowClassName } from '../componentsHelpers/getRowClassName';
+import { CommentsCell } from '../componentsHelpers/CommentsCell';
 
-const DatePickerCell = ({ value, id, onCellValueChange }) => {
-    const [selectedDate, setSelectedDate] = useState(value ? dayjs(value) : null);
-
-    const handleDateChange = (newDate) => {
-        setSelectedDate(newDate);
-        if (newDate && newDate.isValid()) { 
-            onCellValueChange({
-                id: id,
-                field: 'est_start',
-                value: newDate.format('YYYY-MM-DD HH:mm:ss'),
-            });
-        } else {
-            onCellValueChange({
-                id: id,
-                field: 'est_start',
-                value: null,
-            });
-        }
-    };
-
-    return (
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DateTimePicker
-                label=""
-                value={selectedDate}
-                onChange={handleDateChange}
-                inputFormat="YYYY-MM-DD HH:mm:ss"
-                ampm={false}
-                renderInput={(props) => <input {...props} />}
-            />
-        </LocalizationProvider>
-    );
-};
-
-const CommentsCell = ({ value }) => {
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    return (
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-            <IconButton onClick={handleOpen} aria-label="more">
-                <MoreVertIcon />
-            </IconButton>
-            <span>{value}</span>
-            <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
-                <DialogTitle>Comment Details</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        {value}
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Close</Button>
-                </DialogActions>
-            </Dialog>
-        </div>
-    );
-};
 
 const HeadEditor = ({ value, onCellValueChange, id }) => {
+    const [localValue, setLocalValue] = useState(value);
+
+    useEffect(() => {
+        setLocalValue(value);
+    }, [value]);
+
     const headOptions = [
         { value: 'h1', label: 'Head 1' },
         { value: 'h2', label: 'Head 2' },
@@ -94,10 +31,12 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     ];
 
     const handleChange = (event) => {
+        const newValue = event.target.value;
+        setLocalValue(newValue);
         onCellValueChange({
             id: id,
             field: 'head',
-            value: event.target.value
+            value: newValue
         });
     };
 
@@ -107,7 +46,7 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
                 <Select
                     labelId="head-select-label"
                     id="head-select"
-                    value={value || ''}
+                    value={localValue || ''}
                     onChange={handleChange}
                     autoWidth
                     displayEmpty
@@ -128,64 +67,21 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     );
 };
 
-const CalledEditor = ({ value, onCellValueChange, id }) => {
-    const headOptions = [
-        { value: 'C', label: 'C' },
-        { value: 'O', label: 'O' },
-    ];
-
-    const handleChange = (event) => {
-        onCellValueChange({
-            id: id,
-            field: 'called',
-            value: event.target.value
-        });
-    };
-
-    return (
-        <Box sx={{ minWidth: 120 }}>
-            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
-                <Select
-                    labelId="called-select-label"
-                    id="called-select"
-                    value={value || ''}
-                    onChange={handleChange}
-                    autoWidth
-                    displayEmpty
-                    inputProps={{ 'aria-label': 'Without label' }}
-                    sx={{ fontSize: '0.65rem'}}
-                >
-                    <MenuItem value="">
-                        <em>Select...</em>
-                    </MenuItem>
-                    {headOptions.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-        </Box>
-    );
+const handleFinishCalculation = (estStart, hours) => {
+    if (!estStart || isNaN(new Date(estStart).getTime())) {
+        return null;
+    }
+    const estStartDate = new Date(estStart + 'Z');
+    estStartDate.setUTCHours(estStartDate.getUTCHours() + hours);
+    return estStartDate.toISOString().slice(0, 19).replace('T', ' ');
 };
-
-const getRowClassName = (params) => {
-    if (params.row.called === "O") {
-        return `dark-gray ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
-    }
-    if (params.row.ex === 'Y' || params.row.final === 'Y') {
-        return `abnormal ${params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'}`;
-    }
-    return params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd';
-}
-
-
-
 
 
 
 export default function FTable() {
-    const [orders, setOrders] = useState([]);
+    // const [orders, setOrders] = useState([]);
+
+    const { state, dispatch } = useContext(AppStateContext);
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -202,45 +98,33 @@ export default function FTable() {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                const formattedData = data.map((item) => ({
-                    ...item,
-                    id: item.combo,
-                }));
-                setOrders(formattedData);
+                dispatch({ type: 'SET_F_TABLE', payload: data.map(item => ({ ...item, id: item.combo })) });
             } catch (error) {
                 console.error("Failed to fetch orders:", error);
             }
         };
 
         fetchOrders();
-    }, []);
-
-    useEffect(() => {
-        const handleFocusLoss = (event) => {
-            console.log('Focus lost to:', document.activeElement);
-        };
-    
-        document.addEventListener('focusout', handleFocusLoss);
-        return () => {
-            document.removeEventListener('focusout', handleFocusLoss);
-        };
-    }, []);
-    
+    }, [dispatch]);    
 
     const handleCellEditCommit = async (params) => {
 
         console.log("Final data being sent for update:", params);
 
         const { id, field, value } = params;
-        const currentOrderData = orders.find(order => order.id === id);
-        if (!currentOrderData) {
-            console.error("Order not found");
-            return;
+        const currentOrder = state.fTable.find(order => order.id === id);
+        let updatedOrder = { ...currentOrder, [field]: value };
+
+        if (field === 'head' && !value) {
+            updatedOrder.est_start = null;
+            updatedOrder.est_finish = null;
+        } else if (field === 'est_start' && updatedOrder.head) {
+            const finishDate = handleFinishCalculation(value, updatedOrder.hours);
+            if (finishDate) {
+                updatedOrder.est_finish = finishDate;
+            }
         }
-    
-        const updatedOrder = { ...currentOrderData, [field]: value };
-        console.log("Sending update for", id, updatedOrder);
-    
+
         try {
             const encodedId = encodeURIComponent(id);
             const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
@@ -254,11 +138,7 @@ export default function FTable() {
             if (!response.ok) {
                 throw new Error('Failed to update order');
             }
-            const updatedData = await response.json();
-            console.log("Order updated successfully:", updatedData.message);
-    
-            // Optionally update local state to reflect backend confirmation
-            setOrders(prevOrders => prevOrders.map(order => order.id === id ? { ...order, ...updatedOrder } : order));
+            dispatch({ type: 'UPDATE_F_TABLE', payload: updatedOrder });
         } catch (error) {
             console.error('Failed to update order:', error);
         }
@@ -300,9 +180,16 @@ export default function FTable() {
                 id={params.id} 
                 value={params.value ? dayjs(params.value) : null} 
                 onCellValueChange={handleCellEditCommit} 
+                field="est_start"
             />
         },
-        { field: 'est_finish', headerName: 'Est Finish', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'est_finish', headerName: 'Est Finish', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <FinishDateField 
+                id={params.id} 
+                value={params.value ? dayjs(params.value).toISOString() : null}
+                onCellValueChange={handleCellEditCommit}
+            />
+        },
         { field: 'called', headerName: 'Called', flex: 1, headerClassName: 'super-app-theme--header',
             renderCell: (params) => <CalledEditor 
                 id={params.id} 
@@ -315,7 +202,7 @@ export default function FTable() {
     return (
         <Box sx={{ height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' } }}>
             <StripedDataGrid
-                rows={orders}
+                rows={state.fTable}
                 columns={columns}
                 pageSize={5}
                 slots={{ 

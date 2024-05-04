@@ -1,21 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AppStateContext } from '../context/AppStateContext';
 import Box from '@mui/material/Box';
-import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
-import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
+import CustomToolbar from './CustomToolbar';
 import dayjs from 'dayjs';
-import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import StripedDataGrid from './StripedDataGrid';
 import { DatePickerCell } from '../componentsHelpers/DatePickerCell';
 import { CalledEditor } from '../componentsHelpers/CalledEditor';
 import { WdoAndFarmerCell } from '../componentsHelpers/WdoAndFarmerCells';
@@ -23,17 +11,14 @@ import { getRowClassName } from '../componentsHelpers/getRowClassName';
 import { TotalHoursField } from '../componentsHelpers/TotalHoursField';
 
 
-export default function HeadTable(props) {
-    const { requiredString, headerColor  } = props;
-    console.log(requiredString);
-    // const [orders, setOrders] = useState([]);
+export default function MicroHead() {
     const { state, dispatch } = useContext(AppStateContext);
 
     useEffect(() => {
         const fetchOrders = async () => {
             try {
                 const sa = sessionStorage.getItem('sa');
-                const response = await fetch(`http://127.0.0.1:5000/${requiredString}`, {
+                const response = await fetch('http://127.0.0.1:5000/M', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -44,20 +29,14 @@ export default function HeadTable(props) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                dispatch({ type: 'SET_F_HEAD_TABLE', payload: data.map(item => ({ ...item, id: item.combo })) });
-                // Map the fetched data to include a unique 'id' for each row using 'combo'
-                // const formattedData = data.map((item) => ({
-                //     ...item,
-                //     id: item.combo, // Use `combo` as the `id`
-                // }));
-                setOrders(formattedData);
+                dispatch({ type: 'SET_M_HEAD_TABLE', payload: data.map(item => ({ ...item, id: item.combo })) });
             } catch (error) {
                 console.error("Failed to fetch orders:", error);
             }
         };
 
         fetchOrders();
-    }, [dispatch, requiredString]);
+    }, [dispatch, state.mHeadTable.length]);
 
     const calculateDuration = (start, end) => {
         if (!start || !end || !dayjs(start).isValid() || !dayjs(end).isValid()) {
@@ -67,18 +46,16 @@ export default function HeadTable(props) {
     };
 
     const handleCellEditCommit = async (params) => {
-
         console.log("Final data being sent for update:", params);
 
         const { id, field, value } = params;
-        const currentOrderData = state.fHeadTable.find(order => order.id === id);
+        const currentOrderData = state.mHeadTable.find(order => order.id === id);
         if (!currentOrderData) {
             console.error("Order not found");
             return;
         }
     
-        // const updatedOrder = { ...currentOrderData, [field]: value };
-        const updatedOrder = { ...currentOrderData, [params.field]: params.value };
+        const updatedOrder = { ...currentOrderData, [field]: value };
         console.log("Sending update for", id, updatedOrder);
 
         if (field === 'prime_datetime' || field === 'start_datetime') {
@@ -103,12 +80,10 @@ export default function HeadTable(props) {
             if (!response.ok) {
                 throw new Error('Failed to update order');
             }
-            // const updatedData = await response.json();
-            // console.log("Order updated successfully:", updatedData.message);
+            const updatedData = await response.json();
+            console.log("Order updated successfully:", updatedData.message);
     
-            // // Optionally update local state to reflect backend confirmation
-            // setOrders(prevOrders => prevOrders.map(order => order.id === id ? { ...order, ...updatedOrder } : order));
-            dispatch({ type: 'UPDATE_F_HEAD_TABLE', payload: updatedOrder });
+            dispatch({ type: 'UPDATE_M_HEAD_TABLE', payload: updatedOrder });
         } catch (error) {
             console.error('Failed to update order:', error);
         }
@@ -199,10 +174,11 @@ export default function HeadTable(props) {
         },
     ];
 
+
     return (
-        <Box sx = {{height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
+        <Box sx={{ height: '93vh', width: '100', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(255, 165, 0, 1)' } }}>
             <StripedDataGrid
-                rows={state.fHeadTable}
+                rows={state.mHeadTable}
                 columns={columns}
                 slots={{
                     toolbar: CustomToolbar
