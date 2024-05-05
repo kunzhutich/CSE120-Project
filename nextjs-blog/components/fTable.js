@@ -79,8 +79,6 @@ const handleFinishCalculation = (estStart, hours) => {
 
 
 export default function FTable() {
-    // const [orders, setOrders] = useState([]);
-
     const { state, dispatch } = useContext(AppStateContext);
 
     useEffect(() => {
@@ -108,7 +106,6 @@ export default function FTable() {
     }, [dispatch]);    
 
     const handleCellEditCommit = async (params) => {
-
         console.log("Final data being sent for update:", params);
 
         const { id, field, value } = params;

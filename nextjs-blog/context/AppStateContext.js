@@ -1,12 +1,15 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
-export const AppStateContext = createContext();  
+// export const AppStateContext = createContext();  
+export const AppStateContext = React.createContext(null);
 
 const initialState = {
     mTable: [],
     mHeadTable: [],
     fTable: [],
     fHeadTable: [],
+    fsOrders: [],
+    hFSOrders: [],
     orders: [],
     heads: {}
 };
@@ -25,6 +28,12 @@ function appStateReducer(state, action) {
 
         case 'SET_F_HEAD_TABLE':
             return { ...state, fHeadTable: action.payload };
+
+        // case 'SET_FS_ORDERS':
+        //     return { ...state, fsOrders: action.payload };
+        
+        case 'SET_H_FS_ORDERS':
+            return { ...state, hFSOrders: action.payload };
 
         case 'UPDATE_M_TABLE':
             const updatedMTable = state.mTable.map(order =>
@@ -49,7 +58,38 @@ function appStateReducer(state, action) {
                 head.id === action.payload.id ? { ...head, ...action.payload } : head
             );
             return { ...state, fHeadTable: updatedFHeadTable };
-            
+
+        // case 'UPDATE_FS_ORDERS':
+        //     return { ...state, fsOrders: state.fsOrders.map(order =>
+        //         order.id === action.payload.id ? { ...order, ...action.payload } : order
+        //     )};
+        // case 'UPDATE_FS_ORDERS':
+        //     return {
+        //         ...state,
+        //         fsOrders: action.payload.map(order => {
+        //             const existingOrder = state.fsOrders.find(o => o.id === order.id);
+        //             return existingOrder ? { ...existingOrder, ...order } : order;
+        //         })
+        //     };
+
+        case 'SET_FS_ORDERS':
+            return {
+                ...state,
+                fsOrders: action.payload
+            };
+        case 'UPDATE_FS_ORDERS':
+            return {
+                ...state,
+                fsOrders: state.fsOrders.map(order =>
+                    order.id === action.payload.id ? { ...order, ...action.payload } : order
+                )
+            };
+
+        case 'UPDATE_H_FS_ORDERS':
+            return { ...state, hFSOrders: state.hFSOrders.map(order =>
+                order.id === action.payload.id ? { ...order, ...action.payload } : order
+            )};
+
         case 'UPDATE_HEADS':
             return { ...state, heads: action.payload };
 

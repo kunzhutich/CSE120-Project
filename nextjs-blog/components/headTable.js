@@ -4,18 +4,6 @@ import Box from '@mui/material/Box';
 import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid component
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 import dayjs from 'dayjs';
-import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
 import { DatePickerCell } from '../componentsHelpers/DatePickerCell';
 import { CalledEditor } from '../componentsHelpers/CalledEditor';
 import { WdoAndFarmerCell } from '../componentsHelpers/WdoAndFarmerCells';
@@ -24,9 +12,8 @@ import { TotalHoursField } from '../componentsHelpers/TotalHoursField';
 
 
 export default function HeadTable(props) {
-    const { requiredString, headerColor  } = props;
+    const { requiredString, headerColor } = props;
     console.log(requiredString);
-    // const [orders, setOrders] = useState([]);
     const { state, dispatch } = useContext(AppStateContext);
 
     useEffect(() => {
@@ -45,11 +32,6 @@ export default function HeadTable(props) {
                 }
                 const data = await response.json();
                 dispatch({ type: 'SET_F_HEAD_TABLE', payload: data.map(item => ({ ...item, id: item.combo })) });
-                // Map the fetched data to include a unique 'id' for each row using 'combo'
-                // const formattedData = data.map((item) => ({
-                //     ...item,
-                //     id: item.combo, // Use `combo` as the `id`
-                // }));
                 setOrders(formattedData);
             } catch (error) {
                 console.error("Failed to fetch orders:", error);
@@ -77,7 +59,6 @@ export default function HeadTable(props) {
             return;
         }
     
-        // const updatedOrder = { ...currentOrderData, [field]: value };
         const updatedOrder = { ...currentOrderData, [params.field]: params.value };
         console.log("Sending update for", id, updatedOrder);
 
@@ -103,11 +84,6 @@ export default function HeadTable(props) {
             if (!response.ok) {
                 throw new Error('Failed to update order');
             }
-            // const updatedData = await response.json();
-            // console.log("Order updated successfully:", updatedData.message);
-    
-            // // Optionally update local state to reflect backend confirmation
-            // setOrders(prevOrders => prevOrders.map(order => order.id === id ? { ...order, ...updatedOrder } : order));
             dispatch({ type: 'UPDATE_F_HEAD_TABLE', payload: updatedOrder });
         } catch (error) {
             console.error('Failed to update order:', error);
