@@ -185,6 +185,8 @@ def updateOrder(combo):
         order.prime_datetime = None
         order.start_datetime = None
         order.finish_datetime = None
+        order.prime_total = None
+        order.total_hours = None
 
     db.session.commit()
     return jsonify({"message": "Order updated successfully"}), 200

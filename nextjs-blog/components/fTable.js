@@ -72,7 +72,18 @@ const handleFinishCalculation = (estStart, hours) => {
         return null;
     }
     const estStartDate = new Date(estStart + 'Z');
-    estStartDate.setUTCHours(estStartDate.getUTCHours() + hours);
+
+    // Extract the integer part and the fractional part of the hours
+    const wholeHours = Math.floor(hours);
+    const fractionOfHour = hours - wholeHours;
+
+    // Calculate minutes from the fractional part of hours
+    const minutes = Math.round(fractionOfHour * 60);
+
+    // Add whole hours and minutes separately
+    estStartDate.setUTCHours(estStartDate.getUTCHours() + wholeHours);
+    estStartDate.setUTCMinutes(estStartDate.getUTCMinutes() + minutes);
+
     return estStartDate.toISOString().slice(0, 19).replace('T', ' ');
 };
 
