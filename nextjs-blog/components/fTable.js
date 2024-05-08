@@ -12,6 +12,7 @@ import { FinishDateField } from '../componentsHelpers/FinishDateField';
 import { CalledEditor } from '../componentsHelpers/CalledEditor';
 import { getRowClassName } from '../componentsHelpers/getRowClassName';
 import { CommentsCell } from '../componentsHelpers/CommentsCell';
+import { handleFinishCalculation } from '../componentsHelpers/TimeCalculator';
 
 
 const HeadEditor = ({ value, onCellValueChange, id }) => {
@@ -67,29 +68,8 @@ const HeadEditor = ({ value, onCellValueChange, id }) => {
     );
 };
 
-const handleFinishCalculation = (estStart, hours) => {
-    if (!estStart || isNaN(new Date(estStart).getTime())) {
-        return null;
-    }
-    const estStartDate = new Date(estStart + 'Z');
 
-    // Extract the integer part and the fractional part of the hours
-    const wholeHours = Math.floor(hours);
-    const fractionOfHour = hours - wholeHours;
-
-    // Calculate minutes from the fractional part of hours
-    const minutes = Math.round(fractionOfHour * 60);
-
-    // Add whole hours and minutes separately
-    estStartDate.setUTCHours(estStartDate.getUTCHours() + wholeHours);
-    estStartDate.setUTCMinutes(estStartDate.getUTCMinutes() + minutes);
-
-    return estStartDate.toISOString().slice(0, 19).replace('T', ' ');
-};
-
-
-
-export default function FTable() {
+export default function FTable({ miniColumns }) {
     const { state, dispatch } = useContext(AppStateContext);
 
     useEffect(() => {
@@ -207,11 +187,38 @@ export default function FTable() {
         },
     ];
 
+    const getInitialState = () => {
+        if (miniColumns) {
+            return {
+                columns: {
+                    columnVisibilityModel: {
+                        ex: false,
+                        final: false
+                    },
+                },
+            };
+        } else {
+            return {
+                columns: {
+                    columnVisibilityModel: {
+                        acre: false,
+                        crop: false,
+                        type: false,
+                        ex: false,
+                        final: false,
+                        called: false
+                    },
+                },
+            };
+        }
+    };
+    
+
     return (
         <Box sx={{ height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: 'rgba(101, 176, 193, 0.5)' } }}>
             <StripedDataGrid
                 rows={state.fTable}
-                columns={columns}
+                columns={miniColumns ? miniColumns : columns}
                 pageSize={5}
                 slots={{ 
                     toolbar: CustomToolbar 
@@ -219,18 +226,7 @@ export default function FTable() {
                 getRowClassName={getRowClassName}
                 onProcessRowUpdateError={handleProcessRowUpdateError}
                 hideFooter
-                initialState={{
-                    columns: {
-                      columnVisibilityModel: {
-                        acre: false,
-                        crop: false,
-                        type: false,
-                        ex: false,
-                        final: false,
-                        called: false
-                      },
-                    },
-                }}
+                initialState={getInitialState()}
             />
         </Box>
     );

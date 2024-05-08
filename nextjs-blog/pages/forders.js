@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NavBar from "../components/navBar";
 import FTable from "../components/fTable";
 

@@ -1,170 +1,202 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { AppStateContext } from '../context/AppStateContext';
 import NavBar from "../components/navBar";
-import FSTable from "../components/fsOrderTables";
-import HFSTable from "../components/hFSTables";
+import FTable from "../components/fTable";
+import FloodHead from '../components/fHeadTable';
+import Box from '@mui/material/Box';
+import dayjs from 'dayjs';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
-const fsorders = () => {
-    const [orders, setOrders] = useState([]); 
-    const [heads, setHeads] = useState({ h1: [], h2: [], h3: [], h4: [], h5: [], un: [] }); 
-
-    const fetchOrdersData = async () => {
-        const sa = sessionStorage.getItem('sa');
-        const response = await fetch('http://127.0.0.1:5000/forders', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'SA': sa,
-            },
-        });
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        console.log("Fetched Orders:", data);
-
-        // Map the fetched data to include a unique 'id' for each row using 'combo'
-        const formattedData = data.map((item) => ({
-            ...item,
-            id: item.combo, // Use `combo` as the `id`
-        }));
-
-        setOrders(formattedData);
-        updateHeads(formattedData);
-    };
+const HeadEditor = ({ value, onCellValueChange, id }) => {
+    const [localValue, setLocalValue] = useState(value);
 
     useEffect(() => {
-        fetchOrdersData();
-    }, []);
+        setLocalValue(value);
+    }, [value]);
 
-    const handleFinishCalculation = (estStart, hours) => {
-        if (!estStart || isNaN(new Date(estStart).getTime())) {
-            return null;
-        }
-        const estStartDate = new Date(estStart + 'Z');
-    
-        // Extract the integer part and the fractional part of the hours
-        const wholeHours = Math.floor(hours);
-        const fractionOfHour = hours - wholeHours;
-    
-        // Calculate minutes from the fractional part of hours
-        const minutes = Math.round(fractionOfHour * 60);
-    
-        // Add whole hours and minutes separately
-        estStartDate.setUTCHours(estStartDate.getUTCHours() + wholeHours);
-        estStartDate.setUTCMinutes(estStartDate.getUTCMinutes() + minutes);
-    
-        return estStartDate.toISOString().slice(0, 19).replace('T', ' ');
+    const headOptions = [
+        { value: 'h1', label: 'Head 1' },
+        { value: 'h2', label: 'Head 2' },
+        { value: 'h3', label: 'Head 3' },
+        { value: 'h4', label: 'Head 4' },
+        { value: 'h5', label: 'Head 5' },
+        { value: 'un', label: 'Unordered' },
+    ];
+
+    const handleChange = (event) => {
+        const newValue = event.target.value;
+        setLocalValue(newValue);
+        onCellValueChange({
+            id: id,
+            field: 'head',
+            value: newValue
+        });
     };
 
-    const handleHeadChange = async (orderId, newHeadValue) => {
-        const updatedOrders = orders.map(order =>
-            order.id === orderId ? { ...order, head: newHeadValue } : order 
-        );
-        setOrders(updatedOrders);
-        updateHeads(updatedOrders);
+    return (
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minWidth: 80 }} size="small">
+                <Select
+                    labelId="head-select-label"
+                    id="head-select"
+                    value={localValue || ''}
+                    onChange={handleChange}
+                    autoWidth
+                    displayEmpty
+                    inputProps={{ 'aria-label': 'Without label' }}
+                    sx={{ fontSize: '0.65rem'}}
+                >
+                    <MenuItem value="">
+                        <em>Select...</em>
+                    </MenuItem>
+                    {headOptions.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Box>
+    );
+};
 
-        const orderToUpdate = updatedOrders.find(order => order.id === orderId);
-        if (orderToUpdate) {
+
+const fsorders = () => {
+    const { state, dispatch } = useContext(AppStateContext);
+
+    useEffect(() => {
+        const fetchOrders = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodeURIComponent(orderId)}`, {
-                    method: 'PUT',
+                const sa = sessionStorage.getItem('sa');
+                const response = await fetch('http://127.0.0.1:5000/forders', {
+                    method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
-                        'SA': sessionStorage.getItem('sa'),
+                        'SA': sa,
                     },
-                    body: JSON.stringify(orderToUpdate)
                 });
                 if (!response.ok) {
-                    throw new Error('Failed to update order');
+                    throw new Error('Network response was not ok');
                 }
-                console.log("Head updated successfully:", await response.json());
-
-                if (orderToUpdate.head !== newHeadValue) {
-                    orderToUpdate.est_start = null;
-                    orderToUpdate.est_finish = null;
-
-                    const newHeadOrders = updatedOrders.filter(order => order.head === newHeadValue);
-                    const currentIndex = newHeadOrders.findIndex(order => order.id === orderId);
-                    if (currentIndex > 0) {
-                        const previousOrder = newHeadOrders[currentIndex - 1];
-                        orderToUpdate.est_start = previousOrder.est_finish;
-                        orderToUpdate.est_finish = orderToUpdate.est_start && orderToUpdate.hours ? handleFinishCalculation(orderToUpdate.est_start, orderToUpdate.hours) : null;
-                    }
-                } else {
-                    const headOrders = updatedOrders.filter(order => order.head === newHeadValue);
-                    const currentIndex = headOrders.findIndex(order => order.id === orderId);
-                    if (currentIndex > 0) {
-                        const previousOrder = headOrders[currentIndex - 1];
-                        orderToUpdate.est_start = previousOrder.est_finish;
-                    } else {
-                        orderToUpdate.est_start = null;
-                    }
-                    orderToUpdate.est_finish = orderToUpdate.est_start && orderToUpdate.hours ? handleFinishCalculation(orderToUpdate.est_start, orderToUpdate.hours) : null;
-                }
-
-                setOrders(updatedOrders); // This will re-render the component with new est_finish values
+                const data = await response.json();
+                dispatch({ type: 'SET_F_TABLE', payload: data.map(item => ({ ...item, id: item.combo })) });
             } catch (error) {
-                console.error('Failed to update head:', error);
+                console.error("Failed to fetch orders:", error);
+            }
+        };
+
+        fetchOrders();
+    }, [dispatch]);    
+
+    const handleCellEditCommit = async (params) => {
+        console.log("Final data being sent for update:", params);
+    
+        const { id, field, value } = params;
+        const currentOrder = state.fTable.find(order => order.id === id);
+        let updatedOrder = { ...currentOrder, [field]: value };
+    
+        if (field === 'head' && !value) {
+            updatedOrder.est_start = null;
+            updatedOrder.est_finish = null;
+        } else if (field === 'est_start' && updatedOrder.head) {
+            const finishDate = handleFinishCalculation(value, updatedOrder.hours);
+            if (finishDate) {
+                updatedOrder.est_finish = finishDate;
             }
         }
-    };    
+    
+        try {
+            const encodedId = encodeURIComponent(id);
+            const response = await fetch(`http://127.0.0.1:5000/updateOrder/${encodedId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'SA': sessionStorage.getItem('sa'),
+                },
+                body: JSON.stringify(updatedOrder),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to update order');
+            }
+            dispatch({ type: 'UPDATE_F_TABLE', payload: updatedOrder });
 
-    const updateHeads = (updatedOrders) => {
-        const newHeads = { h1: [], h2: [], h3: [], h4: [], h5: [], un: [] };
-        updatedOrders.forEach(order => {
-            if (order.head && newHeads.hasOwnProperty(order.head)) {
-                newHeads[order.head].push(order);
-            } else {
-                // Only log if it's truly an error, not just a null or empty string
-                if (order.head !== null && order.head !== '') {
-                    console.error('Invalid head value:', order.head);
+
+            if (field === 'head') {
+                const oldHead = currentOrder.head;
+                const newHead = value;
+    
+                if (oldHead && oldHead !== newHead) {
+                    dispatch({ type: `REMOVE_FROM_${oldHead.toUpperCase()}_TABLE`, payload: { id } });
+                }
+                if (newHead) {
+                    dispatch({ type: `ADD_TO_${newHead.toUpperCase()}_TABLE`, payload: updatedOrder });
                 }
             }
-        });
-        setHeads(newHeads);
+        } catch (error) {
+            console.error('Failed to update order:', error);
+        }
     };
+
+    const miniFTable = [
+        { field: 'id', headerName: 'Combo', width: 130, flex: 2, headerClassName: 'super-app-theme--header' },
+        { field: 'lat', headerName: 'Lat', width: 50, flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'sg', headerName: 'SG', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'name', headerName: 'Name', flex: 2, headerClassName: 'super-app-theme--header' },
+        { field: 'phone', headerName: 'Phone', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'flow', headerName: 'Flow', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'hours', headerName: 'Hours', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'crop', headerName: 'Crop', flex: 1, headerClassName: 'super-app-theme--header' },
+        { field: 'date', headerName: 'Date', width: 60, headerClassName: 'super-app-theme--header',
+            valueFormatter: (params) => dayjs(params.value).format('MM/DD')  
+        },
+        { field: 'ex', headerName: 'EX', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'final', headerName: 'Final', width: 10, headerClassName: 'super-app-theme--header' },
+        { field: 'head', headerName: 'Head', flex: 1.5, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <HeadEditor 
+                id={params.id} 
+                value={params.value} 
+                onCellValueChange={handleCellEditCommit} 
+            />
+        },
+    ];
 
     return (
         <div>
             <NavBar />
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <div style={{ position: 'sticky', top: 65 }}>
-                    <FSTable orders={orders} onHeadChange={handleHeadChange} />
+                    <FTable miniColumns={miniFTable}/>        
                 </div>
                 <div>
-                    <HFSTable 
-                        orders={heads.h1} 
-                        setOrders={setOrders}
+                    <FloodHead 
+                        miniColumns={true}
                         headerColor='rgba(108, 193, 101)' 
                         requiredString={'H1'} 
                     />
-                    <HFSTable 
-                        orders={heads.h2} 
-                        setOrders={setOrders}
+                    <FloodHead 
+                        miniColumns={true}
                         headerColor='rgba(135, 206, 250, 1)' 
                         requiredString={'H2'} 
                     />
-                    <HFSTable 
-                        orders={heads.h3} 
-                        setOrders={setOrders}
+                    <FloodHead 
+                        miniColumns={true}
                         headerColor='rgba(255, 182, 193, 1)' 
                         requiredString={'H3'} 
                     />
-                    <HFSTable 
-                        orders={heads.h4} 
-                        setOrders={setOrders}
+                    <FloodHead 
+                        miniColumns={true}
                         headerColor='rgba(220, 200, 255, 1)' 
                         requiredString={'H4'} 
                     />
-                    <HFSTable 
-                        orders={heads.h5} 
-                        setOrders={setOrders}
+                    <FloodHead 
+                        miniColumns={true}
                         headerColor='rgba(210, 180, 140, 1)' 
                         requiredString={'H5'} 
                     />
-                    <HFSTable 
-                        orders={heads.un} 
-                        setOrders={setOrders}
+                    <FloodHead 
+                        miniColumns={true}
                         headerColor='rgba(101, 176, 193, 0.5)' 
                         requiredString={'UN'}
                     />

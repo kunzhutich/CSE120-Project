@@ -1,13 +1,13 @@
+import React from 'react';
 import NavBar from "../components/navBar";
-// import UNorderstable from "../components/unTable";
-import HeadTable from "../components/headTable";
+import FloodHead from "../components/fHeadTable";
 
 
 export default function un() {
     return (
         <div>
             <NavBar/>
-            <HeadTable headerColor='rgba(101, 176, 193, 0.5)' requiredString={'UN'}/>
+            <FloodHead headerColor='rgba(101, 176, 193, 0.5)' requiredString={'UN'}/>
         </div>
     );
 }

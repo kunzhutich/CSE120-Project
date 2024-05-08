@@ -5,16 +5,20 @@ import StripedDataGrid from './StripedDataGrid'; // Import the StripedDataGrid c
 import CustomToolbar from './CustomToolbar'; // Import the CustomToolbar component
 import dayjs from 'dayjs';
 import { DatePickerCell } from '../componentsHelpers/DatePickerCell';
+import { FinishDateField } from '../componentsHelpers/FinishDateField';
 import { CalledEditor } from '../componentsHelpers/CalledEditor';
 import { WdoAndFarmerCell } from '../componentsHelpers/WdoAndFarmerCells';
 import { getRowClassName } from '../componentsHelpers/getRowClassName';
 import { TotalHoursField } from '../componentsHelpers/TotalHoursField';
+import { handleFinishCalculation, calculateDuration } from '../componentsHelpers/TimeCalculator';
 
 
-export default function HeadTable(props) {
-    const { requiredString, headerColor } = props;
+export default function FloodHead ({ requiredString, headerColor, miniColumns }) {
     console.log(requiredString);
     const { state, dispatch } = useContext(AppStateContext);
+    const actionTypeSet = `SET_${requiredString.toUpperCase()}_TABLE`;
+    const actionTypeUpdate = `UPDATE_${requiredString.toUpperCase()}_TABLE`;
+    const tableKey = `${requiredString.toLowerCase()}Table`;
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -31,29 +35,23 @@ export default function HeadTable(props) {
                     throw new Error('Network response was not ok');
                 }
                 const data = await response.json();
-                dispatch({ type: 'SET_F_HEAD_TABLE', payload: data.map(item => ({ ...item, id: item.combo })) });
-                setOrders(formattedData);
+                console.log("Fetched data:", data);
+                dispatch({ type: actionTypeSet, payload: data.map(item => ({ ...item, id: item.combo })) });
             } catch (error) {
                 console.error("Failed to fetch orders:", error);
             }
         };
 
+        console.log("Fetching orders for", requiredString);
         fetchOrders();
     }, [dispatch, requiredString]);
-
-    const calculateDuration = (start, end) => {
-        if (!start || !end || !dayjs(start).isValid() || !dayjs(end).isValid()) {
-            return null;
-        }
-        return dayjs(end).diff(dayjs(start), 'hour', true); // Returns the difference in hours, including fractions
-    };
 
     const handleCellEditCommit = async (params) => {
 
         console.log("Final data being sent for update:", params);
 
         const { id, field, value } = params;
-        const currentOrderData = state.fHeadTable.find(order => order.id === id);
+        const currentOrderData = state[tableKey].find(order => order.id === id);
         if (!currentOrderData) {
             console.error("Order not found");
             return;
@@ -62,6 +60,13 @@ export default function HeadTable(props) {
         const updatedOrder = { ...currentOrderData, [params.field]: params.value };
         console.log("Sending update for", id, updatedOrder);
 
+        if (field === 'est_start' && updatedOrder.hours) {
+            const finishDate = handleFinishCalculation(value, updatedOrder.hours);
+            if (finishDate) {
+                updatedOrder.est_finish = finishDate;
+                console.log("Calculated est_finish:", finishDate);
+            }
+        }
         if (field === 'prime_datetime' || field === 'start_datetime') {
             const primeTotal = calculateDuration(updatedOrder.prime_datetime, updatedOrder.start_datetime);
             updatedOrder.prime_total = primeTotal;  // Update the 'prime_total' in the order object
@@ -84,7 +89,8 @@ export default function HeadTable(props) {
             if (!response.ok) {
                 throw new Error('Failed to update order');
             }
-            dispatch({ type: 'UPDATE_F_HEAD_TABLE', payload: updatedOrder });
+            dispatch({ type: actionTypeUpdate, payload: updatedOrder });
+            dispatch({ type: 'UPDATE_F_TABLE', payload: updatedOrder });
         } catch (error) {
             console.error('Failed to update order:', error);
         }
@@ -94,8 +100,6 @@ export default function HeadTable(props) {
         console.log('Update error:', error);
     }, []);
 
-
-    // Creates column definitions for the DataGrid
     const columns = [
         { field: 'id', headerName: 'Combo', width: 145, hide: true, headerClassName: 'super-app-theme--header' },
         { field: 'lat', headerName: 'Lateral', width: 70, headerClassName: 'super-app-theme--header' },
@@ -175,11 +179,40 @@ export default function HeadTable(props) {
         },
     ];
 
+    const miniHeadTables = [
+        { field: 'id', headerName: requiredString, width: 150, headerClassName: 'super-app-theme--header' },
+        { field: 'sg', headerName: 'SG', width: 75, headerClassName: 'super-app-theme--header'},
+        { field: 'name', headerName: 'Contact', flex: 1, headerClassName: 'super-app-theme--header'},
+        { field: 'hours', headerName: 'Hours', width: 75, headerClassName: 'super-app-theme--header'},
+        { field: 'est_start', headerName: 'Est Start', headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <DatePickerCell 
+                id={params.id} 
+                value={params.value ? dayjs(params.value) : null} 
+                onCellValueChange={handleCellEditCommit} 
+                field="est_start"
+            />
+        },
+        { field: 'est_finish', headerName: 'Est Finish', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <FinishDateField 
+                id={params.id} 
+                value={params.value ? dayjs(params.value).toISOString() : null}
+                onCellValueChange={handleCellEditCommit}
+            />
+        },
+        { field: 'called', headerName: 'Called', flex: 1, headerClassName: 'super-app-theme--header',
+            renderCell: (params) => <CalledEditor 
+                id={params.id} 
+                value={params.value} 
+                onCellValueChange={handleCellEditCommit} 
+            /> 
+        },
+    ];
+
     return (
         <Box sx = {{height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
             <StripedDataGrid
-                rows={state.fHeadTable}
-                columns={columns}
+                rows={state[tableKey]}
+                columns={miniColumns ? miniHeadTables : columns}
                 slots={{
                     toolbar: CustomToolbar
                 }}

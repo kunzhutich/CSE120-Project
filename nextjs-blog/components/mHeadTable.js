@@ -9,6 +9,7 @@ import { CalledEditor } from '../componentsHelpers/CalledEditor';
 import { WdoAndFarmerCell } from '../componentsHelpers/WdoAndFarmerCells';
 import { getRowClassName } from '../componentsHelpers/getRowClassName';
 import { TotalHoursField } from '../componentsHelpers/TotalHoursField';
+import { calculateDuration } from '../componentsHelpers/TimeCalculator';
 
 
 export default function MicroHead() {
@@ -37,13 +38,6 @@ export default function MicroHead() {
 
         fetchOrders();
     }, [dispatch, state.mHeadTable.length]);
-
-    const calculateDuration = (start, end) => {
-        if (!start || !end || !dayjs(start).isValid() || !dayjs(end).isValid()) {
-            return null;
-        }
-        return dayjs(end).diff(dayjs(start), 'hour', true); // Returns the difference in hours, including fractions
-    };
 
     const handleCellEditCommit = async (params) => {
         console.log("Final data being sent for update:", params);

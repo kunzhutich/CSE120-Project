@@ -10,8 +10,7 @@ export default function LoginPage() {
         const password = data.get('password');
 
         try {
-            // const response = await fetch('http://localhost:5000/login', {       // for Windows
-            const response = await fetch('http://127.0.0.1:5000//login', {       // for macOs
+            const response = await fetch('http://127.0.0.1:5000//login', {
                 method: 'POST',
                 headers: {
                 'Content-Type': 'application/json',
@@ -46,7 +45,6 @@ export default function LoginPage() {
         alignItems: 'center'
         }}
     >
-        {/* Adds the logo to the login page */}
         <Box>
             <img src="/logo.png" alt="Logo" style={{ width: '550px', height: 'auto', marginBottom: '50px' }} />
         </Box>
@@ -58,7 +56,6 @@ export default function LoginPage() {
                 padding: 3,
             }}
         >
-            {/* Username field and password field */}
             <form onSubmit={handleSubmit}>
                 <TextField
                     name="username"
@@ -87,7 +84,6 @@ export default function LoginPage() {
                         Sign in
                     </Button>
                 </Box>
-                {/* Adds link to the forgot password page */}
                 <Box display="flex" justifyContent="center" mb>
                     <Link href="/forgot-password">
                         Forgot Password?
