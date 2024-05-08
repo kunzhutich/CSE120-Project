@@ -85,8 +85,8 @@ class Orders(db.Model):
     prime_datetime = db.Column(db.DateTime())
     start_datetime = db.Column(db.DateTime())
     finish_datetime = db.Column(db.DateTime())
-    prime_total = db.Column(db.Integer())
-    total_hours = db.Column(db.Integer())
+    prime_total = db.Column(db.Float())
+    total_hours = db.Column(db.Float())
     called = db.Column(db.String(1))
     wdo_notes = db.Column(db.String(255))
     farmer_comments = db.Column(db.String(255))
@@ -130,6 +130,30 @@ def login():
         return jsonify({"error": "Invalid username or password"}), 401
 
 
+# @app.route('/updateOrder/<string:combo>', methods=['PUT'])
+# def updateOrder(combo):
+#     order = Orders.query.filter_by(combo=combo).first()
+#     if not order:
+#         return jsonify({"error": "Order not found"}), 404
+
+#     data = request.json
+#     for field in data:
+#         if hasattr(order, field):
+            
+#             if field in ['est_start', 'est_finish']:        # Check if the field is a datetime field
+#                 if data[field] is not None:  
+#                     try:
+#                         datetime_value = datetime.strptime(data[field], '%Y-%m-%d %H:%M:%S')
+#                         setattr(order, field, datetime_value)
+#                     except ValueError:
+#                         return jsonify({"error": "Incorrect datetime format"}), 400
+#             else:
+#                 setattr(order, field, data[field])
+
+#     db.session.commit()
+#     return jsonify({"message": "Order updated successfully"}), 200
+
+
 @app.route('/updateOrder/<string:combo>', methods=['PUT'])
 def updateOrder(combo):
     order = Orders.query.filter_by(combo=combo).first()
@@ -137,22 +161,35 @@ def updateOrder(combo):
         return jsonify({"error": "Order not found"}), 404
 
     data = request.json
+    previous_head = order.head
+
     for field in data:
         if hasattr(order, field):
-            
-            if field in ['est_start', 'est_finish']:        # Check if the field is a datetime field
+            if field in ['est_start', 'est_finish', 'prime_datetime', 'start_datetime', 'finish_datetime']:
                 if data[field] is not None:  
                     try:
                         datetime_value = datetime.strptime(data[field], '%Y-%m-%d %H:%M:%S')
                         setattr(order, field, datetime_value)
                     except ValueError:
                         return jsonify({"error": "Incorrect datetime format"}), 400
+                else:
+                    setattr(order, field, None)
+            elif field == 'head' and data[field] == '':
+                setattr(order, field, None)
             else:
                 setattr(order, field, data[field])
 
+    if previous_head != order.head:
+        order.est_start = None
+        order.est_finish = None
+        order.prime_datetime = None
+        order.start_datetime = None
+        order.finish_datetime = None
+        order.prime_total = None
+        order.total_hours = None
+
     db.session.commit()
     return jsonify({"message": "Order updated successfully"}), 200
-
 
 
 
@@ -229,14 +266,9 @@ def forders():
             Orders.type == "01"
         ).all()
         
-        orders_list = []
-        prev_est_finish = None  # Variable to hold the previous order's est_finish
-
-        for order in orders_query:
-            # Calculate est_start based on the previous order's est_finish
-            est_start = prev_est_finish if prev_est_finish else order.est_start
-    
-            orders_list.append({
+        # Convert the query result into a list of dictionaries to jsonify
+        orders_list = [
+            {
                 "combo": order.combo, 
                 "lat": order.lat, 
                 "sg": order.sg,
@@ -256,15 +288,13 @@ def forders():
                 "deleted": order.deleted,
                 "sa": order.sa,
                 "head": order.head,
-                "est_start": est_start.strftime('%Y-%m-%d %H:%M:%S') if est_start else None,
-                "est_finish": (
-                    est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if est_start else None,
+                "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "called": order.called    
-            })
-    
-            prev_est_finish = (
-                est_start + timedelta(hours=order.hours)) if est_start else None
-
+            }
+            for order in orders_query
+        ]
+        
         return jsonify(orders_list)
     except Exception as e:
         print(f"An error occurred: {e}")
@@ -365,8 +395,7 @@ def morders():
                 "sa": order.sa,
                 "head": order.head,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
-                "est_finish": (
-                    order.est_start + timedelta(hours=order.hours)).strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "called": order.called    
             }
             for order in orders_query
@@ -387,21 +416,9 @@ def h1():
             Orders.sa == sa,
             func.upper(Orders.head) == 'H1'
         ).all()
-
-        orders_list = []
         
-        for order in orders_query:
-            if order.start_datetime and order.prime_datetime:  # Check if both datetimes are not None
-                prime_total = (order.start_datetime - order.prime_datetime).total_seconds() / 3600
-            else:
-                prime_total = None  # Set prime_total to None if either datetime is None
-                
-            if order.start_datetime and order.finish_datetime:  # Check if both datetimes are not None
-                total_hours = (order.finish_datetime - order.start_datetime).total_seconds() / 3600
-            else:
-                total_hours = None  # Set prime_total to None if either datetime is None
-
-            orders_list.append({
+        orders_list = [
+            {
                 "combo": order.combo, 
                 "lat": order.lat,
                 "sg": order.sg,
@@ -412,15 +429,18 @@ def h1():
                 "ex": order.ex,
                 "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
-                "prime_total": prime_total,
-                "total_hours": total_hours,
+                "prime_total": order.prime_total,
+                "total_hours": order.total_hours,
                 "called": order.called,
                 "wdo_notes": order.wdo_notes,
                 "farmer_comments": order.farmer_comments
-            })
+            }
+            for order in orders_query
+        ]
         
         return jsonify(orders_list)
     except Exception as e:
@@ -450,10 +470,12 @@ def h2():
                 "ex": order.ex,
                 "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
+                "total_hours": order.total_hours,
                 "called": order.called,
                 "wdo_notes": order.wdo_notes,
                 "farmer_comments": order.farmer_comments
@@ -488,10 +510,12 @@ def h3():
                 "ex": order.ex,
                 "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
+                "total_hours": order.total_hours,
                 "called": order.called,
                 "wdo_notes": order.wdo_notes,
                 "farmer_comments": order.farmer_comments
@@ -526,10 +550,12 @@ def h4():
                 "ex": order.ex,
                 "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
+                "total_hours": order.total_hours,
                 "called": order.called,
                 "wdo_notes": order.wdo_notes,
                 "farmer_comments": order.farmer_comments
@@ -564,10 +590,12 @@ def h5():
                 "ex": order.ex,
                 "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
+                "total_hours": order.total_hours,
                 "called": order.called,
                 "wdo_notes": order.wdo_notes,
                 "farmer_comments": order.farmer_comments
@@ -602,10 +630,12 @@ def un():
                 "ex": order.ex,
                 "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
+                "total_hours": order.total_hours,
                 "called": order.called,
                 "wdo_notes": order.wdo_notes,
                 "farmer_comments": order.farmer_comments
@@ -640,10 +670,12 @@ def MTable():
                 "ex": order.ex,
                 "final": order.final,
                 "est_start": order.est_start.strftime('%Y-%m-%d %H:%M:%S') if order.est_start else None,
+                "est_finish": order.est_finish.strftime('%Y-%m-%d %H:%M:%S') if order.est_finish else None,
                 "prime_datetime": order.prime_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.prime_datetime else None,
                 "start_datetime": order.start_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.start_datetime else None,
                 "finish_datetime": order.finish_datetime.strftime('%Y-%m-%d %H:%M:%S') if order.finish_datetime else None,
                 "prime_total": order.prime_total,
+                "total_hours": order.total_hours,
                 "called": order.called,
                 "wdo_notes": order.wdo_notes,
                 "farmer_comments": order.farmer_comments

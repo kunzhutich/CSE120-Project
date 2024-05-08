@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import NavBar from "../components/navBar";
-import MTable from "../components/mTable";
+import MicroHead from "../components/mHeadTable";
 
 export default function m() {
     return (
         <div>
             <NavBar/>
-            <MTable/>
+            <MicroHead/>
         </div>
     );
 }
