@@ -208,8 +208,24 @@ export default function FloodHead ({ requiredString, headerColor, miniColumns })
         },
     ];
 
+    
+    
+    const getDynamicHeight = () => {
+        return miniColumns ? '35vh' : '93vh';
+    };
+
+    const getDynamicPadding = () => {
+        return miniColumns ? 1 : 4;
+    };
+    
+    const getDynamicWidth = () => {
+        return miniColumns ? '33vw' : '100vw';
+    }
+
+
     return (
-        <Box sx = {{height: '93vh', width: '100%', paddingLeft: 4, paddingRight: 4, '& .super-app-theme--header': { backgroundColor: headerColor } }}>
+        <Box sx = {{ height: getDynamicHeight(), width: getDynamicWidth(), paddingLeft: getDynamicPadding(), paddingRight: getDynamicPadding(), 
+        '& .super-app-theme--header': { backgroundColor: headerColor } }}>
             <StripedDataGrid
                 rows={state[tableKey]}
                 columns={miniColumns ? miniHeadTables : columns}

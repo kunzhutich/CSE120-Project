@@ -166,7 +166,7 @@ const fsorders = () => {
         <div>
             <NavBar />
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div style={{ position: 'sticky', top: 65 }}>
+                <div style={{width: '65vw', position: 'sticky', top: 65 }}>
                     <FTable miniColumns={miniFTable}/>        
                 </div>
                 <div>
@@ -174,6 +174,7 @@ const fsorders = () => {
                         miniColumns={true}
                         headerColor='rgba(108, 193, 101)' 
                         requiredString={'H1'} 
+                        style={{width: '45vw', height: '35vh'}}
                     />
                     <FloodHead 
                         miniColumns={true}
