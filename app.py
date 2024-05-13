@@ -102,19 +102,6 @@ class WDO(db.Model):
 
 
 
-@app.route('/test_txdb')
-def test_txdb():
-    event_count = Event.query.count()
-    return f"Number of events in TXDB: {event_count}"
-
-@app.route('/test_rhdb')
-def test_rhdb():
-    wdo_count = WDO.query.count()
-    return f"Number of WDOs in RHDB: {wdo_count}"
-
-
-
-
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -128,30 +115,6 @@ def login():
         return jsonify({"sa": user.sa}), 200
     else:
         return jsonify({"error": "Invalid username or password"}), 401
-
-
-# @app.route('/updateOrder/<string:combo>', methods=['PUT'])
-# def updateOrder(combo):
-#     order = Orders.query.filter_by(combo=combo).first()
-#     if not order:
-#         return jsonify({"error": "Order not found"}), 404
-
-#     data = request.json
-#     for field in data:
-#         if hasattr(order, field):
-            
-#             if field in ['est_start', 'est_finish']:        # Check if the field is a datetime field
-#                 if data[field] is not None:  
-#                     try:
-#                         datetime_value = datetime.strptime(data[field], '%Y-%m-%d %H:%M:%S')
-#                         setattr(order, field, datetime_value)
-#                     except ValueError:
-#                         return jsonify({"error": "Incorrect datetime format"}), 400
-#             else:
-#                 setattr(order, field, data[field])
-
-#     db.session.commit()
-#     return jsonify({"message": "Order updated successfully"}), 200
 
 
 @app.route('/updateOrder/<string:combo>', methods=['PUT'])
@@ -187,11 +150,10 @@ def updateOrder(combo):
         order.finish_datetime = None
         order.prime_total = None
         order.total_hours = None
+        order.called = None
 
     db.session.commit()
     return jsonify({"message": "Order updated successfully"}), 200
-
-
 
 
 @app.route('/forders', methods=['GET'])
