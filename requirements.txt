@@ -10,7 +10,10 @@ importlib_metadata==7.1.0
 itsdangerous==2.1.2
 Jinja2==3.1.3
 MarkupSafe==2.1.5
-mysqlclient==2.2.4
+
+# mysqlclient==2.2.4        changed to PyMySQL bc cant install MySQL connector/C
+PyMySQL
+
 packaging==24.0
 SQLAlchemy==2.0.28
 typing_extensions==4.10.0
